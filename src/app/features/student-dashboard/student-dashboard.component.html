@@ -6,26 +6,25 @@
      Register for a Class (+3 credits)
     </button>
 </div>
-<h2>Availabel Courses</h2>
+<h2>Course Catalog</h2>
 <!-- <tms-course-card 
 [course]="sampleCourse"
 (enrollmentClicked)="handleEnroll($event)"/> -->
-@if (availableCourses().length === 0)
-{
-    <div class="empty-state">
-        <p>No courses are available this term. check back during registratiin.</p>
-
-    </div>
-
+@if (coursesResource.isLoading()) {
+     <div class="spinner">Fetching courses from the server...</div>
+    } @else if (coursesResource.error()) {
+     <div class="error">
+    Could not load courses. Make sure your .NET API is running.
+</div>
 }
 @else {
     <div class="grid">
-        @for (course of availableCourses(); track course.id){
+        @for (course of coursesResource.value()!; track course.id){
             <app-course-card [course]="course" (enrollClicked)="handleEnroll($event)"/>
 
         }
         @empty {
-            <p>No results match your search.</p>
+            <p>No Courses are availanle this term.</p>
         }
     </div>
 

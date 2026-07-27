@@ -1,6 +1,8 @@
-import { Component,signal,computed } from '@angular/core';
+import { Component,signal,computed, inject } from '@angular/core';
 import { CourseCardComponent } from '../../ui/course-card/course-card.component';
 import { Course } from '../../models/course.model';
+import { rxResource } from '@angular/core/rxjs-interop';
+import { CourseService } from '../../sercices/course.service';
 
 @Component({
   selector: 'app-student-dashboard',
@@ -10,6 +12,7 @@ import { Course } from '../../models/course.model';
   styleUrl: './student-dashboard.component.scss',
 })
 export class StudentDashboardComponent {
+     private api = inject(CourseService);
      studentName = signal("Liya Kebede");
      earnedCredits = signal(45);
      graduationStatus = computed(() =>
@@ -67,5 +70,10 @@ export class StudentDashboardComponent {
     },
 
 ]);
+  coursesResource = rxResource( {
+    stream: () => this.api.getAll(),
+  })
+
+
 
 }
