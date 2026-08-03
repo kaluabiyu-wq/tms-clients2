@@ -7,9 +7,7 @@
     </button>
 </div>
 <h2>Course Catalog</h2>
-<!-- <tms-course-card 
-[course]="sampleCourse"
-(enrollmentClicked)="handleEnroll($event)"/> -->
+
 @if (coursesResource.isLoading()) {
      <div class="spinner">Fetching courses from the server...</div>
     } @else if (coursesResource.error()) {
