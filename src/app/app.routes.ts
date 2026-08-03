@@ -22,5 +22,10 @@ export const routes: Routes = [
         path: 'enroll',
         loadComponent: () => import('./features/enrollment-form/enrollment-form.component')
         .then(m => m.EnrollmentFormComponent)
-    }
+    },
+    {
+  path: 'instructor-dashboard',
+  loadComponent: () => import('./features/instructur-dashboard/instructur-dashboard.componenet')
+    .then(m => m.InstructorDashboardComponent),
+}
 ];
