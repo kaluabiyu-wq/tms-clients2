@@ -1,0 +1,115 @@
+// ============ Welcome header ============
+.dashboard {
+  padding: 1.5rem;
+  border-radius: 8px;
+  background: #1e293b;
+  color: #e2e8f0;
+
+  h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+  }
+
+  p {
+    font-size: 0.95rem;
+    color: #94a3b8;
+    margin: 0.25rem 0;
+
+    &.eligible {
+      color: #4ade80;
+      font-weight: 700;
+    }
+  }
+
+  
+
+  button {
+    margin-top: 1rem;
+    padding: 0.7rem 1.25rem;
+    border: none;
+    border-radius: 8px;
+    background: #2563eb;
+    color: #e2e8f0;
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+
+    &:hover {
+      background: #1d4ed8;
+    }
+
+    &:disabled {
+      background: #334155;
+      color: #64748b;
+      cursor: not-allowed;
+    }
+  }
+}
+
+// ============ Section heading ============
+h2 {
+  margin-top: 2rem;
+  padding: 0 1.5rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #e2e8f0;
+}
+
+// ============ Loading / error states (reuse instructor patterns) ============
+.spinner {
+  min-height: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #94a3b8;
+  font-size: 1rem;
+}
+
+.error {
+  min-height: 250px;
+  margin: 1rem 1.5rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #1e293b;
+  border: 2px dashed #334155;
+  border-radius: 8px;
+  color: #64748b;
+  font-size: 1rem;
+  text-align: center;
+  padding: 0 1.5rem;
+}
+
+// ============ Course catalog grid ============
+.grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  align-items: start;
+  gap: 2rem 1.5rem;
+  margin-top: 1.5rem;
+  padding: 0 1.5rem 2rem;
+  position: static;
+
+  > * {
+    position: static;
+  }
+
+  p {
+    color: #64748b;
+    font-size: 0.95rem;
+    grid-column: 1 / -1;
+  }
+}
+
+// ============ Enrollment confirmation hint ============
+.selection-hint {
+  margin-top: 1.5rem;
+  padding: 1rem 1.5rem;
+  color: #94a3b8;
+  font-size: 0.9rem;
+
+  strong {
+    color: #e2e8f0;
+  }
+}

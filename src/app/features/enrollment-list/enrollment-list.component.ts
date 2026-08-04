@@ -19,7 +19,7 @@ export class EnrollmentListComponent {
 
    dataSource = new MatTableDataSource<Enrollment>();
 
-    readonly paginator = viewChild.required(MatPaginator);
+  readonly paginator = viewChild.required(MatPaginator);
   readonly sort = viewChild.required(MatSort);
 
   constructor() {

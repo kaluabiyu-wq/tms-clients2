@@ -1,0 +1,185 @@
+
+:host {
+  display: block;
+  max-width: 32rem;
+  margin: 2rem auto;
+}
+
+h2 {
+  margin: 0 0 1.5rem;
+  padding: 0 1.5rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #e2e8f0;
+}
+
+h3 {
+  margin: 2rem 0 0.75rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #e2e8f0;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  background: #1e293b;
+  border-radius: 8px;
+  width: 300px;
+}
+
+form > label,
+form > input,
+form > textarea,
+form > .error,
+form > .backup-row,
+form > button[type='button'] {
+  display: block;
+}
+
+form > label {
+  margin-top: 1rem;
+  margin-bottom: 0.4rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #94a3b8;
+}
+
+form > label:first-of-type {
+  margin-top: 0;
+}
+
+form > input,
+form > textarea,
+.backup-row input {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  font-size: 1rem;
+  color: #e2e8f0;
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  transition: border-color 120ms ease, box-shadow 120ms ease;
+}
+
+form > input::placeholder,
+form > textarea::placeholder {
+  color: #64748b;
+}
+
+form > input:focus-visible,
+form > textarea:focus-visible,
+.backup-row input:focus-visible {
+  outline: none;
+  border-color: #d97706;
+  box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.25);
+}
+
+form > input.ng-touched.ng-invalid,
+form > textarea.ng-touched.ng-invalid {
+  border-color: #dc2626;
+}
+
+form > textarea {
+  min-height: 5rem;
+  resize: vertical;
+}
+
+.error {
+  margin-top: -0.3rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.8rem;
+  color: #f87171;
+}
+
+.success {
+  padding: 1rem 1.5rem;
+  margin: 0 1.5rem;
+  border-radius: 8px;
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid #34d399;
+  color: #34d399;
+  font-weight: 600;
+}
+
+
+.backup-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.backup-row input {
+  flex: 1;
+}
+
+.backup-row button {
+  flex-shrink: 0;
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #f87171;
+  background: transparent;
+  border: 1px solid #f87171;
+  border-radius: 6px;
+  transition: background-color 120ms ease, color 120ms ease;
+}
+
+.backup-row button:hover {
+  background: #f87171;
+  color: #1e293b;
+}
+
+form > button[type='button'] {
+  align-self: flex-start;
+  margin-top: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #d97706;
+  background: transparent;
+  border: 1px solid #d97706;
+  border-radius: 6px;
+  transition: background-color 120ms ease;
+}
+
+form > button[type='button']:hover {
+  background: rgba(217, 119, 6, 0.12);
+}
+
+hr {
+  margin: 2rem 0 1.5rem;
+  border: none;
+  border-top: 1px solid #334155;
+}
+
+
+button[type='submit'] {
+  align-self: flex-start;
+  border: none;
+  border-radius: 6px;
+  padding: 0.65rem 1.5rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #1e293b;
+  background: #d97706;
+  transition: background-color 120ms ease;
+}
+
+button[type='submit']:hover:not(:disabled) {
+  background: #b45309;
+}
+
+
+button[type='submit']:disabled {
+  background: #334155;
+  color: #64748b;
+  cursor: not-allowed;
+}
+
+button[type='submit']:focus-visible {
+  outline: 2px solid #d97706;
+  outline-offset: 2px;
+}
