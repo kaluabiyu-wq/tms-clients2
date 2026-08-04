@@ -1,42 +1,92 @@
-import { Component, viewChild, effect, inject } from '@angular/core';
-import { MatTableModule, MatTableDataSource } from '@angular/material/table';
-import { MatPaginatorModule, MatPaginator } from '@angular/material/paginator';
-import { MatSortModule, MatSort } from '@angular/material/sort';
-import { EnrollmentStore } from '../../store/enrollment.store';
-import { Enrollment } from '../../models/enrollment.model';
+import { Component, DestroyRef, inject, signal } from "@angular/core";
+import {
+  FormBuilder,
+  FormControl,
+  Validators,
+  ReactiveFormsModule,
+} from "@angular/forms";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { CourseService } from "../../services/course.service";
 
 @Component({
-  selector: 'tms-enrollment-list',
+  selector: "app-enrollment-form",
   standalone: true,
-  imports: [MatTableModule, MatPaginatorModule, MatSortModule],
-  templateUrl: './enrollment-form.component.html',
-  styleUrl: './enrollment-form.component.scss'
+  imports: [ReactiveFormsModule], 
+  templateUrl: "./enrollment-form.component.html",
 })
-export class EnrollmentListComponent {
-  store = inject(EnrollmentStore);
+export class EnrollmentFormComponent {
+  private fb = inject(FormBuilder);
+  private api = inject(CourseService);
+  private destroyRef = inject(DestroyRef);
 
-  displayedColumns = ['studentName', 'courseName', 'status', 'actions'];
+ 
+  submitted = signal(false);
+  submitting = signal(false);
+  submitError = signal<string | null>(null);
 
   
-  dataSource = new MatTableDataSource<Enrollment>();
+  form = this.fb.nonNullable.group({
+    studentId: [
+      "",
+      [Validators.required, Validators.pattern("^STU-[0-9]{4}$")],
+    ],
+    
+    courseId: ["", Validators.required],
+    term: ["Fall 2026", Validators.required],
+    notes: [""], 
+    backupCourses: this.fb.array<FormControl<string>>([]), 
+  });
 
   
-  readonly paginator = viewChild.required(MatPaginator);
-  readonly sort = viewChild.required(MatSort);
+  get backups() {
+    return this.form.controls.backupCourses;
+  }
 
-  constructor() {
-   
-    effect(() => {
-      this.dataSource.data = this.store.entities();
-    });
+  addBackup() {
+    this.backups.push(
+      this.fb.control("", {
+        nonNullable: true,
+        validators: Validators.required,
+      }),
+    );
+  }
 
-    
-    effect(() => {
-      this.dataSource.paginator = this.paginator();
-      this.dataSource.sort = this.sort();
-    });
+  removeBackup(index: number) {
+    this.backups.removeAt(index);
+  }
 
-    
-    this.store.loadEnrollments();
+  submit() {
+    if (this.form.invalid) {
+     
+      this.form.markAllAsTouched();
+      return;
+    }
+
+    const raw = this.form.getRawValue();
+    const courseId = Number(raw.courseId);
+
+    if (!Number.isFinite(courseId)) {
+      this.submitError.set("Course ID must be a number.");
+      return;
+    }
+
+    this.submitting.set(true);
+    this.submitError.set(null);
+
+    this.api
+      .enroll(courseId, { studentId: raw.studentId })
+         .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: () => {
+          this.submitting.set(false);
+          this.submitted.set(true);
+        },
+        error: (err) => {
+          this.submitting.set(false);
+           this.submitError.set(
+            err?.error?.message ?? "Enrollment failed. Please try again.",
+          );
+        },
+      });
   }
 }

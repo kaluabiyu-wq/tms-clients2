@@ -1,53 +1,57 @@
-<h2>Enrollment Records</h2>
+<h2>Course Enrollment</h2>
 
-@if (store.isLoading()) {
-  <p>Loading enrollments...</p>
+@if (submitted()) {
+  <div class="success">
+    Enrollment submitted successfully.
+  </div>
+} @else {
+   <form [formGroup]="form" (ngSubmit)="submit()">
+    <label for="studentId">Student ID</label>
+    <input
+      id="studentId"
+      formControlName="studentId"
+      placeholder="e.g. STU-1234"
+    />
+     @if (form.controls.studentId.touched && form.controls.studentId.invalid) {
+      <span class="error">Enter a valid Student ID (format: STU-0000)</span>
+    }
+
+    <label for="courseId">Course ID</label>
+    <input
+      id="courseId"
+      formControlName="courseId"
+      placeholder="e.g. 1 (TMS course primary key)"
+    />
+    @if (form.controls.courseId.touched && form.controls.courseId.invalid) {
+      <span class="error">Course ID is required</span>
+    }
+
+    <label for="term">Term</label>
+    <input id="term" formControlName="term" />
+
+    <label for="notes">Notes (optional)</label>
+    <textarea id="notes" formControlName="notes"></textarea>
+
+    <h3>Backup Courses</h3>
+    @for (backup of backups.controls; track $index) {
+      <div class="backup-row">
+          <input
+          [formControl]="backup"
+          [placeholder]="'Backup course ' + ($index + 1)"
+        />
+         <button type="button" (click)="removeBackup($index)">Remove</button>
+      </div>
+    }
+    <button type="button" (click)="addBackup()">Add Backup Course</button>
+
+    <hr />
+
+     @if (submitError()) {
+      <div class="error">{{ submitError() }}</div>
+    }
+
+      <button type="submit" [disabled]="form.invalid || submitting()">
+      {{ submitting() ? 'Submitting…' : 'Confirm Enrollment' }}
+    </button>
+  </form>
 }
-
-@if (store.error()) {
-  <p class="error">{{ store.error() }}</p>
-}
-
-<table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
-
-  
-  <ng-container matColumnDef="studentName">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Student</th>
-    <td mat-cell *matCellDef="let row">{{ row.studentName }}</td>
-  </ng-container>
-
- 
-  <ng-container matColumnDef="courseName">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Course</th>
-    <td mat-cell *matCellDef="let row">{{ row.courseName }}</td>
-  </ng-container>
-
-  
-  <ng-container matColumnDef="status">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
-    <td mat-cell *matCellDef="let row">
-      <span class="status-badge" [class]="row.status.toLowerCase()">
-        {{ row.status }}
-      </span>
-    </td>
-  </ng-container>
-
-
-  <ng-container matColumnDef="actions">
-    <th mat-header-cell *matHeaderCellDef>Actions</th>
-    <td mat-cell *matCellDef="let row">
-      @if (row.status === 'Pending') {
-        <button (click)="store.approveEnrollment(row.id)">Approve</button>
-      }
-    </td>
-  </ng-container>
-
- 
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-</table>
-
-<mat-paginator
-  [pageSizeOptions]="[10, 25, 50]"
-  showFirstLastButtons>
-</mat-paginator>
