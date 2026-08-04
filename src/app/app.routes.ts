@@ -21,11 +21,18 @@ export const routes: Routes = [
     {
         path: 'enroll',
         loadComponent: () => import('./features/enrollment-form/enrollment-form.component')
-        .then(m => m.EnrollmentFormComponent)
+        .then(m => m.EnrollmentListComponent)
     },
     {
   path: 'instructor-dashboard',
   loadComponent: () => import('./features/instructur-dashboard/instructur-dashboard.componenet')
     .then(m => m.InstructorDashboardComponent),
-}
+},
+{
+    path: 'enrollments',
+    loadComponent: () =>
+      import('./features/enrollment-list/enrollment-list.component')
+        .then(m => m.EnrollmentListComponent)
+  },
+  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
 ];
