@@ -11,9 +11,8 @@ export class CourseService {
   private  readonly base = `${environment.apiUrl}/courses`;
 
   
-  getAll(page = 1, pageSize = 50) {
-    return this.http
-      .get<PagedResponse<Course>>(this.base, {
+  getAll(){
+    return this.http .get<PagedResponse<Course>>(this.base, {
         params: { page: '1', pageSize: '50' },
       })
       .pipe(map(response => response.items));
