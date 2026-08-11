@@ -5,20 +5,35 @@ import {signalStore,withComputed,
 import {withEntities,setAllEntities,
   updateEntity} from '@ngrx/signals/entities';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
-import { pipe, concatMap, tap, catchError, EMPTY } from 'rxjs';
+import { pipe, concatMap, tap, catchError, EMPTY, switchMap } from 'rxjs';
 import { EnrollmentService } from '../services/enrollment.service';
 import { Enrollment } from '../models/enrollment.model';
+import { LiveSyncService } from '../services/live-sync.service';
 
 export const EnrollmentStore = signalStore(
   { providedIn: 'root' },
   withState({ isLoading: false, error: null as string | null }),
+
   withEntities<Enrollment>(),
   withComputed((store) => ({
     pendingCount: computed(
       () => store.entities().filter((e) => e.status === 'Pending').length,
     ),
   })),
-  withMethods((store, api = inject(EnrollmentService)) => ({
+  withMethods((store, api = inject(EnrollmentService),sync = inject(LiveSyncService)) => ({
+    listenForLiveUpdates: rxMethod<void>(
+      pipe(
+        tap(() => sync.connect()),
+        switchMap(() => sync.events$),
+        tap(event => {
+          patchState(store,
+            updateEntity({id: event.id,changes: { status: event.status}})
+          );
+        })
+      )
+    ),
+
+
     loadEnrollments: rxMethod<void>(
       pipe(
         tap(() => patchState(store, { isLoading: true, error: null })),
@@ -42,7 +57,7 @@ export const EnrollmentStore = signalStore(
         }),
         concatMap((id) =>
           api.approve(id).pipe(
-            catchError((err) => {
+            catchError(err => {
               patchState(store, updateEntity({ id, changes: { status: 'Pending' } }));
               patchState(store, {
                 error: 'Server rejected the approval. Check enrollment constraints.',
