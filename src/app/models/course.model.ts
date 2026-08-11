@@ -5,6 +5,7 @@ export interface Course {
   title: string;
   maxCapacity: number;
   enrollmentCount: number;
+  statuse?: string;
 }
 
 export interface PagedResponse<T> {
