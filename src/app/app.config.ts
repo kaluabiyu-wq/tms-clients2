@@ -4,13 +4,13 @@ import { provideHttpClient, withInterceptors, withXsrfConfiguration } from "@ang
 import { provideAnimationsAsync } from "@angular/platform-browser/animations/async";
 import { routes } from "./app.routes";
 import { credentialInterceptor } from "./Interceptors/credintials.interceptor";
- 
+ import { errorInterceptor } from "./Interceptors/error.interceptor";
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZonelessChangeDetection(),
     provideRouter(routes, withComponentInputBinding()),
     provideHttpClient(
-      withInterceptors([credentialInterceptor]),
+      withInterceptors([credentialInterceptor,errorInterceptor]),
       withXsrfConfiguration(
         {
           cookieName: 'XSRF-TOKEN',
