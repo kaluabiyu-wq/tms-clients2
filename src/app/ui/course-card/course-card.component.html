@@ -11,9 +11,12 @@
     [class.closed]="course().enrollmentCount >= course().maxCapacity">
   {{ course().enrollmentCount >= course().maxCapacity ? "Full" : "Accepting enrollments"}}    
 </span>
-<button (click)="enrollClicked.emit(course())"
+<button (click)="enrollClicked.emit(course())" class="enroll-btn"
 [disabled]="course().enrollmentCount >= course().maxCapacity">
  Enroll
+</button>
+<button (click)="deletedClicked.emit(course())" class="delete-btn">
+  Delete
 </button>
 </div>
 
