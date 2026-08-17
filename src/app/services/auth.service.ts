@@ -2,6 +2,7 @@ import { inject, Service, signal } from '@angular/core';
 import { HttpClient
  } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
+import { environment } from '../../environments/environment.development';
 
 export interface TmsUser {
     displayName: string;
@@ -14,8 +15,9 @@ export interface LoginRequest {
 
 @Service()
 export class AuthService {
-
+     
     private http = inject(HttpClient);
+
     currentUser = signal<TmsUser | null>(null);
 
     hasRole(role: string): boolean {
@@ -25,11 +27,11 @@ export class AuthService {
     async login(credintials: LoginRequest)
     {
         await firstValueFrom(
-            this.http.post<void>('/api/auth/login', credintials)
+            this.http.post<void>(`${environment.apiUrl}/auth/login`, credintials)
         );
 
         const user = await firstValueFrom(
-            this.http.get<TmsUser>('/api/auth/me')
+            this.http.get<TmsUser>(`${environment.apiUrl}/auth/login`)
         );
         this.currentUser.set(user);
     }
