@@ -30,7 +30,7 @@ export class LiveSyncService {
         .build();
 
         this.connection.on(
-            'RecieveEnrollmentStatusUpdated',
+            'ReceiveEnrollmentStatusUpdated',
         (enrollmentId: string, status: 'Pending' | 'Approved' | 'Rejected'
         ) => {
             this.eventsSubject.next({ id: enrollmentId, status});
