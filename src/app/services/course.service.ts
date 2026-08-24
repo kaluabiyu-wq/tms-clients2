@@ -23,6 +23,10 @@ export class CourseService {
     return this.http.get<CourseDetail>(`${this.base}/${id}`);
   }
 
+   update(id: number, dto: { title: string }) {
+    return this.http.put<void>(`${this.base}/${id}`, dto);
+  }
+
 
   enroll(courseId: number, request: CreateEnrollmentRequest) {
     return this.http.post<EnrollmentResult>( `${this.base}/${courseId}/enrollments`,

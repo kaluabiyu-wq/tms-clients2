@@ -31,11 +31,16 @@ export const routes: Routes = [
         loadComponent: () => import('./features/enrollment-form/enrollment-form.component')
         .then(m => m.EnrollmentFormComponent)
     },
+     {
+        path: 'unauthorized',
+        loadComponent: () => import('./features/unauthorized/unauthorized.component')
+        .then(m => m.UnauthorizedComponent)
+    },
     {
          path: 'admin/courses',
         loadComponent: () =>
-        import('./features/enrollment-list/enrollment-list.component')
-        .then(m => m.EnrollmentListComponent),
+        import('./features/admin-course-list/admin-course-list.component')
+        .then(m => m.AdminCourseListComponent),
     canActivate: [roleGuard('Admin')]
     },
 
