@@ -20,8 +20,6 @@ export class AdminCourseListComponent {
   isLoading = signal(false);
   error = signal<string | null>(null);
 
-  // Which row (by course id) currently has its inline edit form open.
-  // Only one row can be in edit mode at a time.
   editingId = signal<number | null>(null);
   savingId = signal<number | null>(null);
   deletingId = signal<number | null>(null);

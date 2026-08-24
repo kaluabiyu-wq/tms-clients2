@@ -12,6 +12,6 @@ export const roleGuard = (requiredRole: string): CanActivateFn => {
             return true;
         }
 
-        return router.createUrlTree(["/unautherized"]);
+        return router.createUrlTree(["/unauthorized"]);
     };
 };

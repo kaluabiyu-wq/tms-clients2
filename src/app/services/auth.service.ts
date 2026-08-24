@@ -10,7 +10,7 @@ export interface TmsUser {
     role: string;
 }
 export interface LoginRequest {
-    username: string;
+    email: string;
     password: string;
 }
 export interface AuthResponse {
@@ -37,7 +37,7 @@ export class AuthService {
     async login(credintials: LoginRequest): Promise<void>
     {
       const res = await firstValueFrom(
-            this.http.post<AuthResponse>('api/auth/login', credintials)
+         this.http.post<AuthResponse>(`${environment.apiUrl}/auth/login`, credintials)
         );
 
         this.accessToken.set(res.accessToken);
