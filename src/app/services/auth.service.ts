@@ -37,7 +37,7 @@ export class AuthService {
     async login(credintials: LoginRequest): Promise<void>
     {
       const res = await firstValueFrom(
-            this.http.post<AuthResponse>(`${environment.apiUrl}/auth/login`, credintials)
+            this.http.post<AuthResponse>('api/auth/login', credintials)
         );
 
         this.accessToken.set(res.accessToken);
