@@ -1,16 +1,19 @@
-<nav class="navbar">
-  <div class="nav-list">
-    <button (click)="goTo('/dashboard')" class="nav-btn">Dashboard</button>
-    <button (click)="goTo('/enrollments')" class="nav-btn">Enrollments</button>
-    <button (click)="goTo('/enroll')" class="nav-btn">Enrollment Form</button>
-    <button (click)="goTo('/instructor-dashboard')" class="nav-btn">Instructor</button>
-    <button (click)="goTo('/grade-submission')" class="nav-btn">Grade</button>
-    <button (click)="goTo('/login')" class="nav-btn">Login</button>
-    <button (click)="goTo('/admin/courses')" class="nav-btn">Admin</button>
+@if (isLoggedIn()) {
+  <nav class="navbar">
+    <div class="nav-list">
+      <button (click)="goTo('/dashboard')" class="nav-btn">Dashboard</button>
+      <button (click)="goTo('/enroll')" class="nav-btn">Enrollment Form</button>
 
+       @if (isAdmin()) {
+        <button (click)="goTo('/enrollments')" class="nav-btn">Enrollments</button>
+        <button (click)="goTo('/instructor-dashboard')" class="nav-btn">Instructor</button>
+        <button (click)="goTo('/grade-submission')" class="nav-btn">Grade</button>
+        <button (click)="goTo('/admin/courses')" class="nav-btn">Admin</button>
+      }
 
-
-  </div>
-</nav>
+      <button (click)="logout()" class="nav-btn">Logout</button>
+    </div>
+  </nav>
+}
 
 <router-outlet />
