@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { roleGuard } from './guards/role.guard';
+import { InstructorDashboardComponent } from './features/instructur-dashboard/instructur-dashboard.componenet';
 
 export const routes: Routes = [
 
@@ -8,6 +9,12 @@ export const routes: Routes = [
         redirectTo: "login",
         pathMatch: "full"
     },
+      { 
+        path: "command-center", 
+        component: InstructorDashboardComponent, 
+        canActivate:[roleGuard('Admin')]
+     },
+
     {
         path: 'login',
         loadComponent: () => import('./features/login/login.component')
@@ -18,6 +25,8 @@ export const routes: Routes = [
         loadComponent: () => import('./features/unauthorized/unauthorized.component')
         .then(m => m.UnauthorizedComponent)
     },
+
+
 
     {
         path: "dashboard",
