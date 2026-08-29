@@ -48,6 +48,15 @@ export default defineConfig({
       name: 'webkit',
       use: { ...devices['Desktop Safari'] },
     },
+    { name: "setup",
+      testDir: "./e2e",
+      testMatch: /.*\.setup\.ts/
+    },
+    {
+      name: "tests",
+      dependencies: ["setup"],
+      use: { storageState: "playwright/.auth/admin.json"},
+    }
 
     /* Test against mobile viewports. */
     // {
