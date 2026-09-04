@@ -15,9 +15,11 @@
 [disabled]="course().enrollmentCount >= course().maxCapacity">
  Enroll
 </button>
+@if (isAdmin()) {
 <button (click)="deletedClicked.emit(course())" class="delete-btn">
   Delete
 </button>
+}
 </div>
 
 

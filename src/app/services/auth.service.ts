@@ -17,6 +17,8 @@ export interface AuthResponse {
     refreshToken: string;
 }
 
+const EMAIL_CLAIM = 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress';
+const ROLE_CLAIM = 'http://schemas.microsoft.com/ws/2008/06/identity/claims/role';
 
 @Injectable({ providedIn: 'root'})
 export class AuthService {
@@ -42,12 +44,16 @@ export class AuthService {
         this.accessToken.set(res.accessToken);
 
        const payload = JSON.parse(atob(res.accessToken.split(".")[1]));
+       const fullName = [payload.FirstName, payload.LastName]
+        .filter((part) => !!part)
+        .join(' ');
        this.currentUser.set({
-        email: payload.email || payload.sub,
-        displayName: payload.name || payload.email || 'User',
-        role: payload['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] ||
+        email: payload[EMAIL_CLAIM] || payload.email || payload.sub,
+        displayName: fullName || payload.name || payload.email || 'User',
+        role: payload[ROLE_CLAIM] ||
          payload.role || 'Student'
        });
+       
     }
 
     logout(): void {

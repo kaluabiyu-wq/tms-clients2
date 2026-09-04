@@ -1,5 +1,5 @@
 <div class ="dashboard">
-    <h1>Welcome, {{ studentName() }}</h1>
+    <h1>Welcome, {{ Name() }}</h1>
     <p>Credits Earned: {{ earnedCredits()}}</p>
     <p [class.eligible]="graduationStatus().includes('Eligable')">Graduation Status: {{ graduationStatus()}}</p>
     <button (click)="registerForClass()">
@@ -26,6 +26,7 @@
     <div class="grid">
         @for (course of courseStore.entities()!; track course.id){
             <app-course-card [course]="course" 
+            [isAdmin]="isAdmin()"
             (enrollClicked)="handleEnroll($event)"
             (deletedClicked)="handleDelete($event)"
             />

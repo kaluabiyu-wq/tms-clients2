@@ -10,6 +10,7 @@ import { RouterLink } from "@angular/router";
 })
 export class CourseCardComponent {
      course = input.required<Course>();
+     isAdmin = input<boolean>(false);
      enrollClicked = output<Course>();
      deletedClicked = output<Course>();
      

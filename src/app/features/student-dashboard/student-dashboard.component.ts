@@ -4,6 +4,7 @@ import { Course } from '../../models/course.model';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { CourseService } from '../../services/course.service';
 import { CourseStore } from '../../store/course.store';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-student-dashboard',
@@ -14,7 +15,9 @@ import { CourseStore } from '../../store/course.store';
 })
 export class StudentDashboardComponent implements OnInit{
      public courseStore = inject(CourseStore);
-     studentName = signal("Liya Kebede");
+     private authService = inject(AuthService);
+      Name = computed(() => this.authService.currentUser()?.displayName ?? "User");
+      isAdmin = computed(() => this.authService.currentUser()?.role === 'Admin'); 
      earnedCredits = signal(45);
      graduationStatus = computed(() =>
       this.earnedCredits() >= 120 ? "Eligable for Graduation " : "In Progress",);
