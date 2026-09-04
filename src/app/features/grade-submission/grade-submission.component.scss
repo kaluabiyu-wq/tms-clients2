@@ -67,12 +67,12 @@ mat-card-subtitle {
 
 
   .mat-mdc-raised-button.mat-primary {
-    background-color: #2563eb !important;
-    color: #e2e8f0 !important;
+   background-color: var(--color-success) !important;
+   color: var(--color-success-text) !important;
     border-radius: 8px !important;
 
     &:hover:not(:disabled) {
-      background-color: #1d4ed8 !important;
+      background-color: var(--color-success-hover) !important;
     }
 
     &:disabled {

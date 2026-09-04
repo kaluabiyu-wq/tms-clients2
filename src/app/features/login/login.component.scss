@@ -27,19 +27,7 @@
   margin-bottom: 1.75rem;
 }
 
-.brand-mark {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 44px;
-  height: 44px;
-  margin-bottom: 0.75rem;
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: #1e293b;
-  background: #d97706;
-  border-radius: 10px;
-}
+
 
 .brand h2 {
   margin: 0;
@@ -129,14 +117,14 @@ button[type='submit'] {
   font-size: 0.95rem;
   font-weight: 700;
   letter-spacing: 0.01em;
-  color: #1e293b;
-  background: #d97706;
+  background: var(--color-success);
+  color: var(--color-success-text);
   cursor: pointer;
   transition: background-color 120ms ease, transform 100ms ease;
 }
 
 button[type='submit']:hover:not(:disabled) {
-  background: #b45309;
+  background: var(--color-success-hover);
 }
 
 button[type='submit']:active:not(:disabled) {

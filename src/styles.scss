@@ -36,4 +36,14 @@ body {
   margin: 0;
   height: 100%;
 }
-/* You can add global styles to this file, and also import other style files */
+
+:root {
+  --color-success: #16a34a;
+  --color-success-hover: #15803d;
+  --color-success-text: #f0fdf4;
+
+  --color-danger: #f87171;
+  --color-danger-border-idle: #334155;
+  --color-danger-bg-hover: #7f1d1d;
+  --color-danger-text-hover: #fca5a5;
+}
