@@ -1,12 +1,20 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, viewChild, effect } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
+import { MatTableModule, MatTableDataSource } from '@angular/material/table';
+import { MatPaginatorModule, MatPaginator } from '@angular/material/paginator';
+import { MatSortModule, MatSort } from '@angular/material/sort';
 import { CourseService } from '../../services/course.service';
 import { Course } from '../../models/course.model';
 
 @Component({
   selector: 'app-admin-course-list',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [
+    ReactiveFormsModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+  ],
   templateUrl: './admin-course-list.component.html',
   styleUrl: './admin-course-list.component.scss',
 })
@@ -24,11 +32,27 @@ export class AdminCourseListComponent {
   savingId = signal<number | null>(null);
   deletingId = signal<number | null>(null);
 
+   displayedColumns = ['code', 'title', 'maxCapacity', 'enrollmentCount', 'actions'];
+
+  dataSource = new MatTableDataSource<Course>();
+
+    readonly paginator = viewChild.required(MatPaginator);
+  readonly sort = viewChild.required(MatSort);
+
   editForm = this.fb.nonNullable.group({
     title: ['', [Validators.required, Validators.maxLength(200)]],
   });
 
   constructor() {
+     effect(() => {
+      this.dataSource.data = this.courses();
+    });
+
+     effect(() => {
+      this.dataSource.paginator = this.paginator();
+      this.dataSource.sort = this.sort();
+    });
+
     this.loadCourses();
   }
 
@@ -58,7 +82,7 @@ export class AdminCourseListComponent {
     this.editForm.reset();
   }
 
-   saveEdit(course: Course) {
+  saveEdit(course: Course) {
     if (this.editForm.invalid) {
       this.editForm.markAllAsTouched();
       return;

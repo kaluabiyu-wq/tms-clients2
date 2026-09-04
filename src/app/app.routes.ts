@@ -77,6 +77,6 @@ export const routes: Routes = [
             .then(m=> m.GradeSubmissionComponent),
         canActivate: [roleGuard('Admin')]
     },
-
+    
       { path: '**', redirectTo: 'login' },
 ];

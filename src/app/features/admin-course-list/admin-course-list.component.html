@@ -13,63 +13,73 @@
 }
 
 @if (courses().length > 0) {
-  <table class="course-table">
-    <thead>
-      <tr>
-        <th>Code</th>
-        <th>Title</th>
-        <th>Capacity</th>
-        <th>Enrolled</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      @for (course of courses(); track course.id) {
-        <tr>
-          <td>{{ course.code }}</td>
+  <table mat-table [dataSource]="dataSource" matSort class="course-table mat-elevation-z8">
 
-          @if (editingId() === course.id) {
-            <td>
-              <form [formGroup]="editForm" (ngSubmit)="saveEdit(course)">
-                <input
-                  formControlName="title"
-                  placeholder="Course title"
-                />
-                @if (editForm.controls.title.touched && editForm.controls.title.invalid) {
-                  <span class="error">Title is required</span>
-                }
-              </form>
-            </td>
-          } @else {
-            <td>{{ course.title }}</td>
-          }
+    <ng-container matColumnDef="code">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Code</th>
+      <td mat-cell *matCellDef="let course">{{ course.code }}</td>
+    </ng-container>
 
-          <td>{{ course.maxCapacity }}</td>
-          <td>{{ course.enrollmentCount }}</td>
-
-          <td class="actions">
-            @if (editingId() === course.id) {
-              <button
-                type="submit"
-                (click)="saveEdit(course)"
-                [disabled]="savingId() === course.id"
-              >
-                {{ savingId() === course.id ? 'Saving…' : 'Save' }}
-              </button>
-              <button type="button" (click)="cancelEdit()">Cancel</button>
-            } @else {
-              <button type="button" (click)="startEdit(course)">Edit</button>
-              <button
-                type="button"
-                (click)="deleteCourse(course)"
-                [disabled]="deletingId() === course.id"
-              >
-                {{ deletingId() === course.id ? 'Deleting…' : 'Delete' }}
-              </button>
+    <ng-container matColumnDef="title">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
+      <td mat-cell *matCellDef="let course">
+        @if (editingId() === course.id) {
+          <form [formGroup]="editForm" (ngSubmit)="saveEdit(course)">
+            <input
+              formControlName="title"
+              placeholder="Course title"
+            />
+            @if (editForm.controls.title.touched && editForm.controls.title.invalid) {
+              <span class="error">Title is required</span>
             }
-          </td>
-        </tr>
-      }
-    </tbody>
+          </form>
+        } @else {
+          {{ course.title }}
+        }
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="maxCapacity">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Capacity</th>
+      <td mat-cell *matCellDef="let course">{{ course.maxCapacity }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="enrollmentCount">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Enrolled</th>
+      <td mat-cell *matCellDef="let course">{{ course.enrollmentCount }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>Actions</th>
+      <td mat-cell *matCellDef="let course" class="actions">
+        @if (editingId() === course.id) {
+          <button
+            type="submit"
+            (click)="saveEdit(course)"
+            [disabled]="savingId() === course.id"
+          >
+            {{ savingId() === course.id ? 'Saving…' : 'Save' }}
+          </button>
+          <button type="button" (click)="cancelEdit()">Cancel</button>
+        } @else {
+          <button type="button" (click)="startEdit(course)">Edit</button>
+          <button
+            type="button"
+            (click)="deleteCourse(course)"
+            [disabled]="deletingId() === course.id"
+          >
+            {{ deletingId() === course.id ? 'Deleting…' : 'Delete' }}
+          </button>
+        }
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
+
+  <mat-paginator
+    [pageSizeOptions]="[10, 25, 50]"
+    showFirstLastButtons>
+  </mat-paginator>
 }
