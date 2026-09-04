@@ -1,25 +1,62 @@
 :host {
-  display: flex;
-  justify-content: center;
-  margin: 4rem auto;
+  display: block;
+  min-height: 100dvh;
 }
 
-h2 {
-  margin: 0 0 1.5rem;
-  padding: 0 1.5rem;
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #e2e8f0;
+.login-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100dvh;
+  padding: 2rem 1rem;
+  background: #e2e8f0;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 360px;
+  padding: 2.25rem 2rem;
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45);
+}
+
+.brand {
   text-align: center;
+  margin-bottom: 1.75rem;
+}
+
+.brand-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  margin-bottom: 0.75rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #1e293b;
+  background: #d97706;
+  border-radius: 10px;
+}
+
+.brand h2 {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #f1f5f9;
+}
+
+.subtitle {
+  margin: 0.35rem 0 0;
+  font-size: 0.85rem;
+  color: #94a3b8;
 }
 
 form {
   display: flex;
   flex-direction: column;
-  padding: 2rem;
-  background: #1e293b;
-  border-radius: 8px;
-  width: 320px;
 }
 
 form > label,
@@ -41,17 +78,21 @@ form > label:first-of-type {
 
 form > input {
   width: 100%;
-  padding: 0.6rem 0.75rem;
+  padding: 0.65rem 0.85rem;
   font-size: 1rem;
   color: #e2e8f0;
   background: #0f172a;
   border: 1px solid #334155;
-  border-radius: 6px;
+  border-radius: 8px;
   transition: border-color 120ms ease, box-shadow 120ms ease;
 }
 
 form > input::placeholder {
   color: #64748b;
+}
+
+form > input:hover {
+  border-color: #475569;
 }
 
 form > input:focus-visible {
@@ -65,27 +106,41 @@ form > input.ng-touched.ng-invalid {
 }
 
 .error {
-  margin-top: -0.3rem;
-  margin-bottom: 0.5rem;
+  margin-top: 0.35rem;
+  margin-bottom: 0;
   font-size: 0.8rem;
   color: #f87171;
 }
 
+.form-error {
+  margin-top: 1rem;
+  padding: 0.6rem 0.75rem;
+  background: rgba(220, 38, 38, 0.1);
+  border: 1px solid rgba(220, 38, 38, 0.35);
+  border-radius: 6px;
+}
+
 button[type='submit'] {
   align-self: stretch;
-  margin-top: 1.5rem;
+  margin-top: 1.75rem;
   border: none;
-  border-radius: 6px;
-  padding: 0.65rem 1.5rem;
-  font-size: 0.9rem;
+  border-radius: 8px;
+  padding: 0.7rem 1.5rem;
+  font-size: 0.95rem;
   font-weight: 700;
+  letter-spacing: 0.01em;
   color: #1e293b;
   background: #d97706;
-  transition: background-color 120ms ease;
+  cursor: pointer;
+  transition: background-color 120ms ease, transform 100ms ease;
 }
 
 button[type='submit']:hover:not(:disabled) {
   background: #b45309;
+}
+
+button[type='submit']:active:not(:disabled) {
+  transform: scale(0.98);
 }
 
 button[type='submit']:disabled {

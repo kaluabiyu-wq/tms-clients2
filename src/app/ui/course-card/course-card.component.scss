@@ -15,8 +15,8 @@
   .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  grid-auto-rows: 1fr; // makes every card in a row equal height
-  gap: 2rem 1.5rem;     // row-gap 2rem, column-gap 1.5rem
+  grid-auto-rows: 1fr; 
+  gap: 2rem 1.5rem;    
   margin-top: 1.5rem;
   padding: 0 1.5rem 2rem;
 

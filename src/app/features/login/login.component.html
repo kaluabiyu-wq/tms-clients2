@@ -1,23 +1,31 @@
-<h2>Sign In</h2>
+<div class="login-page">
+  <div class="login-card">
+    <div class="brand">
+      <div class="brand-mark">TMS</div>
+      <h2>Welcome back</h2>
+      <p class="subtitle">Sign in to continue</p>
+    </div>
 
-<form [formGroup]="form" (ngSubmit)="submit()">
-  <label for="email">Email</label>
-  <input id="email" type="email" formControlName="email" placeholder="admin@gmail.com" />
-  @if (form.controls.email.touched && form.controls.email.invalid) {
-    <span class="error">A valid email is required</span>
-  }
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <label for="email">Email</label>
+      <input id="email" type="email" formControlName="email" placeholder="admin@gmail.com" autocomplete="email" />
+      @if (form.controls.email.touched && form.controls.email.invalid) {
+        <span class="error">A valid email is required</span>
+      }
 
-  <label for="password">Password</label>
-  <input id="password" type="password" formControlName="password" />
-  @if (form.controls.password.touched && form.controls.password.invalid) {
-    <span class="error">Password is required</span>
-  }
+      <label for="password">Password</label>
+      <input id="password" type="password" formControlName="password" autocomplete="current-password" />
+      @if (form.controls.password.touched && form.controls.password.invalid) {
+        <span class="error">Password is required</span>
+      }
 
-  @if (loginError()) {
-    <div class="error">{{ loginError() }}</div>
-  }
+      @if (loginError()) {
+        <div class="error form-error">{{ loginError() }}</div>
+      }
 
-  <button type="submit" [disabled]="form.invalid || submitting()">
-    {{ submitting() ? 'Signing in…' : 'Sign In' }}
-  </button>
-</form>
+      <button type="submit" [disabled]="form.invalid || submitting()">
+        {{ submitting() ? 'Signing in…' : 'Sign In' }}
+      </button>
+    </form>
+  </div>
+</div>

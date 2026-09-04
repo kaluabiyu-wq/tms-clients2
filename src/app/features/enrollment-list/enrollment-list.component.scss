@@ -1,12 +1,70 @@
-table {
+.page {
+  padding: 1.5rem 2rem;
+}
+
+h2 {
+  margin: 0 0 1.25rem;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color:  #151616;
+}
+
+.state-msg {
+  color: #94a3b8;
+  font-size: 0.9rem;
+}
+
+.banner {
+  padding: 0.6rem 0.75rem;
+  background: rgba(220, 38, 38, 0.1);
+  border: 1px solid rgba(220, 38, 38, 0.35);
+  border-radius: 6px;
+}
+
+.table-card {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.enrollment-table {
   width: 100%;
+  border-collapse: collapse;
+  background: transparent;
+
+  th,
+  td {
+    text-align: left;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #334155;
+    color: #e2e8f0;
+  }
+
+  th {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #94a3b8;
+    background: #0f172a;
+  }
+
+  tr.mat-mdc-row:hover {
+    background: #263449;
+  }
+
+  tr.mat-mdc-row:last-child td {
+    border-bottom: none;
+  }
 }
 
 .status-badge {
   padding: 0.25rem 0.75rem;
   border-radius: 12px;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   font-weight: 600;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
 }
 
@@ -25,16 +83,31 @@ table {
   color: #fca5a5;
 }
 
-button {
+.actions {
+  white-space: nowrap;
+}
+
+.btn {
   padding: 0.4rem 1rem;
   border: none;
   border-radius: 6px;
-  background: #4f46e5;
-  color: white;
+  font-size: 0.8rem;
+  font-weight: 600;
   cursor: pointer;
-  font-size: 0.85rem;
+  transition: background-color 120ms ease;
 }
 
-button:hover {
-  background: #4338ca;
+.btn-approve {
+  color: #1e293b;
+  background: #d97706;
+}
+
+.btn-approve:hover {
+  background: #b45309;
+}
+
+::ng-deep .mat-mdc-paginator {
+  background: #0f172a;
+  color: #94a3b8;
+  border-top: 1px solid #334155;
 }
