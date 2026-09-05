@@ -5,8 +5,8 @@ import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { MatSortModule, MatSort } from '@angular/material/sort';
 import { MatPaginatorModule, MatPaginator } from '@angular/material/paginator';
 import { CourseService } from '../../services/course.service';
-// Adjust this import to wherever EnrolledStudent actually lives in your project
-// (the PDF placed it as an Angular interface alongside CourseDetail).
+
+
 import { EnrolledStudent } from '../../models/course.model';
 
 @Component({

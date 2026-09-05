@@ -1,4 +1,4 @@
-// ============ Welcome header ============
+
 .dashboard {
   padding: 1.5rem;
   border-radius: 8px;
@@ -47,7 +47,7 @@
   }
 }
 
-// ============ Section heading ============
+
 h2 {
   margin-top: 2rem;
   padding: 0 1.5rem;
@@ -56,7 +56,7 @@ h2 {
   color:  #151616;
 }
 
-// ============ Loading / error states (reuse instructor patterns) ============
+
 .spinner {
   min-height: 250px;
   display: flex;
@@ -81,7 +81,7 @@ h2 {
   padding: 0 1.5rem;
 }
 
-// ============ Course catalog grid ============
+
 .grid {
   display: grid !important;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -102,7 +102,7 @@ h2 {
   }
 }
 
-// ============ Enrollment confirmation hint ============
+
 .selection-hint {
   margin-top: 1.5rem;
   padding: 1rem 1.5rem;
