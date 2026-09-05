@@ -29,3 +29,13 @@ export interface CourseLink {
 export interface CourseDetail extends Course {
   links: readonly CourseLink[];
 }
+
+export interface EnrolledStudent { 
+studentId: number; 
+registrationNumber: string; 
+name: string; 
+} 
+export interface CourseDetail extends Course { 
+description: string | null; 
+enrollments: EnrolledStudent[]; 
+}
