@@ -3,6 +3,36 @@
     <p>Credits Earned: {{ earnedCredits()}}</p>
     <p>Graduation Status: {{ graduationStatus()}}</p>
     <button (click)="registerForClass()">
-        Register for a Class (+3 credits)
+     Register for a Class (+3 credits)
     </button>
 </div>
+<h2>Availabel Courses</h2>
+<!-- <tms-course-card 
+[course]="sampleCourse"
+(enrollmentClicked)="handleEnroll($event)"/> -->
+@if (availableCourses().length === 0)
+{
+    <div class="empty-state">
+        <p>No courses are available this term. check back during registratiin.</p>
+
+    </div>
+
+}
+@else {
+    <div class="grid">
+        @for (course of availableCourses(); track course.id){
+            <app-course-card [course]="course" (enrollClicked)="handleEnroll($event)"/>
+
+        }
+        @empty {
+            <p>No results match your search.</p>
+        }
+    </div>
+
+}
+@if (selectedCourse(); as picked) {
+    <p class="selection-hint" role="status">
+        Last enrollment request: <strong>{{ picked.title}}</strong> ({{picked.code}})
+    </p>
+}
+
