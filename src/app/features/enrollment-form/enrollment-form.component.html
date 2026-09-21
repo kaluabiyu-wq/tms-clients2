@@ -5,17 +5,14 @@
     Enrollment submitted successfully.
   </div>
 } @else {
-  <!-- [formGroup]="form" connects this <form> tag to the TypeScript form object -->
-  <!-- (ngSubmit)="submit()" calls submit() when the user presses Enter or clicks submit -->
-  <form [formGroup]="form" (ngSubmit)="submit()">
+   <form [formGroup]="form" (ngSubmit)="submit()">
     <label for="studentId">Student ID</label>
     <input
       id="studentId"
       formControlName="studentId"
       placeholder="e.g. STU-1234"
     />
-    <!-- Show the error only after the user has touched the field AND it's invalid -->
-    @if (form.controls.studentId.touched && form.controls.studentId.invalid) {
+     @if (form.controls.studentId.touched && form.controls.studentId.invalid) {
       <span class="error">Enter a valid Student ID (format: STU-0000)</span>
     }
 
