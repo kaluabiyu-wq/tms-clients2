@@ -1,14 +1,17 @@
 import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { EnrollmentListComponent } from './features/enrollment-list/enrollment-list.component';
-import { DashboardSummaryComponent } from './features/dashboard-summary/dashboard-summary';
+import { RouterOutlet,Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet,EnrollmentListComponent,DashboardSummaryComponent],
+  imports: [RouterOutlet],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
 export class App {
+  constructor(private router: Router) {}
   protected readonly title = signal('tms-clients');
+ 
+  goTo(path: string) {
+    this.router.navigate([path]);
+  }
 }

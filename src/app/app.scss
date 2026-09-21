@@ -1,0 +1,46 @@
+
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  background: var(--color-canvas);
+}
+.navbar {
+  display: flex;
+  align-items: center;
+  
+}
+
+.nav-list {
+  display: flex;
+  gap: 0.5rem;
+  list-style: none;
+  margin: auto;
+  padding: 5px;
+
+}
+
+.nav-btn {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  color: #333;
+  background: #f0f0f0;
+  border-radius: 6px ;
+  transition: background 0.15s ease;
+  cursor: pointer;
+  
+
+
+
+}
+
+.nav-btn:hover {
+  background: #e0e0e0;
+}
+
+.nav-btn.active {
+  color: #ffffff;
+  background: #1e293b;
+  border-radius: 6px;
+}

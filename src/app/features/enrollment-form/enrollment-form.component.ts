@@ -13,6 +13,7 @@ import { CourseService } from "../../services/course.service";
   standalone: true,
   imports: [ReactiveFormsModule], 
   templateUrl: "./enrollment-form.component.html",
+   styleUrl: './enrollment-form.component.scss'
 })
 export class EnrollmentFormComponent {
   private fb = inject(FormBuilder);
