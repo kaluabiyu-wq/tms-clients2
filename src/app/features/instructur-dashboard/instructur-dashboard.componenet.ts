@@ -3,7 +3,7 @@ import { EnrollmentStore } from '../../store/enrollment.store';
 import { AnalyticsChartComponent } from '../../ui/analytics-chart/analytics-chart.componenet';
 
 @Component({
-  selector: 'tms-instructor-dashboard',
+  selector: 'ta-instructor-dashboard',
   standalone: true,
   imports: [AnalyticsChartComponent],
   templateUrl: './instructur-dashboard.componenet.html',
@@ -14,5 +14,6 @@ export class InstructorDashboardComponent implements OnInit {
 
   ngOnInit() {
     this.store.loadEnrollments();
+    this.store.listenForLiveUpdates();
   }
 }
