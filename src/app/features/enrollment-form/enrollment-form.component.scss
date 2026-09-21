@@ -10,7 +10,7 @@ h2 {
   padding: 0 1.5rem;
   font-size: 1.5rem;
   font-weight: 700;
-  color: #e2e8f0;
+  color:  #151616;
 }
 
 h3 {
@@ -120,16 +120,17 @@ form > textarea {
   padding: 0.5rem 1rem;
   font-size: 0.85rem;
   font-weight: 600;
-  color: #f87171;
+  color:var(--color-danger);
   background: transparent;
-  border: 1px solid #f87171;
+  border: 1px solid var(--color-danger-border-idle);
   border-radius: 6px;
   transition: background-color 120ms ease, color 120ms ease;
 }
 
 .backup-row button:hover {
-  background: #f87171;
-  color: #1e293b;
+  background:var(--color-danger-bg-hover);
+  color: var(--color-danger-text-hover);
+   border-color: var(--color-danger-bg-hover);
 }
 
 form > button[type='button'] {
@@ -138,15 +139,15 @@ form > button[type='button'] {
   padding: 0.5rem 1rem;
   font-size: 0.85rem;
   font-weight: 600;
-  color: #d97706;
-  background: transparent;
-  border: 1px solid #d97706;
+  color:#e2e8f0;
+  background: var(--color-success);
+  border: 1px solid var(--color-danger-bg-hover);
   border-radius: 6px;
   transition: background-color 120ms ease;
 }
 
 form > button[type='button']:hover {
-  background: rgba(217, 119, 6, 0.12);
+  background: var(--color-success-hover);
 }
 
 hr {
@@ -163,23 +164,23 @@ button[type='submit'] {
   padding: 0.65rem 1.5rem;
   font-size: 0.9rem;
   font-weight: 700;
-  color: #1e293b;
-  background: #d97706;
+  color:#e2e8f0;
+  background: var(--color-success);
   transition: background-color 120ms ease;
 }
 
 button[type='submit']:hover:not(:disabled) {
-  background: #b45309;
+  background:var(--color-success-hover);
 }
 
 
 button[type='submit']:disabled {
-  background: #334155;
-  color: #64748b;
+  background:var(--color-success-hover);
+  color:#e2e8f0;
   cursor: not-allowed;
 }
 
 button[type='submit']:focus-visible {
-  outline: 2px solid #d97706;
+  outline: 2px solid var(--color-success-hover);
   outline-offset: 2px;
 }

@@ -1,19 +1,35 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { EMPTY } from 'rxjs';
 
-import { InstructurDashboardComponenet } from './instructur-dashboard.componenet';
+import { InstructorDashboardComponent } from './instructur-dashboard.componenet';
+import { LiveSyncService } from '../../services/live-sync.service';
 
-describe('InstructurDashboardComponenet', () => {
-  let component: InstructurDashboardComponenet;
-  let fixture: ComponentFixture<InstructurDashboardComponenet>;
+describe('InstructorDashboardComponent', () => {
+  let component: InstructorDashboardComponent;
+  let fixture: ComponentFixture<InstructorDashboardComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [InstructurDashboardComponenet],
+      imports: [InstructorDashboardComponent],
+      providers: [
+        {
+          provide: LiveSyncService,
+          useValue: {
+            connect: () => {},
+            disconnect: () => {},
+            events$: EMPTY,                   
+            connectionState: () => 'disconnected',
+          },
+        },
+      ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(InstructurDashboardComponenet);
+    fixture = TestBed.createComponent(InstructorDashboardComponent);
     component = fixture.componentInstance;
+
+    fixture.detectChanges();
     await fixture.whenStable();
+    fixture.detectChanges();
   });
 
   it('should create', () => {

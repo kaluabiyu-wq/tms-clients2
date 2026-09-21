@@ -14,7 +14,7 @@ export class GradeService {
 
     postGrade(payload: GradePayload): Observable<{ id: string; success: boolean}> 
 {
-    return this.http.post<{ id:string; success: boolean}>('api/grades',payload);
+    return this.http.post<{ id:string; success: boolean}>('api/v1',payload);
 }
  
 }

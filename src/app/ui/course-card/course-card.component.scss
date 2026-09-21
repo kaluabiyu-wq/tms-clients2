@@ -15,8 +15,8 @@
   .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  grid-auto-rows: 1fr; // makes every card in a row equal height
-  gap: 2rem 1.5rem;     // row-gap 2rem, column-gap 1.5rem
+  grid-auto-rows: 1fr; 
+  gap: 2rem 1.5rem;    
   margin-top: 1.5rem;
   padding: 0 1.5rem 2rem;
 
@@ -28,12 +28,25 @@
 }
 
   h3 {
-    font-size: 1.05rem;
-    font-weight: 700;
-    color: #f1f5f9;
-    line-height: 1.35;
-    margin-bottom: 0.5rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #f1f5f9;
+  line-height: 1.35;
+  margin-bottom: 0.5rem;
+
+  a {
+    color: inherit;
+    text-decoration: none;
+
+    &:visited {
+      color: inherit;
+    }
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
+}
 
   p {
     font-size: 0.85rem;

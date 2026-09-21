@@ -1,5 +1,5 @@
 import { isPlatformBrowser } from '@angular/common';
-import { inject, PLATFORM_ID, Service, signal } from '@angular/core';
+import { inject, Injectable, PLATFORM_ID, Service, signal } from '@angular/core';
 import { Subject } from 'rxjs';
 import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 
@@ -9,7 +9,7 @@ export interface EnrollmentStatusEvent {
     status: 'Pending' | 'Approved' | 'Rejected';
 }
 
-@Service()
+@Injectable ({ providedIn: 'root'})
 export class LiveSyncService {
     private platformId = inject(PLATFORM_ID);
     private connection: HubConnection | null = null;
