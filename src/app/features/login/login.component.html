@@ -1,10 +1,10 @@
 <h2>Sign In</h2>
 
 <form [formGroup]="form" (ngSubmit)="submit()">
-  <label for="username">Username</label>
-  <input id="username" formControlName="username" placeholder="admin" />
-  @if (form.controls.username.touched && form.controls.username.invalid) {
-    <span class="error">Username is required</span>
+  <label for="email">Email</label>
+  <input id="email" type="email" formControlName="email" placeholder="admin@gmail.com" />
+  @if (form.controls.email.touched && form.controls.email.invalid) {
+    <span class="error">A valid email is required</span>
   }
 
   <label for="password">Password</label>

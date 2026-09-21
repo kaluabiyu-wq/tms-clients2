@@ -1,6 +1,23 @@
 import { Routes } from '@angular/router';
+import { roleGuard } from './guards/role.guard';
 
 export const routes: Routes = [
+
+     {
+        path: "",
+        redirectTo: "login",
+        pathMatch: "full"
+    },
+    {
+        path: 'login',
+        loadComponent: () => import('./features/login/login.component')
+        .then(m => m.LoginComponent)
+    },
+    {
+        path: 'unauthorized',
+        loadComponent: () => import('./features/unauthorized/unauthorized.component')
+        .then(m => m.UnauthorizedComponent)
+    },
 
     {
         path: "dashboard",
@@ -9,46 +26,48 @@ export const routes: Routes = [
         .then(
             (m) => m.StudentDashboardComponent,
         ),
-    },
-   
-    {
-        path: "",redirectTo: "dashboard", pathMatch: "full"
-    },
-     {
-     path: 'login',
-        loadComponent: () => import('./features/login/login.component')
-        .then(m => m.LoginComponent)
-
-    },
-    {
-        path: 'courses/:id',
-        loadComponent: () => import('./features/course-detail/course-detail.component')
-        .then(m=> m.CourseDetailComponent)
+        canActivate: [roleGuard('Student')]
     },
     {
         path: 'enroll',
         loadComponent: () => import('./features/enrollment-form/enrollment-form.component')
-        .then(m => m.EnrollmentFormComponent)
+        .then(m => m.EnrollmentFormComponent),
+        canActivate: [roleGuard('Student')]
+    },
+
+    {
+        path: 'courses/:id',
+        loadComponent: () => import('./features/course-detail/course-detail.component')
+        .then(m=> m.CourseDetailComponent),
+        canActivate: [roleGuard('Admin')]
     },
     {
-  path: 'instructor-dashboard',
-  loadComponent: () => import('./features/instructur-dashboard/instructur-dashboard.componenet')
-    .then(m => m.InstructorDashboardComponent),
-},
-{
-    path: 'enrollments',
-    loadComponent: () =>
-      import('./features/enrollment-list/enrollment-list.component')
-        .then(m => m.EnrollmentListComponent)
-  },
- 
-  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-   {
-     path: 'grade-submission',
- loadComponent: () =>
-    import('./features/grade-submission/grade-submission.component')
-     .then(m=> m.GradeSubmissionComponent)
+         path: 'admin/courses',
+        loadComponent: () =>
+        import('./features/admin-course-list/admin-course-list.component')
+        .then(m => m.AdminCourseListComponent),
+        canActivate: [roleGuard('Admin')]
+    },
+    {
+        path: 'instructor-dashboard',
+        loadComponent: () => import('./features/instructur-dashboard/instructur-dashboard.componenet')
+        .then(m => m.InstructorDashboardComponent),
+        canActivate: [roleGuard('Admin')]
+    },
+    {
+        path: 'enrollments',
+        loadComponent: () =>
+        import('./features/enrollment-list/enrollment-list.component')
+            .then(m => m.EnrollmentListComponent),
+        canActivate: [roleGuard('Admin')]
+    },
+    {
+        path: 'grade-submission',
+        loadComponent: () =>
+            import('./features/grade-submission/grade-submission.component')
+            .then(m=> m.GradeSubmissionComponent),
+        canActivate: [roleGuard('Admin')]
+    },
 
-
-  },
+      { path: '**', redirectTo: 'login' },
 ];

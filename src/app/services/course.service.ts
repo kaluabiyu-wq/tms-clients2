@@ -1,11 +1,11 @@
-import { inject, Injectable, Service } from "@angular/core";
+import { inject, Injectable} from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { map } from "rxjs/operators";
 import { Course, CourseDetail, PagedResponse } from "../models/course.model";
 import { CreateEnrollmentRequest,EnrollmentResult } from "../models/enrollment.model";
 import { environment } from "../../environments/environment.development";
 
-@Service()
+@Injectable({providedIn : "root"})
 export class CourseService {
   private http = inject(HttpClient);
   private  readonly base = `${environment.apiUrl}/courses`;
@@ -21,6 +21,10 @@ export class CourseService {
 
   getById(id: string) {
     return this.http.get<CourseDetail>(`${this.base}/${id}`);
+  }
+
+   update(id: number, dto: { title: string }) {
+    return this.http.put<void>(`${this.base}/${id}`, dto);
   }
 
 

@@ -19,7 +19,7 @@ export class LoginComponent {
   loginError = signal<string | null>(null);
 
   form = this.fb.nonNullable.group({
-    username: ["", Validators.required],
+    email: ["", [Validators.required, Validators.email]],
     password: ["", Validators.required],
   });
 
@@ -32,9 +32,9 @@ export class LoginComponent {
     this.submitting.set(true);
     this.loginError.set(null);
 
-    const { username, password } = this.form.getRawValue();
+    const { email, password } = this.form.getRawValue();
 
-    this.auth.login({ username, password })
+    this.auth.login({email, password})
       .then(() => {
         this.submitting.set(false);
         this.router.navigate(['/dashboard']);
