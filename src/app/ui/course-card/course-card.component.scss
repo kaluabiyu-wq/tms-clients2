@@ -62,21 +62,41 @@
     padding: 0.6rem 1rem;
     border: none;
     border-radius: 8px;
-    background: #16a34a;
-    color: #f0fdf4;
     font-size: 0.9rem;
     font-weight: 700;
     cursor: pointer;
     transition: background 0.15s ease;
 
-    &:hover:not(:disabled) {
-      background: #15803d;
+    &:first-of-type {
+      margin-top: auto; 
     }
 
     &:disabled {
       background: #334155;
       color: #64748b;
       cursor: not-allowed;
+    }
+  }
+
+  
+  .enroll-btn {
+    background: #16a34a;
+    color: #f0fdf4;
+
+    &:hover:not(:disabled) {
+      background: #15803d;
+    }
+  }
+
+  
+  .delete-btn {
+    background: transparent;
+    color: #f87171;
+    border: 1px solid #f87171;
+
+    &:hover:not(:disabled) {
+      background: #f87171;
+      color: #1e293b;
     }
   }
 }

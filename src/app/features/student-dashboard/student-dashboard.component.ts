@@ -1,8 +1,9 @@
-import { Component,signal,computed, inject } from '@angular/core';
+import { Component,signal,computed, inject, OnInit } from '@angular/core';
 import { CourseCardComponent } from '../../ui/course-card/course-card.component';
 import { Course } from '../../models/course.model';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { CourseService } from '../../services/course.service';
+import { CourseStore } from '../../store/course.store';
 
 @Component({
   selector: 'app-student-dashboard',
@@ -11,8 +12,8 @@ import { CourseService } from '../../services/course.service';
   templateUrl: './student-dashboard.component.html',
   styleUrl: './student-dashboard.component.scss',
 })
-export class StudentDashboardComponent {
-     private api = inject(CourseService);
+export class StudentDashboardComponent implements OnInit{
+     public courseStore = inject(CourseStore);
      studentName = signal("Liya Kebede");
      earnedCredits = signal(45);
      graduationStatus = computed(() =>
@@ -21,59 +22,18 @@ export class StudentDashboardComponent {
      {
       this.earnedCredits.update((c)=> c + 3);
      }
-      selectedCourse = signal<Course | null>(null);
-      sampleCourse: Course = {
-        id: 1,
-        title:"Advanced Java Services",
-        code: "CSE-101",
-        maxCapacity: 30,
-        enrollmentCount: 12,
-      };
-      handleEnroll(course: Course)
-      {
-        this.selectedCourse.set(course);
-        console.log('Enrollment requested for:', course.title);
-      }
-    
-      availableCourses = signal<Course[]>([
-    {
-      id:1,
-      title: "Advanced Java Services",
-      code:"CSE-101",
-      maxCapacity:30,
-      enrollmentCount:10,
 
-    },
-    {
-       id:2,
-      title: "Angular UI Lab",
-      code:"CSE-210",
-      maxCapacity:25,
-      enrollmentCount:25,
+  selectedCourse = signal<Course | null>(null);
+     handleEnroll(course: Course) {
+    this.selectedCourse.set(course);
+    console.log('Enrollment requested for:', course.title);
+  }
 
-    },
-    {
-       id:3,
-      title: "Database Design",
-      code:"CSE-305",
-      maxCapacity:20,
-      enrollmentCount:18,
+  handleDelete(course: Course) {
+    this.courseStore.deleteCourse(course.id);
+  }
 
-    },
-    {
-       id:4,
-      title: "Api Security workshop",
-      code:"CSE-420",
-      maxCapacity:40,
-      enrollmentCount:15,
-
-    },
-
-]);
-  coursesResource = rxResource( {
-    stream: () => this.api.getAll(),
-  })
-
-
-
+  ngOnInit() {
+    this.courseStore.loadCourses();
+  }
 }

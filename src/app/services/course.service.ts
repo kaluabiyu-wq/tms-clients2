@@ -29,4 +29,7 @@ export class CourseService {
       request,
     );
   }
+ delete(id: number) {
+    return this.http.delete<void>(`${this.base}/${id}`);
+  }
 }

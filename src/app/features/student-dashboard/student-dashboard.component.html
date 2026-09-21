@@ -8,17 +8,27 @@
 </div>
 <h2>Course Catalog</h2>
 
-@if (coursesResource.isLoading()) {
+@if (courseStore.error(); as errorMsg) {
+    <div class="error-banner" role="alert">
+        {{ errorMsg }}
+    </div>
+}
+
+
+@if (courseStore.isLoading()) {
      <div class="spinner">Fetching courses from the server...</div>
-    } @else if (coursesResource.error()) {
+    } @else if (courseStore.error()) {
      <div class="error">
     Could not load courses. Make sure your .NET API is running.
 </div>
 }
 @else {
     <div class="grid">
-        @for (course of coursesResource.value()!; track course.id){
-            <app-course-card [course]="course" (enrollClicked)="handleEnroll($event)"/>
+        @for (course of courseStore.entities()!; track course.id){
+            <app-course-card [course]="course" 
+            (enrollClicked)="handleEnroll($event)"
+            (deletedClicked)="handleDelete($event)"
+            />
 
         }
         @empty {
