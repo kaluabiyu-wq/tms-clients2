@@ -12,13 +12,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes, withComponentInputBinding()),
     provideHttpClient(
       withInterceptors([credentialInterceptor,errorInterceptor,jwtInterceptor]),
-      withXsrfConfiguration(
-        {
-          cookieName: 'XSRF-TOKEN',
-          headerName: 'X-XSRF-TOKEN',
-        }
-      )
-    ),
+      ),
      provideAnimationsAsync(),
   ],
 };
