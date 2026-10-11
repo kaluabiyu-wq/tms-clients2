@@ -3,7 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { map } from "rxjs/operators";
 import { Course, CourseDetail, PagedResponse } from "../models/course.model";
 import { CreateEnrollmentRequest,EnrollmentResult } from "../models/enrollment.model";
-import { environment } from "../../environments/environment.development";
+import { environment } from "../../environments/environment";
 
 @Injectable({providedIn : "root"})
 export class CourseService {

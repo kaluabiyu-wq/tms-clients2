@@ -1,6 +1,5 @@
 
 export const environment = {
-
-    production: false,
-    apiUrl: 'http://localhost:5285/api/v1'
+    production: true,
+    apiUrl: 'https://REPLACE-ME.onrender.com/api/v1'
 };

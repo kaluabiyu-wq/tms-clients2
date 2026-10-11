@@ -1,7 +1,7 @@
 import { inject, Injectable, Service, signal } from '@angular/core';
 import { HttpClient} from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
-import { environment } from '../../environments/environment.development';
+import { environment } from '../../environments/environment';
 
 export interface TmsUser {
     email : string;
