@@ -6,7 +6,7 @@ import { Enrollment } from '../models/enrollment.model';
 @Injectable({ providedIn: 'root' })
 export class EnrollmentService {
   private http = inject(HttpClient);
-   private baseUrl = 'http://localhost:5285/api/v1/enrollments';
+   private baseUrl = `${environment.apiUrl}/enrollments`;
    
   getAll(): Observable<Enrollment[]> {
     return this.http.get<Enrollment[]>(this.baseUrl);
