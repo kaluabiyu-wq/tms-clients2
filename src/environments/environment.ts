@@ -1,6 +1,6 @@
 
 export const environment = {
     production: true,
-     apiUrl: 'https://tmsapi-9mhs.onrender.com/api/v1',
-     hubUrl: 'https://tmsapi-9mhs.onrender.com/hubs/tms'
+    apiUrl: 'https://tms-mgjz.onrender.com/api/v1',
+    hubUrl: 'https://tms-mgjz.onrender.com/hubs/tms'
 };

@@ -1,6 +1,6 @@
 export const environment = {
 
     production: false,
-    apiUrl: 'http://localhost:5285/api/v1',
-    hubUrl: '/hubs/tms'
+    apiUrl: 'https://tms-mgjz.onrender.com/api/v1',
+    hubUrl: 'https://tms-mgjz.onrender.com/hubs/tms'
 };
