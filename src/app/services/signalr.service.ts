@@ -6,6 +6,8 @@ import {
   LogLevel
 } from '@microsoft/signalr';
 import { Subject } from 'rxjs';
+import { environment } from '../../environments/environment';
+import { AuthService } from './auth.service';
 
 export interface TranscriptReadyEvent {
   reportId: string;
@@ -16,6 +18,8 @@ export interface TranscriptReadyEvent {
   providedIn: 'root'
 })
 export class SignalRService {
+
+  private readonly auth = inject(AuthService);
 
   private connection?: HubConnection;
 
@@ -35,7 +39,9 @@ export class SignalRService {
     }
 
     this.connection = new HubConnectionBuilder()
-      .withUrl(`/hubs/tms?studentId=${studentId}`)
+      .withUrl(`${environment.hubUrl}?studentId=${studentId}`, {
+        accessTokenFactory: () => this.auth.getAccessToken() ?? ''
+      })
       .withAutomaticReconnect([0, 2000, 10000, 30000])
       .configureLogging(LogLevel.Information)
       .build();

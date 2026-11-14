@@ -1,5 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { PLATFORM_ID } from '@angular/core';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { LiveSyncService } from './live-sync.service';
 import { HubConnectionBuilder } from '@microsoft/signalr';
 import { vi } from 'vitest';
@@ -21,7 +23,11 @@ describe('LiveSyncService', () => {
     vi.spyOn(HubConnectionBuilder.prototype, 'build').mockReturnValue(mockConnection as any);
 
     TestBed.configureTestingModule({
-      providers: [{ provide: PLATFORM_ID, useValue: 'browser' }],
+      providers: [
+        { provide: PLATFORM_ID, useValue: 'browser' },
+        provideHttpClient(),
+        provideHttpClientTesting(),
+      ],
     });
     service = TestBed.inject(LiveSyncService);
   });
@@ -47,7 +53,11 @@ describe('LiveSyncService', () => {
   it('connect() does nothing on the server', () => {
     TestBed.resetTestingModule();
     TestBed.configureTestingModule({
-      providers: [{ provide: PLATFORM_ID, useValue: 'server' }],
+      providers: [
+        { provide: PLATFORM_ID, useValue: 'server' },
+        provideHttpClient(),
+        provideHttpClientTesting(),
+      ],
     });
     const serverService = TestBed.inject(LiveSyncService);
     serverService.connect();

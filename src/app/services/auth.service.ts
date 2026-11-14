@@ -1,64 +1,96 @@
-import { inject, Injectable, Service, signal } from '@angular/core';
-import { HttpClient} from '@angular/common/http';
+import { inject, Injectable, signal } from '@angular/core';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { environment } from '../../environments/environment';
 
 export interface TmsUser {
-    email : string;
-    displayName: string;
-    role: string;
+  email: string;
+  displayName: string;
+  role: string;
 }
 export interface LoginRequest {
-    email: string;
-    password: string;
+  email: string;
+  password: string;
 }
 export interface AuthResponse {
-    accessToken: string;
-    refreshToken: string;
+  accessToken: string;
+  refreshToken: string;
 }
 
 const EMAIL_CLAIM = 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress';
 const ROLE_CLAIM = 'http://schemas.microsoft.com/ws/2008/06/identity/claims/role';
+const REFRESH_KEY = 'tms.refreshToken';
 
-@Injectable({ providedIn: 'root'})
+function decodeJwtPayload(token: string): Record<string, any> {
+  const b64 = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
+  const padded = b64.padEnd(b64.length + ((4 - (b64.length % 4)) % 4), '=');
+  const bytes = Uint8Array.from(atob(padded), (c) => c.charCodeAt(0));
+  return JSON.parse(new TextDecoder().decode(bytes));
+}
+
+@Injectable({ providedIn: 'root' })
 export class AuthService {
-     
-    private http = inject(HttpClient);
-    private accessToken = signal<string | null>(null);
-    currentUser = signal<TmsUser | null>(null);
+  private http = inject(HttpClient);
+  private accessToken = signal<string | null>(null);
+  private refreshInFlight: Promise<boolean> | null = null;
+  currentUser = signal<TmsUser | null>(null);
 
-    getAccessToken(): string | null {
-        return this.accessToken();
-    }
+  getAccessToken(): string | null {
+    return this.accessToken();
+  }
 
-    hasRole(role: string): boolean {
-        const user = this.currentUser();
-        return user?.role === role || user?.role == 'Admin';
-    }
-    async login(credintials: LoginRequest): Promise<void>
-    {
-      const res = await firstValueFrom(
-         this.http.post<AuthResponse>(`${environment.apiUrl}/auth/login`, credintials)
-        );
+  hasRole(role: string): boolean {
+    const user = this.currentUser();
+    return user?.role === role || user?.role === 'Admin';
+  }
 
-        this.accessToken.set(res.accessToken);
+  async login(credentials: LoginRequest): Promise<void> {
+    const res = await firstValueFrom(
+      this.http.post<AuthResponse>(`${environment.apiUrl}/auth/login`, credentials)
+    );
+    this.applyTokens(res);
+  }
 
-       const payload = JSON.parse(atob(res.accessToken.split(".")[1]));
-       const fullName = [payload.FirstName, payload.LastName]
-        .filter((part) => !!part)
-        .join(' ');
-       this.currentUser.set({
-        email: payload[EMAIL_CLAIM] || payload.email || payload.sub,
-        displayName: fullName || payload.name || payload.email || 'User',
-        role: payload[ROLE_CLAIM] ||
-         payload.role || 'Student'
-       });
-       
-    }
+  refresh(): Promise<boolean> {
+    if (this.refreshInFlight) return this.refreshInFlight;
 
-    logout(): void {
-        this.accessToken.set(null);
-        this.currentUser.set(null);
-    } 
+    let refreshToken: string | null = null;
+    try { refreshToken = localStorage.getItem(REFRESH_KEY); } catch {}
+    if (!refreshToken) return Promise.resolve(false);
 
+    this.refreshInFlight = firstValueFrom(
+      this.http.post<AuthResponse>(`${environment.apiUrl}/auth/refresh`, { refreshToken })
+    )
+      .then((res) => { this.applyTokens(res); return true; })
+      .catch((err) => {
+        // Only a real rejection means the session is dead. A network error or
+        // a slow cold start must not log the user out.
+        if (err instanceof HttpErrorResponse && (err.status === 400 || err.status === 401)) {
+          this.logout();
+        }
+        return false;
+      })
+      .finally(() => { this.refreshInFlight = null; });
+
+    return this.refreshInFlight;
+  }
+
+  logout(): void {
+    this.accessToken.set(null);
+    this.currentUser.set(null);
+    try { localStorage.removeItem(REFRESH_KEY); } catch {}
+  }
+
+  private applyTokens(res: AuthResponse): void {
+    this.accessToken.set(res.accessToken);
+    try { localStorage.setItem(REFRESH_KEY, res.refreshToken); } catch {}
+
+    const payload = decodeJwtPayload(res.accessToken);
+    const fullName = [payload['FirstName'], payload['LastName']].filter((p) => !!p).join(' ');
+    this.currentUser.set({
+      email: payload[EMAIL_CLAIM] || payload['email'] || payload['sub'],
+      displayName: fullName || payload['name'] || payload['email'] || 'User',
+      role: payload[ROLE_CLAIM] || payload['role'] || 'Student',
+    });
+  }
 }
