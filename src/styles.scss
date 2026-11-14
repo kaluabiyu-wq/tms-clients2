@@ -29,13 +29,89 @@ body {
   height: 100%;
 }
 
+// ---------------------------------------------------------------------------
+// TMS design tokens
+// Layout model: light page canvas, dark slate "panels" (cards, tables, forms),
+// dark navbar. Components read these tokens instead of hardcoded hex values.
+// ---------------------------------------------------------------------------
 :root {
-  --color-success: #16a34a;
-  --color-success-hover: #15803d;
-  --color-success-text: #f0fdf4;
+  // Page canvas and text that sits directly on it (headings, subtitles)
+  --color-canvas: #f1f5f9;
+  --color-text: #0f172a;               // 16.3:1 on canvas (replaces #151616)
+  --color-text-muted: #475569;         // 6.9:1 on canvas
 
-  --color-danger: #f87171;
+  // Brand
+  --color-primary: #2563eb;
+  --color-focus: #38bdf8;              // focus/caret on dark panels (8.3:1 on #0f172a)
+
+  // Amber accent, two flavors by what sits on top of it
+  --color-accent: #b45309;             // fill with WHITE text (5.0:1), e.g. active nav
+  --color-accent-hover: #92400e;
+  --color-accent-bright: #f59e0b;      // fill with DARK text (6.8:1), borders, bars, focus on dark
+  --color-accent-bright-hover: #fbbf24;
+  --color-on-accent-bright: #1e293b;
+  --focus-ring-accent: 0 0 0 3px rgba(245, 158, 11, 0.35);
+
+  // Dark panels
+  --color-panel: #1e293b;
+  --color-panel-deep: #0f172a;         // inputs, table headers, footers
+  --color-panel-raised: #263449;       // hovered rows
+  --color-panel-border: #334155;
+  --color-panel-border-strong: #475569;
+  --color-panel-text-strong: #f1f5f9;
+  --color-panel-text: #e2e8f0;
+  --color-panel-text-muted: #94a3b8;   // 5.7:1 on panel
+  --color-panel-text-subtle: #8fa0b8;  // placeholders/empty states; was #64748b at 3.1:1 (failed)
+  --color-panel-disabled-text: #64748b; // disabled controls are exempt from contrast
+
+  // Navbar
+  --color-nav-top: #1e293b;
+  --color-nav-bottom: #0f172a;
+  --color-nav-text: #cbd5e1;           // 12:1 on navbar (was #94a3b8)
+  --color-nav-text-active: #ffffff;
+  --shadow-nav: 0 2px 10px rgba(0, 0, 0, 0.35);
+
+  // Status
+  --color-success: #15803d;            // 4.8:1 with #f0fdf4 text (old #16a34a was 3.2:1)
+  --color-success-hover: #166534;      // 6.8:1
+  --color-success-text: #f0fdf4;
+  --color-success-on-dark: #4ade80;    // 8.4:1 on panel
+  --color-success-bar: #059669;
+
+  --color-danger: #f87171;             // on dark surfaces
+  --color-danger-on-dark: #f87171;
+  --color-danger-strong: #dc2626;      // borders, bars
   --color-danger-border-idle: #334155;
   --color-danger-bg-hover: #7f1d1d;
   --color-danger-text-hover: #fca5a5;
+
+  --color-info-on-dark: #93c5fd;
+
+  // Badge pairs (all >= 4.5:1)
+  --badge-success-bg: #065f46;
+  --badge-success-text: #a7f3d0;
+  --badge-warning-bg: #78350f;
+  --badge-warning-text: #fde68a;
+  --badge-danger-bg: #7f1d1d;
+  --badge-danger-text: #fca5a5;
+
+  // Training states used by chart and badges
+  --status-enrolled: var(--color-primary);
+  --status-in-progress: #0e7490;
+  --status-completed: var(--color-success-bar);
+  --status-pending: var(--color-accent-bright);
+  --status-overdue: var(--color-danger-strong);
+}
+
+// Dark mode: only the page canvas flips; panels and navbar are already dark.
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-canvas: #0b1220;
+    --color-text: #f1f5f9;
+    --color-text-muted: #cbd5e1;
+    --color-primary: #60a5fa;
+  }
+  body {
+    color-scheme: dark;
+  }
 }

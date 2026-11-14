@@ -10,21 +10,21 @@ h2 {
   padding: 0 1.5rem;
   font-size: 1.5rem;
   font-weight: 700;
-  color:  #151616;
+  color:  var(--color-text);
 }
 
 h3 {
   margin: 2rem 0 0.75rem;
   font-size: 1.1rem;
   font-weight: 600;
-  color: #e2e8f0;
+  color: var(--color-panel-text);
 }
 
 form {
   display: flex;
   flex-direction: column;
   padding: 2rem;
-  background: #1e293b;
+  background: var(--color-panel);
   border-radius: 8px;
   width: 300px;
 }
@@ -43,7 +43,7 @@ form > label {
   margin-bottom: 0.4rem;
   font-size: 0.85rem;
   font-weight: 600;
-  color: #94a3b8;
+  color: var(--color-panel-text-muted);
 }
 
 form > label:first-of-type {
@@ -56,29 +56,29 @@ form > textarea,
   width: 100%;
   padding: 0.6rem 0.75rem;
   font-size: 1rem;
-  color: #e2e8f0;
-  background: #0f172a;
-  border: 1px solid #334155;
+  color: var(--color-panel-text);
+  background: var(--color-panel-deep);
+  border: 1px solid var(--color-panel-border);
   border-radius: 6px;
   transition: border-color 120ms ease, box-shadow 120ms ease;
 }
 
 form > input::placeholder,
 form > textarea::placeholder {
-  color: #64748b;
+  color: var(--color-panel-text-subtle);
 }
 
 form > input:focus-visible,
 form > textarea:focus-visible,
 .backup-row input:focus-visible {
   outline: none;
-  border-color: #d97706;
-  box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.25);
+  border-color: var(--color-accent-bright);
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.35);
 }
 
 form > input.ng-touched.ng-invalid,
 form > textarea.ng-touched.ng-invalid {
-  border-color: #dc2626;
+  border-color: var(--color-danger-strong);
 }
 
 form > textarea {
@@ -90,7 +90,7 @@ form > textarea {
   margin-top: -0.3rem;
   margin-bottom: 0.5rem;
   font-size: 0.8rem;
-  color: #f87171;
+  color: var(--color-danger-on-dark);
 }
 
 .success {
@@ -98,8 +98,8 @@ form > textarea {
   margin: 0 1.5rem;
   border-radius: 8px;
   background: rgba(16, 185, 129, 0.12);
-  border: 1px solid #34d399;
-  color: #34d399;
+  border: 1px solid var(--color-success-on-dark);
+  color: var(--color-success-on-dark);
   font-weight: 600;
 }
 
@@ -139,7 +139,7 @@ form > button[type='button'] {
   padding: 0.5rem 1rem;
   font-size: 0.85rem;
   font-weight: 600;
-  color:#e2e8f0;
+  color:var(--color-panel-text);
   background: var(--color-success);
   border: 1px solid var(--color-danger-bg-hover);
   border-radius: 6px;
@@ -153,7 +153,7 @@ form > button[type='button']:hover {
 hr {
   margin: 2rem 0 1.5rem;
   border: none;
-  border-top: 1px solid #334155;
+  border-top: 1px solid var(--color-panel-border);
 }
 
 
@@ -164,7 +164,7 @@ button[type='submit'] {
   padding: 0.65rem 1.5rem;
   font-size: 0.9rem;
   font-weight: 700;
-  color:#e2e8f0;
+  color:var(--color-panel-text);
   background: var(--color-success);
   transition: background-color 120ms ease;
 }
@@ -176,7 +176,7 @@ button[type='submit']:hover:not(:disabled) {
 
 button[type='submit']:disabled {
   background:var(--color-success-hover);
-  color:#e2e8f0;
+  color:var(--color-panel-text);
   cursor: not-allowed;
 }
 

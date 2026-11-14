@@ -4,16 +4,16 @@
 }
 
 mat-card {
-  background: #1e293b !important;
-  border: 1px solid #334155;
+  background: var(--color-panel) !important;
+  border: 1px solid var(--color-panel-border);
 }
 
 mat-card-title {
-  color: #f1f5f9 !important;
+  color: var(--color-panel-text-strong) !important;
 }
 
 mat-card-subtitle {
-  color: #94a3b8 !important;
+  color: var(--color-panel-text-muted) !important;
 }
 
 
@@ -22,47 +22,47 @@ mat-card-subtitle {
     width: 100%;
 
     .mat-mdc-text-field-wrapper {
-      background: #0f172a;
+      background: var(--color-panel-deep);
     }
 
     .mat-mdc-form-field-label,
     .mdc-floating-label {
-      color: #94a3b8 !important;
+      color: var(--color-panel-text-muted) !important;
     }
 
     .mat-mdc-input-element {
-      color: #e2e8f0 !important;
-      caret-color: #38bdf8;
+      color: var(--color-panel-text) !important;
+      caret-color: var(--color-focus);
     }
 
     .mdc-notched-outline__leading,
     .mdc-notched-outline__notch,
     .mdc-notched-outline__trailing {
-      border-color: #334155 !important;
+      border-color: var(--color-panel-border) !important;
     }
 
     &.mat-focused {
       .mdc-notched-outline__leading,
       .mdc-notched-outline__notch,
       .mdc-notched-outline__trailing {
-        border-color: #38bdf8 !important;
+        border-color: var(--color-focus) !important;
       }
 
       .mat-mdc-form-field-label,
       .mdc-floating-label {
-        color: #38bdf8 !important;
+        color: var(--color-focus) !important;
       }
     }
   }
 
   
   .mat-mdc-form-field-error {
-    color: #f87171 !important;
+    color: var(--color-danger-on-dark) !important;
     font-size: 0.8rem;
   }
 
   .mat-mdc-progress-spinner circle {
-    stroke: #38bdf8 !important;
+    stroke: var(--color-focus) !important;
   }
 
 
@@ -76,8 +76,8 @@ mat-card-subtitle {
     }
 
     &:disabled {
-      background-color: #334155 !important;
-      color: #64748b !important;
+      background-color: var(--color-panel-border) !important;
+      color: var(--color-panel-disabled-text) !important;
     }
   }
 }

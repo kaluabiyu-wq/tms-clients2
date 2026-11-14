@@ -6,11 +6,11 @@ h2 {
   margin: 0 0 1.25rem;
   font-size: 1.4rem;
   font-weight: 700;
-  color:  #151616;
+  color:  var(--color-text);
 }
 
 .state-msg {
-  color: #94a3b8;
+  color: var(--color-panel-text-muted);
   font-size: 0.9rem;
 }
 
@@ -22,8 +22,8 @@ h2 {
 }
 
 .table-card {
-  background: #1e293b;
-  border: 1px solid #334155;
+  background: var(--color-panel);
+  border: 1px solid var(--color-panel-border);
   border-radius: 10px;
   overflow: hidden;
 }
@@ -37,8 +37,8 @@ h2 {
   td {
     text-align: left;
     padding: 0.75rem 1rem;
-    border-bottom: 1px solid #334155;
-    color: #e2e8f0;
+    border-bottom: 1px solid var(--color-panel-border);
+    color: var(--color-panel-text);
   }
 
   th {
@@ -46,12 +46,12 @@ h2 {
     font-weight: 700;
     letter-spacing: 0.04em;
     text-transform: uppercase;
-    color: #94a3b8;
-    background: #0f172a;
+    color: var(--color-panel-text-muted);
+    background: var(--color-panel-deep);
   }
 
   tr.mat-mdc-row:hover {
-    background: #263449;
+    background: var(--color-panel-raised);
   }
 
   tr.mat-mdc-row:last-child td {
@@ -69,18 +69,18 @@ h2 {
 }
 
 .status-badge.approved {
-  background: #065f46;
-  color: #a7f3d0;
+  background: var(--badge-success-bg);
+  color: var(--badge-success-text);
 }
 
 .status-badge.pending {
-  background: #78350f;
-  color: #fde68a;
+  background: var(--badge-warning-bg);
+  color: var(--badge-warning-text);
 }
 
 .status-badge.rejected {
-  background: #7f1d1d;
-  color: #fca5a5;
+  background: var(--color-danger-bg-hover);
+  color: var(--color-danger-text-hover);
 }
 
 .actions {
@@ -98,16 +98,16 @@ h2 {
 }
 
 .btn-approve {
-  color: #1e293b;
-  background: #d97706;
+  color: var(--color-on-accent-bright);
+  background: var(--color-accent-bright);
 }
 
 .btn-approve:hover {
-  background: #b45309;
+  background: var(--color-accent-bright-hover);
 }
 
 ::ng-deep .mat-mdc-paginator {
-  background: #0f172a;
-  color: #94a3b8;
-  border-top: 1px solid #334155;
+  background: var(--color-panel-deep);
+  color: var(--color-panel-text-muted);
+  border-top: 1px solid var(--color-panel-border);
 }

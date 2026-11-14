@@ -6,11 +6,11 @@ h2 {
   margin: 0;
   font-size: 1.4rem;
   font-weight: 700;
-  color: #151616;
+  color: var(--color-text);
 }
 
 .state-msg {
-  color: #94a3b8;
+  color: var(--color-panel-text-muted);
   font-size: 0.9rem;
 }
 
@@ -29,7 +29,7 @@ h2 {
 }
 
 .course-header h2 {
-  color: #151616;
+  color: var(--color-text);
   margin-bottom: 0.35rem;
 }
 
@@ -40,7 +40,7 @@ h2 {
   font-size: 0.85rem;
   font-weight: 700;
   letter-spacing: 0.04em;
-  color: #151616;
+  color: var(--color-text);
   background: rgba(37, 99, 235, 0.15);
   border-radius: 999px;
 }
@@ -51,8 +51,8 @@ h2 {
   gap: 1px;
   margin-bottom: 1.75rem;
 
-  background: #334155;
-  border: 1px solid #334155;
+  background: var(--color-panel-border);
+  border: 1px solid var(--color-panel-border);
   border-radius: 10px;
   overflow: hidden;
 }
@@ -62,7 +62,7 @@ h2 {
   flex-direction: column;
   gap: 0.35rem;
   padding: 1rem 1.15rem;
-  background: #1e293b;
+  background: var(--color-panel);
 }
 
 .info-item.description {
@@ -74,12 +74,12 @@ h2 {
   font-weight: 700;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  color: #94a3b8;
+  color: var(--color-panel-text-muted);
 }
 
 .info-value {
   font-size: 0.9rem;
-  color: #e2e8f0;
+  color: var(--color-panel-text);
 }
 
 .enrolled-badge {
@@ -89,21 +89,21 @@ h2 {
   padding: 0.15rem 0.6rem;
   font-size: 0.8rem;
   font-weight: 600;
-  color: #93c5fd;
+  color: var(--color-info-on-dark);
   background: rgba(37, 99, 235, 0.15);
   border-radius: 999px;
 }
 
 .section-title {
   margin: 0 0 1rem;
-  color: #151616;
+  color: var(--color-text);
   font-size: 1.15rem;
   font-weight: 700;
 }
 
 .table-card {
-  background: #1e293b;
-  border: 1px solid #334155;
+  background: var(--color-panel);
+  border: 1px solid var(--color-panel-border);
   border-radius: 10px;
   overflow: hidden;
 }
@@ -117,8 +117,8 @@ h2 {
   td {
     text-align: left;
     padding: 0.75rem 1rem;
-    border-bottom: 1px solid #334155;
-    color: #e2e8f0;
+    border-bottom: 1px solid var(--color-panel-border);
+    color: var(--color-panel-text);
   }
 
   th {
@@ -126,8 +126,8 @@ h2 {
     font-weight: 700;
     letter-spacing: 0.04em;
     text-transform: uppercase;
-    color: #94a3b8;
-    background: #0f172a;
+    color: var(--color-panel-text-muted);
+    background: var(--color-panel-deep);
   }
 
   td {
@@ -135,7 +135,7 @@ h2 {
   }
 
   tr.mat-mdc-row:hover {
-    background: #263449;
+    background: var(--color-panel-raised);
   }
 
   tr.mat-mdc-row:last-child td {
@@ -156,9 +156,9 @@ h2 {
 }
 
 ::ng-deep .mat-mdc-paginator {
-  background: #0f172a;
-  color: #94a3b8;
-  border-top: 1px solid #334155;
+  background: var(--color-panel-deep);
+  color: var(--color-panel-text-muted);
+  border-top: 1px solid var(--color-panel-border);
 }
 
 .back-link {
@@ -167,13 +167,13 @@ h2 {
   margin-top: 1.25rem;
   padding: 0.45rem 0.8rem;
 
-  color:#e2e8f0;
+  color:var(--color-panel-text);
   background: var(--color-success);
   font-size: 0.85rem;
   font-weight: 600;
   text-decoration: none;
 
-  border: 1px solid #334155;
+  border: 1px solid var(--color-panel-border);
   border-radius: 6px;
 
   transition:
@@ -184,7 +184,7 @@ h2 {
 
 .back-link:hover {
   background:var(--color-success-hover);
-  border-color: #475569;
+  border-color: var(--color-panel-border-strong);
 }
 
 @media (max-width: 768px) {

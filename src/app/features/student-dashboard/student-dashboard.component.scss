@@ -2,8 +2,8 @@
 .dashboard {
   padding: 1.5rem;
   border-radius: 8px;
-  background: #1e293b;
-  color: #e2e8f0;
+  background: var(--color-panel);
+  color: var(--color-panel-text);
 
   h1 {
     font-size: 1.75rem;
@@ -13,11 +13,11 @@
 
   p {
     font-size: 0.95rem;
-    color: #94a3b8;
+    color: var(--color-panel-text-muted);
     margin: 0.25rem 0;
 
     &.eligible {
-      color: #4ade80;
+      color: var(--color-success-on-dark);
       font-weight: 700;
     }
   }
@@ -40,8 +40,8 @@
     }
 
     &:disabled {
-      background: #334155;
-      color: #64748b;
+      background: var(--color-panel-border);
+      color: var(--color-panel-disabled-text);
       cursor: not-allowed;
     }
   }
@@ -53,7 +53,7 @@ h2 {
   padding: 0 1.5rem;
   font-size: 1.25rem;
   font-weight: 700;
-  color:  #151616;
+  color:  var(--color-text);
 }
 
 
@@ -62,7 +62,7 @@ h2 {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #94a3b8;
+  color: var(--color-panel-text-muted);
   font-size: 1rem;
 }
 
@@ -72,10 +72,10 @@ h2 {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #1e293b;
-  border: 2px dashed #334155;
+  background: var(--color-panel);
+  border: 2px dashed var(--color-panel-border);
   border-radius: 8px;
-  color: #64748b;
+  color: var(--color-panel-text-subtle);
   font-size: 1rem;
   text-align: center;
   padding: 0 1.5rem;
@@ -96,7 +96,7 @@ h2 {
   }
 
   p {
-    color: #64748b;
+    color: var(--color-panel-text-subtle);
     font-size: 0.95rem;
     grid-column: 1 / -1;
   }
@@ -106,10 +106,10 @@ h2 {
 .selection-hint {
   margin-top: 1.5rem;
   padding: 1rem 1.5rem;
-  color: #94a3b8;
+  color: var(--color-panel-text-muted);
   font-size: 0.9rem;
 
   strong {
-    color: #e2e8f0;
+    color: var(--color-panel-text);
   }
 }
