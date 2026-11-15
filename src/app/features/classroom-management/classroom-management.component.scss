@@ -1,0 +1,23 @@
+.page { max-width: 900px; margin: 1.5rem auto; padding: 0 1rem; }
+
+.create-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: flex-end;
+  margin-bottom: 1rem;
+
+  label { display: flex; flex-direction: column; gap: 0.25rem; font-weight: 600; }
+  input { padding: 0.4rem; }
+}
+
+.field-error, .error { color: #b00020; }
+.empty { color: #666; }
+
+.rooms {
+  width: 100%;
+  border-collapse: collapse;
+
+  th, td { text-align: left; padding: 0.5rem; border-bottom: 1px solid #ddd; }
+  tr.inactive td { color: #888; }
+}

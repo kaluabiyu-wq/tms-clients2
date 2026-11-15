@@ -1,0 +1,69 @@
+<section class="page">
+  <h1>Classrooms</h1>
+
+  <form class="create-form" [formGroup]="form" (ngSubmit)="create()">
+    <label>
+      Name
+      <input type="text" formControlName="name" />
+      @if (form.controls.name.touched && form.controls.name.invalid) {
+        <small class="field-error">Name is required (max 100 characters).</small>
+      }
+    </label>
+
+    <label>
+      Location
+      <input type="text" formControlName="location" />
+    </label>
+
+    <label>
+      Capacity
+      <input type="number" formControlName="capacity" />
+      @if (form.controls.capacity.touched && form.controls.capacity.invalid) {
+        <small class="field-error">Capacity must be between 1 and 1000.</small>
+      }
+    </label>
+
+    <button type="submit" [disabled]="isSaving()">
+      {{ isSaving() ? 'Saving…' : 'Add classroom' }}
+    </button>
+  </form>
+
+  @if (error()) {
+    <p class="error" role="alert">{{ error() }}</p>
+  }
+
+  @if (isLoading()) {
+    <p>Loading…</p>
+  } @else if (classrooms().length === 0) {
+    <p class="empty">No classrooms yet. Add the first one above.</p>
+  } @else {
+    <table class="rooms">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Location</th>
+          <th>Capacity</th>
+          <th>Status</th>
+          <th>Created</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (room of classrooms(); track room.id) {
+          <tr [class.inactive]="!room.isActive">
+            <td>{{ room.name }}</td>
+            <td>{{ room.location }}</td>
+            <td>{{ room.capacity }}</td>
+            <td>{{ room.isActive ? 'Active' : 'Inactive' }}</td>
+            <td>{{ room.createdAt | date: 'mediumDate' }}</td>
+            <td>
+              <button type="button" (click)="toggleActive(room)" [disabled]="togglingId() === room.id">
+                {{ room.isActive ? 'Deactivate' : 'Activate' }}
+              </button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</section>

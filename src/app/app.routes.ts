@@ -78,5 +78,11 @@ export const routes: Routes = [
         canActivate: [roleGuard('Admin')]
     },
     
+    {
+        path: 'admin/classrooms',
+        loadComponent: () => import('./features/classroom-management/classroom-management.component')
+        .then(m => m.ClassroomManagementComponent),
+        canActivate: [roleGuard('Admin')]
+    },
       { path: '**', redirectTo: 'login' },
 ];
