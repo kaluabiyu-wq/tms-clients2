@@ -30,7 +30,9 @@
             (enrollClicked)="handleEnroll($event)"
             (deletedClicked)="handleDelete($event)"
             />
-
+            @if (!isAdmin()) {
+              <a [routerLink]="['/student/courses', course.id, 'assessments']">View assessments</a>
+            }
         }
         @empty {
             <p>No Courses are availanle this term.</p>

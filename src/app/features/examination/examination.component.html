@@ -1,0 +1,26 @@
+<section>
+  <a routerLink="/dashboard">← Dashboard</a><h1>Examination</h1>
+  @if (message()) { <p role="status">{{ message() }}</p> }
+  @if (assessment(); as a) {
+    <h2>{{ a.title }}</h2><p>{{ a.description }}</p>
+    <p>Duration: {{ a.durationMinutes }} minutes · Maximum score: {{ a.maxScore }}</p>
+    @if (attempt()?.status === 'InProgress') {
+      <form (ngSubmit)="saveAndSubmit()">
+        @for (q of a.questions; track q.id) {
+          <fieldset><legend>{{ q.sortOrder + 1 }}. {{ q.prompt }} ({{ q.points }} marks)</legend>
+            @if (q.questionType === 'MultipleChoice' || q.questionType === 'TrueFalse') {
+              @for (option of q.options ?? []; track option) {
+                <label><input type="radio" [name]="'q'+q.id" [value]="option"
+                  [checked]="answers()[q.id] === option" (change)="setAnswer(q.id,option)"> {{ option }}</label>
+              }
+            } @else {
+              <textarea [ngModel]="answers()[q.id] ?? ''" (ngModelChange)="setAnswer(q.id,$event)" [name]="'q'+q.id"
+                [rows]="q.questionType === 'Essay' ? 6 : 2"></textarea>
+            }
+          </fieldset>
+        }
+        <button type="submit" [disabled]="busy()">Save answers and submit</button>
+      </form>
+    }
+  }
+</section>

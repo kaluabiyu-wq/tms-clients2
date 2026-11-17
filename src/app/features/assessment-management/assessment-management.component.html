@@ -1,0 +1,33 @@
+<section class="assessment-page">
+  <a routerLink="/dashboard">← Dashboard</a>
+  <h1>Assessment management</h1>
+  <p>Course {{ courseId }} · Create assessments, add questions, then publish.</p>
+  @if (error()) { <p role="alert" class="error">{{ error() }}</p> }
+  <form (ngSubmit)="create()" #form="ngForm">
+    <h2>New assessment</h2>
+    <label>Title <input name="title" [(ngModel)]="draft.title" required maxlength="200"></label>
+    <label>Description <textarea name="description" [(ngModel)]="draft.description" maxlength="4000"></textarea></label>
+    <div class="fields">
+      <label>Maximum score <input type="number" name="maxScore" [(ngModel)]="draft.maxScore" min="0.01" required></label>
+      <label>Weight (%) <input type="number" name="weight" [(ngModel)]="draft.weight" min="0" max="100"></label>
+      <label>Duration (minutes) <input type="number" name="duration" [(ngModel)]="draft.durationMinutes" min="1" max="600"></label>
+      <label>Maximum attempts <input type="number" name="attempts" [(ngModel)]="draft.maxAttempts" min="1" max="20"></label>
+    </div>
+    <label>Opens at <input type="datetime-local" name="opens" [(ngModel)]="draft.opensAt"></label>
+    <label>Closes at <input type="datetime-local" name="closes" [(ngModel)]="draft.closesAt"></label>
+    <button type="submit" [disabled]="busy() || form.invalid">Create draft</button>
+  </form>
+  <h2>Assessments</h2>
+  @for (a of assessments(); track a.id) {
+    <article class="assessment-card">
+      <div><h3>{{ a.title }}</h3><p>{{ a.description }}</p>
+        <small>{{ a.status }} · {{ a.maxScore }} marks · {{ a.durationMinutes }} minutes · {{ a.maxAttempts }} attempt(s)</small>
+      </div>
+      <nav>
+        <a [routerLink]="['/courses', courseId, 'assessments', a.id, 'questions']">Manage questions</a>
+        <a [routerLink]="['/courses', courseId, 'assessments', a.id, 'submissions']">Submissions</a>
+        @if (a.status === 'Draft') { <button type="button" (click)="publish(a)">Publish</button> }
+      </nav>
+    </article>
+  } @empty { <p>No assessments created for this course.</p> }
+</section>

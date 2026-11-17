@@ -1,0 +1,25 @@
+<section><a [routerLink]="['/courses',courseId,'assessments']">← Assessments</a><h1>Assessment submissions</h1>
+  @if(error()) { <p role="alert">{{error()}}</p> }
+  @for(s of submissions(); track s.id) {
+    <article><h2>{{s.studentName}} · Attempt {{s.attemptNumber}}</h2>
+      <p>Submitted {{s.submittedAt | date:'medium'}} · {{s.gradingStatus}} · Score: {{s.score ?? 'Pending'}}</p>
+      @for(a of s.answers; track a.questionId) {
+        <div><strong>{{a.prompt}}</strong><p>Answer: {{a.answerText || 'No answer'}}</p>
+          <p>Correct answer: {{a.correctAnswer ?? 'Manual grading required'}}</p>
+          <small>{{a.awardedPoints ?? 'Pending'}} / {{a.points}} points</small>
+          @if (a.questionType === 'Essay' || a.awardedPoints === null) {
+            <label>Points awarded <input type="number" min="0" [max]="a.points"
+              [ngModel]="grades()[s.id]?.[a.questionId] ?? a.awardedPoints ?? 0"
+              (ngModelChange)="setGrade(s.id,a.questionId,+$event)"
+              [name]="'grade'+s.id+'-'+a.questionId"></label>
+          }
+        </div>
+      }
+      @if (s.gradingStatus !== 'Graded') {
+        <label>Feedback <textarea [ngModel]="feedback()[s.id] ?? s.feedback ?? ''"
+          (ngModelChange)="setFeedback(s.id,$event)" [name]="'feedback'+s.id"></textarea></label>
+        <button type="button" (click)="grade(s)">Save grading</button>
+      }
+    </article>
+  } @empty { <p>No submissions yet.</p> }
+</section>

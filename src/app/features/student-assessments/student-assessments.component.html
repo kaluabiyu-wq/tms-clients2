@@ -1,0 +1,12 @@
+<section>
+  <a routerLink="/dashboard">← Dashboard</a><h1>Available assessments</h1>
+  @if(error()) { <p role="alert">{{error()}}</p> }
+  @for(a of assessments(); track a.id) {
+    <article>
+      <h2>{{a.title}}</h2><p>{{a.description}}</p>
+      <p>{{a.maxScore}} marks · {{a.durationMinutes}} minutes · {{a.maxAttempts}} attempt(s)</p>
+      <p>Opens: {{a.opensAt ? (a.opensAt | date:'medium') : 'Now'}} · Closes: {{a.closesAt ? (a.closesAt | date:'medium') : 'No closing time'}}</p>
+      <a [routerLink]="['/assessments',a.id,'take']">Start / continue assessment</a>
+    </article>
+  } @empty { <p>No assessments are currently published for this course.</p> }
+</section>
