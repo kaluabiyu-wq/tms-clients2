@@ -1,0 +1,51 @@
+<section class="student-grades">
+  <h1>My Academic Results</h1>
+
+  @if (loading()) { <p>Loading your results...</p> }
+  @if (error()) { <p class="error">{{ error() }}</p> }
+
+  @for (result of grades(); track result.enrollmentId) {
+    <div class="course-card">
+      <h2>{{ result.courseTitle }}</h2>
+
+      <div class="final-grade">
+        <span>Final Grade</span>
+        @if (result.finalGrade != null) {
+          <strong>{{ result.finalGrade | number:'1.2-2' }}%</strong>
+          <span>{{ result.gradeLevel }}</span>
+        } @else {
+          <strong>Not published</strong>
+        }
+      </div>
+
+      <h3>Assessment Breakdown</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Assessment</th>
+            <th>Weight</th>
+            <th>Score</th>
+            <th>Weighted</th>
+            <th>Feedback</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (a of result.assessments; track a.assessmentId) {
+            <tr>
+              <td>{{ a.assessmentTitle }}</td>
+              <td>{{ a.weight }}%</td>
+              <td>
+                @if (a.score != null) { {{ a.score }}/{{ a.maxScore }} }
+                @else { Not yet published }
+              </td>
+              <td>{{ a.weightedScore != null ? (a.weightedScore | number:'1.2-2') : '—' }}</td>
+              <td>{{ a.feedback || '—' }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  } @empty {
+    @if (!loading() && !error()) { <p>You have no graded courses yet.</p> }
+  }
+</section>

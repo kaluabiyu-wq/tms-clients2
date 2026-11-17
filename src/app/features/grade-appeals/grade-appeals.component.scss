@@ -1,0 +1,17 @@
+.appeals-page { padding: 24px; display: flex; flex-direction: column; gap: 20px; }
+
+.appeal-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+  border-radius: 12px;
+  background: var(--color-panel);
+  border: 1px solid var(--color-panel-border);
+}
+
+.actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.filter { display: flex; align-items: center; gap: 8px; }
+
+.success { padding: 12px; }
+.error { color: var(--color-danger-on-dark); }
