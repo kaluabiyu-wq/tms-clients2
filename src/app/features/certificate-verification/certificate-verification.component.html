@@ -1,0 +1,27 @@
+<main class="verify-page">
+    <section class="verify-card">
+      <div class="brand">TMS · Certificate verification</div>
+      <h1>Verify a certificate</h1>
+      <p>Enter the verification code or open this page from the QR code printed on the certificate.</p>
+      <form (ngSubmit)="verify()">
+        <input name="code" [(ngModel)]="code" placeholder="Enter verification code" required>
+        <button [disabled]="loading() || !code.trim()">Verify certificate</button>
+      </form>
+
+      @if (result(); as r) {
+        <div class="result" [class.valid]="r.isValid" [class.invalid]="!r.isValid">
+          <div class="status">{{ r.isValid ? '✓ VALID CERTIFICATE' : '✕ ' + r.status.toUpperCase() }}</div>
+          <p>{{ r.message }}</p>
+          @if (r.serialNumber) {
+            <dl>
+              <dt>Certificate number</dt><dd>{{ r.serialNumber }}</dd>
+              <dt>Student</dt><dd>{{ r.studentName }}</dd>
+              <dt>Course</dt><dd>{{ r.courseName }}</dd>
+              <dt>Institution</dt><dd>{{ r.institutionName }}</dd>
+              <dt>Issue date</dt><dd>{{ r.issuedAt | date:'longDate' }}</dd>
+            </dl>
+          }
+        </div>
+      }
+    </section>
+  </main>

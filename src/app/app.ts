@@ -15,6 +15,7 @@ export class App {
 
   isLoggedIn = computed(() => !!this.auth.currentUser());
   isAdmin = computed(() => this.auth.currentUser()?.role === 'Admin');
+  isStudent = computed(() => this.auth.currentUser()?.role === 'Student');
   canTakeAttendance = computed(() => {
     const role = this.auth.currentUser()?.role;
     return role === 'Admin' || role === 'Instructor';

@@ -1,69 +1,32 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
-import {
-  CourseGradebook, StudentGrade, SaveGradeRequest, GradeRecord, GradeAppeal
-} from '../models/gradebook.model';
+import { CourseGradebook, StudentCourseGrade, GradeAppealRequest, ReviewGradeAppealRequest } from '../models/gradebook.model';
 
 @Injectable({ providedIn: 'root' })
 export class GradebookService {
-  private http = inject(HttpClient);
-  private readonly api = '/api/v2/gradebook';
+  private readonly http = inject(HttpClient);
+  private readonly baseUrl = '/api/v2/gradebook';
 
   getCourseGradebook(courseId: number): Observable<CourseGradebook> {
-    return this.http.get<CourseGradebook>(`${this.api}/course/${courseId}`);
+    return this.http.get<CourseGradebook>(`${this.baseUrl}/courses/${courseId}`);
   }
-
-  getMyGrades(): Observable<StudentGrade[]> {
-    return this.http.get<StudentGrade[]>(`${this.api}/me`);
+  publishAssessmentGrades(courseId: number, assessmentId: number): Observable<{ assessmentId: number; publishedCount: number }> {
+    return this.http.post<{ assessmentId: number; publishedCount: number }>(`${this.baseUrl}/courses/${courseId}/assessments/${assessmentId}/publish`, {});
   }
-
-  getStudentGrades(studentId: number): Observable<StudentGrade[]> {
-    return this.http.get<StudentGrade[]>(`${this.api}/student/${studentId}`);
+  calculateFinalGrades(courseId: number): Observable<{ updatedEnrollmentGrades: number; enrolledStudents: number; pendingIncomplete: number }> {
+    return this.http.post<{ updatedEnrollmentGrades: number; enrolledStudents: number; pendingIncomplete: number }>(`${this.baseUrl}/courses/${courseId}/calculate-final`, {});
   }
-
-  saveGrade(request: SaveGradeRequest): Observable<GradeRecord> {
-    return this.http.post<GradeRecord>(this.api, request);
+  getMyGrades(): Observable<StudentCourseGrade[]> {
+    return this.http.get<StudentCourseGrade[]>(`${this.baseUrl}/my-courses`);
   }
-
-  updateGrade(id: number, body: { score: number; feedback?: string }): Observable<GradeRecord> {
-    return this.http.put<GradeRecord>(`${this.api}/${id}`, body);
+  submitAppeal(gradeRecordId: number, request: GradeAppealRequest): Observable<unknown> {
+    return this.http.post(`${this.baseUrl}/records/${gradeRecordId}/appeals`, request);
   }
-
-  publishAssessmentGrade(id: number): Observable<void> {
-    return this.http.post<void>(`${this.api}/${id}/publish`, {});
+  getCourseAppeals(courseId: number): Observable<unknown[]> {
+    return this.http.get<unknown[]>(`${this.baseUrl}/courses/${courseId}/appeals`);
   }
-
-  correctGrade(
-    id: number,
-    body: { newScore: number; reason: string; appealId?: number | null }
-  ): Observable<GradeRecord> {
-    return this.http.post<GradeRecord>(`${this.api}/${id}/correct`, body);
-  }
-
-  publishFinalGrade(enrollmentId: number): Observable<{ enrollmentId: number; finalGrade: number }> {
-    return this.http.post<{ enrollmentId: number; finalGrade: number }>(
-      `${this.api}/enrollments/${enrollmentId}/publish`, {});
-  }
-
-  submitAppeal(enrollmentId: number, reason: string): Observable<{ id: number }> {
-    return this.http.post<{ id: number }>(
-      `${this.api}/enrollments/${enrollmentId}/appeals`, { reason });
-  }
-
-  getMyAppeals(): Observable<GradeAppeal[]> {
-    return this.http.get<GradeAppeal[]>(`${this.api}/appeals/mine`);
-  }
-
-  getAppeals(status?: string, courseId?: number): Observable<GradeAppeal[]> {
-    let params = new HttpParams();
-    if (status) params = params.set('status', status);
-    if (courseId) params = params.set('courseId', courseId);
-    return this.http.get<GradeAppeal[]>(`${this.api}/appeals`, { params });
-  }
-
-  reviewAppeal(id: number, body: { status: string; response?: string }): Observable<void> {
-    return this.http.put<void>(`${this.api}/appeals/${id}`, body);
+  reviewAppeal(appealId: number, request: ReviewGradeAppealRequest): Observable<unknown> {
+    return this.http.put(`${this.baseUrl}/appeals/${appealId}/review`, request);
   }
 }

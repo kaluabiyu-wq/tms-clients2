@@ -1,0 +1,35 @@
+
+  <main class="page">
+    <h1>Certificate templates</h1>
+    <p>Configure institution branding, authorized signature and eligibility rules.</p>
+    <section class="panel">
+      <h2>{{ editingId ? 'Edit template' : 'Create template' }}</h2>
+      <div class="grid">
+        <label>Template name<input [(ngModel)]="form.name"></label>
+        <label>Institution name<input [(ngModel)]="form.institutionName"></label>
+        <label>Logo file path<input [(ngModel)]="form.logoPath" placeholder="Private server path, optional"></label>
+        <label>Signature name<input [(ngModel)]="form.signatureName"></label>
+        <label>Signature title<input [(ngModel)]="form.signatureTitle"></label>
+        <label>Certificate title<input [(ngModel)]="form.certificateTitle"></label>
+        <label>Minimum final grade (0–100)<input type="number" min="0" max="100" [(ngModel)]="form.minimumFinalGrade"></label>
+        <label>Minimum attendance % (0–100)<input type="number" min="0" max="100" [(ngModel)]="form.minimumAttendancePercent"></label>
+      </div>
+      <label class="wide">Certificate body text<textarea [(ngModel)]="form.bodyText"></textarea></label>
+      <label class="check"><input type="checkbox" [(ngModel)]="form.requireCompletedEnrollment"> Require enrollment status Completed</label>
+      <label class="check"><input type="checkbox" [(ngModel)]="form.requireAllPublishedAssessments"> Require all published assessment grades</label>
+      <label class="check"><input type="checkbox" [(ngModel)]="form.isActive"> Active template</label>
+      <div class="buttons"><button (click)="save()">{{ editingId ? 'Save changes' : 'Create template' }}</button>
+        <button class="muted" (click)="reset()">Clear</button></div>
+      @if (message()) { <p role="status">{{ message() }}</p> }
+    </section>
+    <section class="panel">
+      <h2>Existing templates</h2>
+      @for (t of templates(); track t.id) {
+        <article class="item">
+          <div><strong>{{ t.name }}</strong><p>{{ t.institutionName }} · Min grade {{ t.minimumFinalGrade }}% · Attendance {{ t.minimumAttendancePercent }}%</p></div>
+          <button class="muted" (click)="edit(t)">Edit</button>
+        </article>
+      }
+      @if (!templates().length) { <p>No templates found.</p> }
+    </section>
+  </main>
