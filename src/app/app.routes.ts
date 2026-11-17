@@ -102,5 +102,30 @@ export const routes: Routes = [
         .then(m => m.StudentAttendanceComponent),
         canActivate: [roleGuard('Instructor')]
     },
-      { path: '**', redirectTo: 'login' },
+  
+    {
+        path: 'courses/:courseId/assessments',
+        loadComponent: () => import('./features/assessment-management/assessment-management.component')
+          .then(m => m.AssessmentManagementComponent),
+        canActivate: [roleGuard('Instructor')]
+    },
+    {
+        path: 'courses/:courseId/assessments/:assessmentId/questions',
+        loadComponent: () => import('./features/question-management/question-management.component')
+          .then(m => m.QuestionManagementComponent),
+        canActivate: [roleGuard('Instructor')]
+    },
+    {
+        path: 'courses/:courseId/assessments/:assessmentId/submissions',
+        loadComponent: () => import('./features/assessment-submissions/assessment-submissions.component')
+          .then(m => m.AssessmentSubmissionsComponent),
+        canActivate: [roleGuard('Instructor')]
+    },
+    {
+        path: 'assessments/:assessmentId/take',
+        loadComponent: () => import('./features/examination/examination.component')
+          .then(m => m.ExaminationComponent),
+        canActivate: [roleGuard('Student')]
+    },
+    { path: '**', redirectTo: 'login' },
 ];

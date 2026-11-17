@@ -1,0 +1,30 @@
+<section>
+  <a [routerLink]="['/courses',courseId,'assessments']">← Assessments</a>
+  <h1>Question management</h1>
+  @if (error()) { <p role="alert">{{ error() }}</p> }
+  @if (assessment(); as a) {
+    <h2>{{ a.title }}</h2><p>Status: {{ a.status }} · Maximum score: {{ a.maxScore }}</p>
+    <form (ngSubmit)="add()">
+      <label>Question <textarea [ngModel]="prompt()" (ngModelChange)="prompt.set($event)" name="prompt" required></textarea></label>
+      <label>Type
+        <select [ngModel]="type()" (ngModelChange)="type.set($event)" name="type">
+          <option value="MultipleChoice">Multiple choice</option><option value="TrueFalse">True / False</option>
+          <option value="ShortAnswer">Short answer</option><option value="Essay">Essay</option>
+        </select>
+      </label>
+      @if (type() === 'MultipleChoice') {
+        <label>Options (one per line)<textarea [ngModel]="options()" (ngModelChange)="options.set($event)" name="options"></textarea></label>
+      }
+      @if (type() !== 'Essay') {
+        <label>Correct answer <input [ngModel]="correctAnswer()" (ngModelChange)="correctAnswer.set($event)" name="correct" required></label>
+      }
+      <label>Points <input type="number" [ngModel]="points()" (ngModelChange)="points.set(+$event)" name="points" min="0.01" required></label>
+      <button type="submit" [disabled]="a.status !== 'Draft' || !prompt().trim()">Add question</button>
+    </form>
+    <h2>Questions ({{ a.questions?.length ?? 0 }})</h2>
+    @for (q of a.questions ?? []; track q.id) {
+      <article><strong>{{ q.sortOrder + 1 }}. {{ q.prompt }}</strong><p>{{ q.questionType }} · {{ q.points }} points</p></article>
+    }
+    @if (a.status === 'Draft') { <p>Publish only after the question points add up to {{ a.maxScore }}.</p> }
+  }
+</section>
