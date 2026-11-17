@@ -15,6 +15,10 @@ export class App {
 
   isLoggedIn = computed(() => !!this.auth.currentUser());
   isAdmin = computed(() => this.auth.currentUser()?.role === 'Admin');
+  canTakeAttendance = computed(() => {
+    const role = this.auth.currentUser()?.role;
+    return role === 'Admin' || role === 'Instructor';
+  });
 
   goTo(path: string) {
     this.router.navigate([path]);
