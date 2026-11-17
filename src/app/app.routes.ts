@@ -84,5 +84,23 @@ export const routes: Routes = [
         .then(m => m.ClassroomManagementComponent),
         canActivate: [roleGuard('Admin')]
     },
+    {
+        path: 'attendance/sessions',
+        loadComponent: () => import('./features/attendance/session-management/session-management.component')
+        .then(m => m.SessionManagementComponent),
+        canActivate: [roleGuard('Instructor')]
+    },
+    {
+        path: 'attendance/session/:sessionId',
+        loadComponent: () => import('./features/attendance/attendance-management/attendance-management.component')
+        .then(m => m.AttendanceManagementComponent),
+        canActivate: [roleGuard('Instructor')]
+    },
+    {
+        path: 'attendance/student/:studentId',
+        loadComponent: () => import('./features/attendance/student-attendance/student-attendance.component')
+        .then(m => m.StudentAttendanceComponent),
+        canActivate: [roleGuard('Instructor')]
+    },
       { path: '**', redirectTo: 'login' },
 ];

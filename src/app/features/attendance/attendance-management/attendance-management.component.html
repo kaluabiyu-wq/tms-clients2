@@ -1,0 +1,78 @@
+<section class="page">
+  <p><a routerLink="/attendance/sessions">← Back to sessions</a></p>
+
+  @if (session(); as s) {
+    <h1>{{ s.courseCode }}: {{ s.topic }}</h1>
+    <p class="meta">{{ s.startAt | date: 'medium' }} – {{ s.endAt | date: 'shortTime' }}</p>
+  } @else {
+    <h1>Attendance</h1>
+  }
+
+  @if (error()) {
+    <p class="error" role="alert">{{ error() }}</p>
+  }
+  @if (savedMessage()) {
+    <p class="success" role="status">{{ savedMessage() }}</p>
+  }
+
+  @if (isLoading()) {
+    <p>Loading…</p>
+  } @else if (rows.length === 0) {
+    <p class="empty">No approved students are enrolled in this course yet.</p>
+  } @else {
+    <div class="bulk">
+      <span>Mark everyone:</span>
+      <button type="button" (click)="setAll('Present')">Present</button>
+      <button type="button" (click)="setAll('Absent')">Absent</button>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="save()">
+      <table class="data">
+        <thead>
+          <tr>
+            <th>Reg. no.</th>
+            <th>Student</th>
+            <th>Status</th>
+            <th>Remarks</th>
+            <th>Course attendance</th>
+          </tr>
+        </thead>
+        <tbody formArrayName="rows">
+          @for (row of rows.controls; track row.controls.studentId.value; let i = $index) {
+            <tr [formGroupName]="i">
+              <td>{{ row.controls.registrationNumber.value }}</td>
+              <td>{{ row.controls.studentName.value }}</td>
+              <td>
+                <select
+                  formControlName="status"
+                  [attr.aria-label]="'Status for ' + row.controls.studentName.value"
+                  (change)="refreshMarkedCount()"
+                >
+                  <option value="">Not marked</option>
+                  @for (st of statuses; track st) {
+                    <option [value]="st">{{ st }}</option>
+                  }
+                </select>
+              </td>
+              <td>
+                <input
+                  type="text"
+                  formControlName="remarks"
+                  maxlength="500"
+                  [attr.aria-label]="'Remarks for ' + row.controls.studentName.value"
+                />
+              </td>
+              <td>
+                {{ row.controls.coursePercentage.value === null ? '—' : row.controls.coursePercentage.value + '%' }}
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+
+      <button type="submit" [disabled]="!canSave()">
+        {{ isSaving() ? 'Saving…' : 'Save attendance' }}
+      </button>
+    </form>
+  }
+</section>

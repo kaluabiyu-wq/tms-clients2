@@ -1,0 +1,14 @@
+.page { max-width: 1000px; margin: 1.5rem auto; padding: 0 1rem; }
+.error { color: #b00020; }
+.empty { color: #555; }
+.summary { margin-bottom: 1rem; }
+
+.data {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+
+  th, td { text-align: left; padding: 0.5rem; border-bottom: 1px solid #ddd; }
+}
+
+.pager { display: flex; gap: 1rem; align-items: center; }

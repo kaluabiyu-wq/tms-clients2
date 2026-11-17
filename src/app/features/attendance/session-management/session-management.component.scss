@@ -1,0 +1,25 @@
+.page { max-width: 1000px; margin: 1.5rem auto; padding: 0 1rem; }
+
+.course-picker { display: flex; flex-direction: column; gap: 0.25rem; font-weight: 600; max-width: 28rem; margin-bottom: 1rem; }
+select, input { padding: 0.4rem; }
+
+.create-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: flex-end;
+  margin-bottom: 1rem;
+
+  label { display: flex; flex-direction: column; gap: 0.25rem; font-weight: 600; }
+}
+
+.field-error, .error { color: #b00020; }
+.empty, .note { color: #555; }
+
+.data {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1.5rem;
+
+  th, td { text-align: left; padding: 0.5rem; border-bottom: 1px solid #ddd; }
+}

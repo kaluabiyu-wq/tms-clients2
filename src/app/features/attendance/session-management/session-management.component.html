@@ -1,0 +1,114 @@
+<section class="page">
+  <h1>Training sessions</h1>
+
+  <label class="course-picker">
+    Course
+    <select #picker (change)="selectCourse(picker.value)" [disabled]="isLoadingCourses()">
+      <option value="">{{ isLoadingCourses() ? 'Loading courses…' : 'Select a course' }}</option>
+      @for (course of courses(); track course.id) {
+        <option [value]="course.id">{{ course.code }} — {{ course.title }}</option>
+      }
+    </select>
+  </label>
+
+  @if (error()) {
+    <p class="error" role="alert">{{ error() }}</p>
+  }
+
+  @if (courseId() !== null) {
+    <h2>New session</h2>
+    <form class="create-form" [formGroup]="form" (ngSubmit)="createSession()">
+      <label>
+        Topic
+        <input type="text" formControlName="topic" />
+        @if (form.controls.topic.touched && form.controls.topic.invalid) {
+          <small class="field-error">Topic is required (max 200 characters).</small>
+        }
+      </label>
+
+      <label>
+        Starts
+        <input type="datetime-local" formControlName="startAt" />
+      </label>
+
+      <label>
+        Ends
+        <input type="datetime-local" formControlName="endAt" />
+      </label>
+
+      <button type="submit" [disabled]="isSaving()">{{ isSaving() ? 'Saving…' : 'Add session' }}</button>
+    </form>
+    @if (form.touched && form.hasError('endBeforeStart')) {
+      <p class="field-error" role="alert">The session must end after it starts.</p>
+    }
+
+    <h2>Sessions</h2>
+    @if (isLoadingCourse()) {
+      <p>Loading…</p>
+    } @else if (sessions().length === 0) {
+      <p class="empty">No sessions yet for this course. Add the first one above.</p>
+    } @else {
+      <table class="data">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Topic</th>
+            <th>Recorded</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (s of sessions(); track s.id) {
+            <tr>
+              <td>{{ s.startAt | date: 'medium' }}</td>
+              <td>{{ s.topic }}</td>
+              <td>{{ s.recordedCount }} / {{ s.enrolledCount }}</td>
+              <td><a [routerLink]="['/attendance/session', s.id]">Take attendance</a></td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+
+    @if (summary(); as sum) {
+      <h2>Attendance summary</h2>
+      <p>
+        {{ sum.sessionsHeld }} session(s) held. Course average:
+        <strong>{{ sum.overall.percentage === null ? '—' : sum.overall.percentage + '%' }}</strong>
+      </p>
+      <table class="data">
+        <thead>
+          <tr>
+            <th>Reg. no.</th>
+            <th>Student</th>
+            <th>Present</th>
+            <th>Late</th>
+            <th>Absent</th>
+            <th>Excused</th>
+            <th>Attendance</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of sum.students; track row.studentId) {
+            <tr>
+              <td>{{ row.registrationNumber }}</td>
+              <td>
+                <a [routerLink]="['/attendance/student', row.studentId]" [queryParams]="{ courseId: courseId() }">
+                  {{ row.studentName }}
+                </a>
+              </td>
+              <td>{{ row.summary.present }}</td>
+              <td>{{ row.summary.late }}</td>
+              <td>{{ row.summary.absent }}</td>
+              <td>{{ row.summary.excused }}</td>
+              <td>{{ row.summary.percentage === null ? '—' : row.summary.percentage + '%' }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+      <p class="note">
+        Late counts as attended. Excused sessions are left out of the percentage. Sessions not yet recorded are ignored.
+      </p>
+    }
+  }
+</section>
