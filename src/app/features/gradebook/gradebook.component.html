@@ -1,0 +1,98 @@
+<section class="gradebook-page">
+  <header class="page-header">
+    <div>
+      <h1>Course Gradebook</h1>
+      <p>Enter marks, publish assessment grades and final course grades.</p>
+    </div>
+    <button type="button" (click)="load()">Refresh</button>
+  </header>
+
+  @if (loading()) { <p>Loading gradebook...</p> }
+  @if (error()) { <div class="error">{{ error() }}</div> }
+  @if (message()) { <div class="success">{{ message() }}</div> }
+
+  @if (gradebook(); as book) {
+    <div class="summary-card">
+      <h2>{{ book.courseTitle }}</h2>
+      <p>Students: {{ book.students.length }}</p>
+      <p>
+        Total assessment weight: {{ book.totalWeight }}%
+        @if (!book.weightsValid) {
+          <strong class="error"> — must equal 100% before final grades can be published.</strong>
+        }
+      </p>
+    </div>
+
+    @for (student of book.students; track student.enrollmentId) {
+      <div class="student-card">
+        <div class="student-head">
+          <h3>{{ student.studentName }}</h3>
+          <div>
+            @if (student.finalGrade != null) {
+              <strong>Published: {{ student.finalGrade | number:'1.2-2' }}%</strong>
+              <span class="level">({{ student.gradeLevel }})</span>
+            } @else if (student.calculatedGrade != null) {
+              <span>Calculated (draft): {{ student.calculatedGrade | number:'1.2-2' }}%</span>
+            } @else {
+              <span class="missing">Incomplete — missing grades</span>
+            }
+          </div>
+          <button
+            type="button"
+            [disabled]="student.finalGrade != null || student.calculatedGrade == null"
+            (click)="publishFinal(student)">
+            Publish final grade
+          </button>
+        </div>
+
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Assessment</th>
+                <th>Weight</th>
+                <th>Current</th>
+                <th>Weighted</th>
+                <th>Status</th>
+                <th>Enter / change mark</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (a of student.assessments; track a.assessmentId) {
+                <tr>
+                  <td>{{ a.assessmentTitle }}</td>
+                  <td>{{ a.weight }}%</td>
+                  <td>
+                    @if (a.score != null) { {{ a.score }}/{{ a.maxScore }} }
+                    @else { <span class="missing">Missing</span> }
+                  </td>
+                  <td>{{ a.weightedScore != null ? (a.weightedScore | number:'1.2-2') : '—' }}</td>
+                  <td>{{ a.gradeRecordId == null ? '—' : (a.isPublished ? 'Published' : 'Draft') }}</td>
+                  <td>
+                    @if (student.finalGrade == null && !a.isPublished) {
+                      <input type="number" min="0" [max]="a.maxScore" step="0.01"
+                             placeholder="0–{{ a.maxScore }}"
+                             [(ngModel)]="scores[key(student, a)]" />
+                      <input type="text" placeholder="Comment (needed if differs from submission)"
+                             [(ngModel)]="comments[key(student, a)]" />
+                      <button type="button" (click)="save(student, a)">Save</button>
+                    }
+                  </td>
+                  <td>
+                    @if (a.gradeRecordId != null && !a.isPublished) {
+                      <button type="button" (click)="publishAssessment(a)">Publish</button>
+                    }
+                    @if (a.isPublished) {
+                      <button type="button" (click)="correct(a)">Correct</button>
+                    }
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    }
+  }
+</section>

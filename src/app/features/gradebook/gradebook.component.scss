@@ -1,0 +1,26 @@
+.gradebook-page { padding: 24px; display: flex; flex-direction: column; gap: 24px; }
+
+.page-header { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+.page-header h1 { font-size: 26px; font-weight: 700; }
+.page-header p { color: var(--color-panel-text-muted); }
+
+.summary-card, .student-card {
+  padding: 20px;
+  border-radius: 12px;
+  background: var(--color-panel);
+  border: 1px solid var(--color-panel-border);
+}
+
+.student-head { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 12px; }
+.level { margin-left: 6px; color: var(--color-panel-text-muted); }
+
+.table-wrapper { width: 100%; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; }
+th, td { padding: 12px; text-align: left; border-bottom: 1px solid var(--color-panel-border); vertical-align: top; }
+th { font-weight: 600; white-space: nowrap; }
+
+td input { display: block; margin-bottom: 6px; max-width: 220px; }
+
+.missing { color: var(--color-danger-on-dark); }
+.error { color: var(--color-danger-on-dark); padding: 12px; }
+.success { padding: 12px; }
