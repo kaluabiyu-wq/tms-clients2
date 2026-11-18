@@ -4,7 +4,15 @@
       <button (click)="goTo('/dashboard')" class="nav-btn">Dashboard</button>
       <button (click)="goTo('/enroll')" class="nav-btn">Enrollment Form</button>
 
-       @if (isAdmin()) {
+       @if (canManagePrograms()) {
+        <button (click)="goTo('/admin/programs')" class="nav-btn">Training Programs</button>
+      }
+
+      @if (isStudent()) {
+        <button (click)="goTo('/my-progress')" class="nav-btn">My Progress</button>
+      }
+
+      @if (isAdmin()) {
         <button (click)="goTo('/enrollments')" class="nav-btn">Enrollments</button>
         <button (click)="goTo('/instructor-dashboard')" class="nav-btn">Instructor</button>
         <button (click)="goTo('/grade-submission')" class="nav-btn">Grade</button>
@@ -17,6 +25,9 @@
         <button (click)="goTo('/attendance/sessions')" class="nav-btn">Attendance</button>
       }
 
+      @if (canViewReports()) { <button (click)="goTo('/admin/reports')" class="nav-btn">Reports & Analytics</button> }
+      <button (click)="goTo('/notifications')" class="nav-btn">Notifications</button>
+      <app-notification-bell />
       <button (click)="logout()" class="nav-btn">Logout</button>
     </div>
   </nav>

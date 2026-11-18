@@ -1,0 +1,30 @@
+<div class="notification-host">
+  <button class="bell-button" type="button" aria-label="Notifications" [attr.aria-expanded]="open()" (click)="toggle()">
+    <span class="bell-icon">♢</span>
+    @if (notifications.unreadCount() > 0) { <span class="count">{{ notifications.unreadCount() > 99 ? '99+' : notifications.unreadCount() }}</span> }
+  </button>
+
+  @if (open()) {
+    <section class="notification-panel" aria-label="Notification center">
+      <header class="panel-header">
+        <div><h3>Notifications</h3><small>{{ notifications.unreadCount() }} unread</small></div>
+        <button type="button" class="text-button" (click)="markAllRead()" [disabled]="notifications.unreadCount() === 0">Mark all read</button>
+      </header>
+      @if (loading()) { <p class="state">Loading notifications…</p> }
+      @else if (error()) { <p class="state error">{{ error() }}</p><button class="text-button" (click)="load()">Retry</button> }
+      @else if (notifications.latest().length === 0) { <p class="state">You’re all caught up.</p> }
+      @else {
+        <div class="notification-list">
+          @for (item of notifications.latest(); track item.id) {
+            <article class="notification-item" [class.unread]="!item.isRead" (click)="markRead(item)">
+              <span class="type-dot" [class.warning]="item.type === 'Warning'" [class.success]="item.type === 'Success'"></span>
+              <div class="item-content"><strong>{{ item.title }}</strong><p>{{ item.message }}</p><time>{{ item.createdAt | date:'short' }}</time></div>
+              <button type="button" class="remove-button" aria-label="Delete notification" (click)="remove(item, $event)">×</button>
+            </article>
+          }
+        </div>
+      }
+      <footer><button type="button" class="text-button" (click)="goToAll()">View all</button><button type="button" class="text-button" (click)="goToPreferences()">Preferences</button></footer>
+    </section>
+  }
+</div>

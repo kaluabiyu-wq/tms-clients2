@@ -8,6 +8,7 @@ import {
 import { Subject } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { AuthService } from './auth.service';
+import { NotificationRealtimeMessage } from '../models/notification.model';
 
 export interface TranscriptReadyEvent {
   reportId: string;
@@ -26,10 +27,21 @@ export class SignalRService {
   private transcriptReadySubject =
     new Subject<TranscriptReadyEvent>();
 
+  private notificationSubject = new Subject<NotificationRealtimeMessage>();
+  readonly notification$ = this.notificationSubject.asObservable();
+
   readonly transcriptReady$ =
     this.transcriptReadySubject.asObservable();
 
   async start(studentId: number): Promise<void> {
+    await this.connect(`${environment.hubUrl}?studentId=${studentId}`);
+  }
+
+  async startAuthenticated(): Promise<void> {
+    await this.connect(environment.hubUrl);
+  }
+
+  private async connect(url: string): Promise<void> {
 
     if (
       this.connection?.state === HubConnectionState.Connected ||
@@ -39,7 +51,7 @@ export class SignalRService {
     }
 
     this.connection = new HubConnectionBuilder()
-      .withUrl(`${environment.hubUrl}?studentId=${studentId}`, {
+      .withUrl(url, {
         accessTokenFactory: () => this.auth.getAccessToken() ?? ''
       })
       .withAutomaticReconnect([0, 2000, 10000, 30000])
@@ -67,6 +79,10 @@ export class SignalRService {
       );
     });
 
+    this.connection.on('ReceiveNotification', (notification: NotificationRealtimeMessage) => {
+      this.notificationSubject.next(notification);
+    });
+
     this.connection.on(
       'ReceiveTranscriptReady',
       (reportId: string, downloadUrl: string) => {
@@ -87,7 +103,7 @@ export class SignalRService {
     await this.connection.start();
 
     console.info(
-      `Connected to TMS SignalR for student ${studentId}`
+      `Connected to TMS SignalR`
     );
   }
 

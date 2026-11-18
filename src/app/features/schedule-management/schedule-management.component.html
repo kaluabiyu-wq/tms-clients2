@@ -1,0 +1,42 @@
+<section class="page">
+  <header class="page-header">
+    <div><h1>Course schedule management</h1><p>Create dated class bookings and review this week's timetable.</p></div>
+    <button type="button" (click)="load()" [disabled]="loading()">Refresh</button>
+  </header>
+
+  <form class="schedule-form" [formGroup]="form" (ngSubmit)="create()">
+    <label>Course ID<input type="number" min="1" formControlName="courseId"></label>
+    <label>Assigned instructor user ID<input type="text" formControlName="instructorId" placeholder="Identity user ID"></label>
+    <label>Classroom ID<input type="number" min="1" formControlName="classroomId"></label>
+    <label>Start date and time<input type="datetime-local" formControlName="startAt"></label>
+    <label>End date and time<input type="datetime-local" formControlName="endAt"></label>
+    <label>Topic (optional)<input type="text" maxlength="300" formControlName="topic"></label>
+    <button type="submit" [disabled]="saving()">{{ saving() ? 'Saving…' : 'Create schedule' }}</button>
+  </form>
+
+  <p class="hint">Use the numeric course/classroom IDs and the instructor's Identity user ID. The API verifies course assignment, room capacity and booking conflicts. Browser times are converted to UTC automatically.</p>
+  @if (error()) { <p class="error" role="alert">{{ error() }}</p> }
+  @if (loading()) { <p>Loading timetable…</p> }
+  @else if (!schedules().length) { <p class="empty">No scheduled classes found for this week.</p> }
+  @else {
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Course</th><th>Instructor</th><th>Classroom</th><th>Start</th><th>End</th><th>Topic</th><th>Status</th><th></th></tr></thead>
+        <tbody>
+          @for (s of schedules(); track s.id) {
+            <tr [class.cancelled]="s.isCancelled">
+              <td>{{ s.courseCode }} — {{ s.courseTitle }}</td>
+              <td>{{ s.instructorName }}</td>
+              <td>{{ s.classroomName }} <small>{{ s.classroomLocation }}</small></td>
+              <td>{{ s.startAt | date:'medium' }}</td>
+              <td>{{ s.endAt | date:'shortTime' }}</td>
+              <td>{{ s.topic || '—' }}</td>
+              <td>{{ s.isCancelled ? 'Cancelled' : 'Scheduled' }}</td>
+              <td>@if (!s.isCancelled) { <button type="button" class="danger" (click)="cancel(s)">Cancel</button> }</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</section>

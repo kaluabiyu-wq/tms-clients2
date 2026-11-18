@@ -54,6 +54,11 @@ ng e2e
 
 Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
 
+
+## Application color system
+
+The TMS uses a professional blue-and-amber palette with a light slate workspace. The global design tokens are centralized in `src/styles.scss` and documented in [`COLOR_PALETTE.md`](./COLOR_PALETTE.md). Use the shared CSS variables in feature styles so dashboards, forms, tables, reports, notifications, and student progression screens remain visually consistent.
+
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.

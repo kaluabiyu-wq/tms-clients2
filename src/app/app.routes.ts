@@ -160,5 +160,62 @@ export const routes: Routes = [
         loadComponent: () => import('./features/audit-logs/audit-logs.component').then(m => m.AuditLogsComponent),
         canActivate: [roleGuard(['Admin', 'SuperAdmin', 'Auditor'])]
     },
+    {
+        path: 'notifications',
+        loadComponent: () => import('./features/notification-center/notification-center.component').then(m => m.NotificationCenterComponent),
+        canActivate: [roleGuard(['Admin', 'Student', 'Instructor', 'Registrar', 'SuperAdmin', 'Auditor'])]
+    },
+    {
+        path: 'notifications/preferences',
+        loadComponent: () => import('./features/notification-preferences/notification-preferences.component').then(m => m.NotificationPreferencesComponent),
+        canActivate: [roleGuard(['Admin', 'Student', 'Instructor', 'Registrar', 'SuperAdmin', 'Auditor'])]
+    },
+    {
+        path: 'admin/reports',
+        loadComponent: () => import('./features/institutional-reports/institutional-reports.component').then(m => m.InstitutionalReportsComponent),
+        canActivate: [roleGuard(['Admin', 'SuperAdmin', 'Registrar', 'Auditor'])]
+    },
+    {
+        path: 'admin/programs',
+        loadComponent: () => import('./features/program-management/program-management.component').then(m => m.ProgramManagementComponent),
+        canActivate: [roleGuard(['Admin', 'SuperAdmin'])]
+    },
+    {
+        path: 'admin/programs/:id/courses',
+        loadComponent: () => import('./features/program-course-management/program-course-management.component').then(m => m.ProgramCourseManagementComponent),
+        canActivate: [roleGuard(['Admin', 'SuperAdmin'])]
+    },
+    {
+        path: 'admin/programs/:id/enroll',
+        loadComponent: () => import('./features/student-program-enrollment/student-program-enrollment.component').then(m => m.StudentProgramEnrollmentComponent),
+        canActivate: [roleGuard(['Admin', 'SuperAdmin', 'Registrar'])]
+    },
+    {
+        path: 'admin/programs/:id/progress',
+        loadComponent: () => import('./features/student-progress/student-progress.component').then(m => m.StudentProgressComponent),
+        canActivate: [roleGuard(['Admin', 'SuperAdmin', 'Registrar', 'Auditor'])]
+    },
+    {
+        path: 'admin/students/:studentId/progress',
+        loadComponent: () => import('./features/student-progress/student-progress.component').then(m => m.StudentProgressComponent),
+        canActivate: [roleGuard(['Admin', 'SuperAdmin', 'Registrar', 'Auditor'])]
+    },
+    {
+        path: 'my-progress',
+        loadComponent: () => import('./features/student-progress/student-progress.component').then(m => m.StudentProgressComponent),
+        canActivate: [roleGuard('Student')]
+    },
+    {
+        path: 'admin/schedules',
+        loadComponent: () => import('./features/schedule-management/schedule-management.component')
+          .then(m => m.ScheduleManagementComponent),
+        canActivate: [roleGuard('Admin')]
+    },
+    {
+        path: 'instructor/timetable',
+        loadComponent: () => import('./features/instructor-timetable/instructor-timetable.component')
+          .then(m => m.InstructorTimetableComponent),
+        canActivate: [roleGuard('Instructor')]
+    },
     { path: '**', redirectTo: 'login' },
 ];
