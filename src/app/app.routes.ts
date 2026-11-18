@@ -160,5 +160,15 @@ export const routes: Routes = [
         loadComponent: () => import('./features/audit-logs/audit-logs.component').then(m => m.AuditLogsComponent),
         canActivate: [roleGuard(['Admin', 'SuperAdmin', 'Auditor'])]
     },
+    {
+        path: 'notifications',
+        loadComponent: () => import('./features/notification-center/notification-center.component').then(m => m.NotificationCenterComponent),
+        canActivate: [roleGuard(['Admin', 'Student', 'Instructor', 'Registrar', 'SuperAdmin', 'Auditor'])]
+    },
+    {
+        path: 'notifications/preferences',
+        loadComponent: () => import('./features/notification-preferences/notification-preferences.component').then(m => m.NotificationPreferencesComponent),
+        canActivate: [roleGuard(['Admin', 'Student', 'Instructor', 'Registrar', 'SuperAdmin', 'Auditor'])]
+    },
     { path: '**', redirectTo: 'login' },
 ];

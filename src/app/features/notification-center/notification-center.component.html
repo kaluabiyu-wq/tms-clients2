@@ -1,0 +1,8 @@
+<main class="page">
+  <header><div><h1>Notification center</h1><p>Updates about your courses, enrollments and academic activities.</p></div><button class="primary" (click)="markAll()" [disabled]="service.unreadCount()===0">Mark all as read</button></header>
+  <nav class="filters"><button [class.active]="!unreadOnly()" (click)="filter(false)">All</button><button [class.active]="unreadOnly()" (click)="filter(true)">Unread</button></nav>
+  @if(loading()){<p class="empty">Loading…</p>} @else if(error()){<p class="error">{{error()}}</p><button (click)="load()">Retry</button>} @else if(items().length===0){<p class="empty">No notifications found.</p>} @else {
+    <section class="list">@for(item of items();track item.id){<article [class.unread]="!item.isRead"><div class="content" (click)="markRead(item)"><div class="title-line"><h3>{{item.title}}</h3><time>{{item.createdAt|date:'medium'}}</time></div><p>{{item.message}}</p><small>{{item.category}} · {{item.type}}</small></div><button class="delete" (click)="remove(item)">Delete</button></article>}</section>
+  }
+  <footer><button (click)="previous()" [disabled]="page()===1">Previous</button><span>Page {{page()}}</span><button (click)="next()" [disabled]="page()*20>=total()">Next</button></footer>
+</main>
