@@ -1,0 +1,25 @@
+<section class="audit-page">
+  <header><div><h1>Audit history</h1><p>Institutional activity recorded by the system</p></div><button type="button" (click)="exportCsv()">Export CSV</button></header>
+  <form class="filters" (ngSubmit)="search()">
+    <label>User ID<input name="userId" [(ngModel)]="filter.userId" placeholder="Identity user ID"></label>
+    <label>Action<input name="action" [(ngModel)]="filter.action" placeholder="e.g. GradeUpdated"></label>
+    <label>Entity<input name="entityName" [(ngModel)]="filter.entityName" placeholder="e.g. Enrollment"></label>
+    <label>From<input type="date" name="from" [(ngModel)]="filter.from"></label>
+    <label>To<input type="date" name="to" [(ngModel)]="filter.to"></label>
+    <div class="filter-actions"><button type="submit">Apply filters</button><button type="button" class="secondary" (click)="clear()">Clear</button></div>
+  </form>
+  <p class="error" *ngIf="error">{{ error }}</p>
+  <p *ngIf="loading">Loading audit history…</p>
+  <div class="table-wrap" *ngIf="!loading && result">
+    <table><thead><tr><th>Time (UTC)</th><th>User</th><th>Action</th><th>Entity</th><th>Entity ID</th><th>IP address</th><th></th></tr></thead>
+      <tbody><tr *ngFor="let item of result.items"><td>{{ item.timestamp | date:'medium':'UTC' }}</td><td>{{ item.userId }}</td><td>{{ item.action }}</td><td>{{ item.entityName }}</td><td>{{ item.entityId }}</td><td>{{ item.ipAddress || '—' }}</td><td><button class="link" type="button" (click)="selected = item">Details</button></td></tr>
+      <tr *ngIf="!result.items.length"><td colspan="7" class="empty">No audit records match these filters.</td></tr></tbody>
+    </table>
+    <footer><span>{{ result.total }} records · Page {{ result.page }} of {{ result.totalPages || 1 }}</span><div><button class="secondary" (click)="previous()" [disabled]="result.page <= 1">Previous</button><button class="secondary" (click)="next()" [disabled]="result.page >= result.totalPages">Next</button></div></footer>
+  </div>
+  <aside class="detail" *ngIf="selected"><div class="detail-head"><h2>{{ selected.action }} · {{ selected.entityName }} #{{ selected.entityId }}</h2><button class="secondary" (click)="selected = null">Close</button></div>
+    <p><b>Actor:</b> {{ selected.userId }} · <b>Timestamp:</b> {{ selected.timestamp | date:'medium':'UTC' }} UTC</p>
+    <p><b>Correlation ID:</b> {{ selected.correlationId || '—' }}</p>
+    <div class="values"><div><h3>Old values</h3><pre>{{ pretty(selected.oldValues) }}</pre></div><div><h3>New values</h3><pre>{{ pretty(selected.newValues) }}</pre></div></div>
+  </aside>
+</section>

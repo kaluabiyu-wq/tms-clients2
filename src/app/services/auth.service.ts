@@ -44,6 +44,11 @@ export class AuthService {
     return user?.role === role || user?.role === 'Admin';
   }
 
+  hasAnyRole(roles: string[]): boolean {
+    const userRole = this.currentUser()?.role;
+    return !!userRole && (userRole === 'Admin' || roles.includes(userRole));
+  }
+
   async login(credentials: LoginRequest): Promise<void> {
     const res = await firstValueFrom(
       this.http.post<AuthResponse>(`${environment.apiUrl}/auth/login`, credentials)
