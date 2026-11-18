@@ -1,0 +1,52 @@
+<main class="reports-page">
+  <header class="page-heading">
+    <div><p class="eyebrow">INSTITUTIONAL INTELLIGENCE</p><h1>Reports & analytics</h1><p>Monitor student outcomes, enrollment, teaching activity and institutional performance.</p></div>
+    <div class="heading-actions"><button type="button" class="secondary" (click)="applyFilters()">Refresh data</button></div>
+  </header>
+
+  <section class="filters panel">
+    <label>From <input type="date" [ngModel]="from()" (ngModelChange)="from.set($event)" /></label>
+    <label>To <input type="date" [ngModel]="to()" (ngModelChange)="to.set($event)" /></label>
+    <label class="pass-mark">Pass mark <input type="number" min="0" max="100" [ngModel]="passMark()" (ngModelChange)="passMark.set(+$event)" /></label>
+    <button type="button" class="primary" (click)="applyFilters()">Apply filters</button>
+  </section>
+
+  @if (summary(); as s) {
+    <section class="metric-grid">
+      <article class="metric-card"><span>Total students</span><strong>{{s.totalStudents | number}}</strong><small>{{s.activeStudents}} active · {{s.inactiveStudents}} inactive · {{s.graduatedStudents}} graduated</small></article>
+      <article class="metric-card"><span>Courses</span><strong>{{s.totalCourses | number}}</strong><small>Institutional course catalogue</small></article>
+      <article class="metric-card"><span>Approved enrollments</span><strong>{{s.approvedEnrollments | number}}</strong><small>{{s.pendingEnrollments}} pending · {{s.rejectedEnrollments}} rejected</small></article>
+      <article class="metric-card"><span>Attendance rate</span><strong>{{s.averageAttendancePercent | number:'1.1-1'}}%</strong><small>Present + Late; Excused excluded</small></article>
+      <article class="metric-card"><span>Average performance</span><strong>{{s.averagePerformancePercent | number:'1.1-1'}}%</strong><small>Published grades only</small></article>
+      <article class="metric-card"><span>Pass rate</span><strong>{{s.passRatePercent | number:'1.1-1'}}%</strong><small>Pass mark: {{passMark()}}%</small></article>
+      <article class="metric-card"><span>Certificates issued</span><strong>{{s.issuedCertificates | number}}</strong><small>{{s.revokedCertificates}} revoked</small></article>
+      <article class="metric-card"><span>Students completed</span><strong>{{s.completedStudents | number}}</strong><small>Students with issued certificates</small></article>
+    </section>
+    <section class="chart-grid">
+      <tms-analytics-chart [data]="[]" [metrics]="s.enrollmentDistribution" title="Enrollment status" />
+      <tms-analytics-chart [data]="[]" [metrics]="s.attendanceDistribution" title="Attendance distribution" />
+      <tms-analytics-chart [data]="[]" [metrics]="s.performanceByCourse" title="Average performance by course" />
+    </section>
+  }
+
+  <section class="report-workspace panel">
+    <div class="workspace-heading"><div><h2>Detailed reports</h2><p>Select a report to inspect the underlying institutional records.</p></div>
+      <div class="export-actions"><button type="button" class="secondary" [disabled]="exporting()" (click)="generate('pdf')">Export PDF</button><button type="button" class="primary" [disabled]="exporting()" (click)="generate('xlsx')">Export Excel</button></div>
+    </div>
+    <nav class="report-tabs" aria-label="Report types">
+      @for (item of types; track item.key) { <button type="button" [class.active]="selectedType()===item.key" (click)="select(item.key)">{{item.label}}</button> }
+    </nav>
+    <div class="report-filters"><label class="search">Search <input type="search" [ngModel]="search()" (ngModelChange)="search.set($event)" (keyup.enter)="applyFilters()" placeholder="Search report records" /></label><button type="button" class="secondary" (click)="applyFilters()">Search</button><span>{{result()?.total ?? 0}} records</span></div>
+    @if (error()) { <div class="error" role="alert">{{error()}}</div> }
+    @if (generated(); as file) { <div class="export-status">Report {{file.status.toLowerCase()}}. @if(file.status==='Completed'){<button type="button" class="text-button" (click)="download(file)">Download again</button>}</div> }
+    @if (loading()) { <div class="loading">Loading report data…</div> }
+    @else if (result(); as data) {
+      @if(data.metrics.length){<div class="report-metrics">@for(metric of data.metrics;track metric.key){<div><span>{{metric.label}}</span><strong>{{metric.value | number:'1.0-2'}}{{metric.unit??''}}</strong></div>}</div>}
+      @if(data.items.length){
+        <div class="table-scroll"><table><thead><tr>@for(column of columns();track trackColumn($index,column)){<th>{{column}}</th>}</tr></thead><tbody>@for(row of data.items;track trackRow($index)){<tr>@for(column of columns();track trackColumn($index,column)){<td>{{display(row[column])}}</td>}</tr>}</tbody></table></div>
+        <footer class="pagination"><span>Page {{data.page}} of {{data.totalPages || 1}}</span><div><button type="button" class="secondary" [disabled]="data.page<=1" (click)="changePage(data.page-1)">Previous</button><button type="button" class="secondary" [disabled]="data.page>=data.totalPages" (click)="changePage(data.page+1)">Next</button></div></footer>
+      } @else { <div class="empty">No records match these filters.</div> }
+    }
+  </section>
+  <p class="footnote">Generated {{summary()?.generatedAtUtc | date:'medium'}}. Reports use live institutional records; completion currently reflects issued certificates.</p>
+</main>
