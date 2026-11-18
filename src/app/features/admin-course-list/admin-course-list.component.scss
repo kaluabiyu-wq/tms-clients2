@@ -124,12 +124,12 @@ h2 {
 }
 
 .btn-save {
-  color: var(--color-on-accent-bright);
-  background: var(--color-accent-bright);
+  color: #ffffff;
+  background: var(--color-primary-interactive);
 }
 
 .btn-save:hover:not(:disabled) {
-  background: var(--color-accent-bright-hover);
+  background: var(--color-primary);
 }
 
 .btn-cancel {

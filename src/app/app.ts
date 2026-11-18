@@ -39,6 +39,7 @@ export class App implements OnInit, OnDestroy {
 
   isLoggedIn = computed(() => !!this.auth.currentUser());
   isAdmin = computed(() => this.auth.currentUser()?.role === 'Admin');
+  canManagePrograms = computed(() => ['Admin', 'SuperAdmin'].includes(this.auth.currentUser()?.role ?? ''));
   isStudent = computed(() => this.auth.currentUser()?.role === 'Student');
   canViewReports = computed(() => ['Admin', 'SuperAdmin', 'Registrar', 'Auditor'].includes(this.auth.currentUser()?.role ?? '')); 
   canTakeAttendance = computed(() => {

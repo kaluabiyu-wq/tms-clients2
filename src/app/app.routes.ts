@@ -175,5 +175,35 @@ export const routes: Routes = [
         loadComponent: () => import('./features/institutional-reports/institutional-reports.component').then(m => m.InstitutionalReportsComponent),
         canActivate: [roleGuard(['Admin', 'SuperAdmin', 'Registrar', 'Auditor'])]
     },
+    {
+        path: 'admin/programs',
+        loadComponent: () => import('./features/program-management/program-management.component').then(m => m.ProgramManagementComponent),
+        canActivate: [roleGuard(['Admin', 'SuperAdmin'])]
+    },
+    {
+        path: 'admin/programs/:id/courses',
+        loadComponent: () => import('./features/program-course-management/program-course-management.component').then(m => m.ProgramCourseManagementComponent),
+        canActivate: [roleGuard(['Admin', 'SuperAdmin'])]
+    },
+    {
+        path: 'admin/programs/:id/enroll',
+        loadComponent: () => import('./features/student-program-enrollment/student-program-enrollment.component').then(m => m.StudentProgramEnrollmentComponent),
+        canActivate: [roleGuard(['Admin', 'SuperAdmin', 'Registrar'])]
+    },
+    {
+        path: 'admin/programs/:id/progress',
+        loadComponent: () => import('./features/student-progress/student-progress.component').then(m => m.StudentProgressComponent),
+        canActivate: [roleGuard(['Admin', 'SuperAdmin', 'Registrar', 'Auditor'])]
+    },
+    {
+        path: 'admin/students/:studentId/progress',
+        loadComponent: () => import('./features/student-progress/student-progress.component').then(m => m.StudentProgressComponent),
+        canActivate: [roleGuard(['Admin', 'SuperAdmin', 'Registrar', 'Auditor'])]
+    },
+    {
+        path: 'my-progress',
+        loadComponent: () => import('./features/student-progress/student-progress.component').then(m => m.StudentProgressComponent),
+        canActivate: [roleGuard('Student')]
+    },
     { path: '**', redirectTo: 'login' },
 ];

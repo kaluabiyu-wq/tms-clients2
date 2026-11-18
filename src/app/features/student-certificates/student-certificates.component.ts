@@ -30,13 +30,13 @@ import { CertificateDetails } from '../../models/certificate.model';
     </section>
   </main>`,
   styles: [`
-    .page{max-width:1100px;margin:35px auto;padding:0 20px;color:#172033}h1{font-size:28px;margin-bottom:6px}
-    p{color:#667085}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px;margin-top:24px}
-    .card,.empty{border:1px solid #e4e7ec;border-radius:14px;padding:22px;background:white}
-    .top{display:flex;justify-content:space-between;align-items:center}.seal{background:#ecfdf3;color:#027a48;border-radius:50%;padding:9px}
+    .page{max-width:1100px;margin:35px auto;padding:0 20px;color:var(--color-text)}h1{font-size:28px;margin-bottom:6px}
+    p{color:var(--color-text-muted)}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px;margin-top:24px}
+    .card,.empty{border:1px solid var(--color-panel-border);border-radius:14px;padding:22px;background:white}
+    .top{display:flex;justify-content:space-between;align-items:center}.seal{background:#ecfdf3;color:#166534;border-radius:50%;padding:9px}
     h2{font-size:19px;margin:20px 0 8px}.actions{display:flex;align-items:center;gap:15px;margin-top:20px}
-    button{background:#2457c5;color:white;border:0;border-radius:8px;padding:10px 14px;cursor:pointer}
-    a{color:#2457c5}.revoked,.error{color:#b42318}.empty{margin-top:20px}
+    button{background:var(--color-primary-interactive);color:white;border:0;border-radius:8px;padding:10px 14px;cursor:pointer}
+    a{color:var(--color-primary-interactive)}.revoked,.error{color:var(--color-danger)}.empty{margin-top:20px}
   `]
 })
 export class StudentCertificatesComponent {

@@ -11,13 +11,13 @@
   input { padding: 0.4rem; }
 }
 
-.field-error, .error { color: #b00020; }
-.empty { color: #666; }
+.field-error, .error { color: var(--color-danger); }
+.empty { color: var(--color-text-muted); }
 
 .rooms {
   width: 100%;
   border-collapse: collapse;
 
-  th, td { text-align: left; padding: 0.5rem; border-bottom: 1px solid #ddd; }
-  tr.inactive td { color: #888; }
+  th, td { text-align: left; padding: 0.5rem; border-bottom: 1px solid var(--color-panel-border); }
+  tr.inactive td { color: var(--color-text-muted); }
 }

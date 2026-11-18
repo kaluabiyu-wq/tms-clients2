@@ -13,13 +13,13 @@ select, input { padding: 0.4rem; }
   label { display: flex; flex-direction: column; gap: 0.25rem; font-weight: 600; }
 }
 
-.field-error, .error { color: #b00020; }
-.empty, .note { color: #555; }
+.field-error, .error { color: var(--color-danger); }
+.empty, .note { color: var(--color-text); }
 
 .data {
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 1.5rem;
 
-  th, td { text-align: left; padding: 0.5rem; border-bottom: 1px solid #ddd; }
+  th, td { text-align: left; padding: 0.5rem; border-bottom: 1px solid var(--color-panel-border); }
 }

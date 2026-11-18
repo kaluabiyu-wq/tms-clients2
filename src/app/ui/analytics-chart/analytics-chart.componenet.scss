@@ -1,12 +1,12 @@
 .chart-container {
   padding: 1.5rem;
-  border: 1px solid #334155;
-  border-radius: 8px;
-  background: #0f172a;
-  color: #e2e8f0;
+  border: 1px solid var(--color-panel-border);
+  border-radius: 12px;
+  background: var(--color-surface);
+  color: var(--color-text);
   max-width: 500px;
   margin: auto;
-
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
 }
 
 .chart-bars {
@@ -29,14 +29,19 @@
   min-height: 20px;
 }
 
-.bar.approved { background: #059669; }
-.bar.pending { background: #d97706; }
-.bar.rejected { background: #dc2626; }
+.bar.approved { background: var(--color-success); }
+.bar.pending { background: var(--color-accent); color: var(--color-on-accent-bright); }
+.bar.rejected { background: var(--color-danger); color: #ffffff; }
 
 .chart-summary {
   margin-top: 1rem;
   font-size: 0.9rem;
-  color: #94a3b8;
+  color: var(--color-text-muted);
 }
 
-.metric-bars{display:flex;flex-direction:column;gap:12px;padding:8px 0}.metric-row{display:flex;flex-direction:column;gap:5px}.metric-label{display:flex;justify-content:space-between;gap:10px;font-size:12px;color:#475467}.metric-label strong{color:#172033}.track{height:9px;background:#eef0f5;border-radius:20px;overflow:hidden}.fill{height:100%;background:#5366a5;border-radius:20px;transition:width .25s ease}
+.metric-bars { display: flex; flex-direction: column; gap: 12px; padding: 8px 0; }
+.metric-row { display: flex; flex-direction: column; gap: 5px; }
+.metric-label { display: flex; justify-content: space-between; gap: 10px; font-size: 12px; color: var(--color-text-muted); }
+.metric-label strong { color: var(--color-text); }
+.track { height: 9px; background: var(--color-canvas); border-radius: 20px; overflow: hidden; }
+.fill { height: 100%; background: var(--color-primary-interactive); border-radius: 20px; transition: width 0.25s ease; }

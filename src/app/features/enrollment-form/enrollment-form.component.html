@@ -38,7 +38,7 @@
           [formControl]="backup"
           [placeholder]="'Backup course ' + ($index + 1)"
         />
-         <button type="button" (click)="removeBackup($index)">Remove</button>
+         <button type="button" class="remove" (click)="removeBackup($index)">Remove</button>
       </div>
     }
     <button type="button" (click)="addBackup()">Add Backup Course</button>
@@ -49,7 +49,7 @@
       <div class="error">{{ submitError() }}</div>
     }
 
-      <button type="submit" [disabled]="form.invalid || submitting()">
+      <button type="submit" class="btn-success" [disabled]="form.invalid || submitting()">
       {{ submitting() ? 'Submitting…' : 'Confirm Enrollment' }}
     </button>
   </form>

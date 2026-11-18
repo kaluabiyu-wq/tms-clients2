@@ -1,0 +1,16 @@
+<main class="program-page">
+  <header><div><p class="eyebrow">ACADEMIC OPERATIONS</p><h1>Training programs</h1><p>Build structured pathways from existing courses and monitor student completion.</p></div><button type="button" (click)="load()">Refresh</button></header>
+  @if(error()){<p class="error" role="alert">{{error()}}</p>} @if(success()){<p class="success" role="status">{{success()}}</p>}
+  <section class="panel create"><h2>Create a program</h2><div class="form-grid">
+    <label>Program code<input [(ngModel)]="code" maxlength="40" placeholder="WEB-DEV-01"></label>
+    <label>Program name<input [(ngModel)]="name" maxlength="180" placeholder="Web Development"></label>
+    <label>Duration (months)<input type="number" min="1" max="120" [(ngModel)]="durationMonths"></label>
+    <label class="wide">Description<textarea [(ngModel)]="description" rows="2"></textarea></label>
+  </div><button class="primary" type="button" [disabled]="saving()" (click)="create()">{{saving()?'Creating…':'Create program'}}</button></section>
+  <section class="program-list"><h2>Available programs</h2>@if(loading()){<p>Loading programs…</p>} @else if(!programs().length){<p class="empty">No training programs have been created yet.</p>} @else {
+    @for(program of programs(); track program.id){<article class="panel program-card"><div class="program-title"><div><span class="code">{{program.code}}</span><h3>{{program.name}}</h3><p>{{program.description || 'No description provided.'}}</p></div><span class="status">{{program.isActive?'Active':'Inactive'}}</span></div>
+      <div class="stats"><span>{{program.courseCount}} courses</span><span>{{program.enrolledStudents}} students enrolled</span><span>{{program.durationMonths ?? '—'}} months</span></div>
+      <nav><a [routerLink]="['/admin/programs',program.id,'courses']">Manage courses</a><a [routerLink]="['/admin/programs',program.id,'enroll']">Register student</a><a [routerLink]="['/admin/programs',program.id,'progress']">View student progress</a></nav>
+    </article>}
+  }</section>
+</main>
