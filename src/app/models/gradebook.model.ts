@@ -1,66 +1,32 @@
-export interface AssessmentGradeItem {
-  assessmentId: number;
-  assessmentTitle: string;
-  maxScore: number;
-  weight: number;
-  gradeRecordId: number | null;
-  score: number | null;
-  weightedScore: number | null;
-  isPublished: boolean;
-  feedback: string | null;
-  gradedAt: string | null;
-}
-
-export interface StudentGrade {
+export interface GradeRecord {
+  id: number;
   studentId: number;
   studentName: string;
-  enrollmentId: number;
-  courseId: number;
-  courseTitle: string;
-  finalGrade: number | null;
-  calculatedGrade: number | null;
-  gradeLevel: string;
-  isComplete: boolean;
-  assessments: AssessmentGradeItem[];
+  registrationNumber: string;
+  assessmentId: number;
+  assessmentTitle: string;
+  score: number;
+  maxScore: number;
+  percentage: number;
+  weight: number;
+  isPublished: boolean;
+  publishedAt?: string | null;
 }
 
 export interface CourseGradebook {
+  id: number;
+  code: string;
+  title: string;
+  grades: GradeRecord[];
+}
+
+export interface StudentCourseGrade {
   courseId: number;
+  courseCode: string;
   courseTitle: string;
-  totalWeight: number;
-  weightsValid: boolean;
-  students: StudentGrade[];
+  finalGrade?: number | null;
+  assessmentGrades: GradeRecord[];
 }
 
-export interface GradeRecord {
-  id: number;
-  enrollmentId: number;
-  assessmentId: number;
-  assessmentTitle: string;
-  score: number;
-  maxScore: number;
-  weightedScore: number;
-  isPublished: boolean;
-  isManualOverride: boolean;
-  feedback?: string;
-  gradedAt: string;
-}
-
-export interface SaveGradeRequest {
-  enrollmentId: number;
-  assessmentId: number;
-  score: number;
-  feedback?: string;
-}
-
-export interface GradeAppeal {
-  id: number;
-  enrollmentId: number;
-  courseTitle: string;
-  studentName: string;
-  reason: string;
-  status: 'Pending' | 'UnderReview' | 'Approved' | 'Rejected';
-  response?: string;
-  submittedAt: string;
-  reviewedAt?: string;
-}
+export interface GradeAppealRequest { reason: string; }
+export interface ReviewGradeAppealRequest { decision: 'Approved' | 'Rejected'; comment?: string | null; }

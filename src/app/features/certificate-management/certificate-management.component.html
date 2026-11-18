@@ -1,0 +1,43 @@
+ 
+  <main class="page">
+    <header><div><h1>Certificate management</h1>
+      <p>Issue, review, download and revoke course completion certificates.</p></div></header>
+
+    <section class="panel">
+      <h2>Issue certificate</h2>
+      <div class="form-grid">
+        <label>Student ID<input type="number" min="1" [(ngModel)]="studentId"></label>
+        <label>Course ID<input type="number" min="1" [(ngModel)]="courseId"></label>
+        <label>Template ID (optional)<input type="number" min="1" [(ngModel)]="templateId"></label>
+      </div>
+      <button (click)="issue()" [disabled]="busy()">Issue certificate</button>
+    </section>
+
+    @if (message()) { <p class="message" role="status">{{ message() }}</p> }
+
+    <section class="panel">
+      <h2>Recently issued certificates</h2>
+      @if (items().length === 0) { <p>No certificates loaded yet. Issue a certificate to begin.</p> }
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Serial number</th><th>Student</th><th>Course</th>
+            <th>Issued</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody>
+          @for (item of items(); track item.id) {
+            <tr>
+              <td>{{ item.serialNumber }}</td><td>{{ item.studentName }}</td>
+              <td>{{ item.courseName }}</td><td>{{ item.issuedAt | date:'mediumDate' }}</td>
+              <td><span [class.revoked]="item.status === 'Revoked'">{{ item.status }}</span></td>
+              <td class="actions">
+                <button class="secondary" (click)="download(item)">PDF</button>
+                @if (item.status === 'Issued') {
+                  <button class="danger" (click)="revoke(item)">Revoke</button>
+                }
+              </td>
+            </tr>
+          }
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
