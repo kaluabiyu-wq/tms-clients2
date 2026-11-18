@@ -3,12 +3,12 @@ import { CanActivateFn } from "@angular/router";
 import { AuthService } from "../services/auth.service";
 import { Router } from "@angular/router";
 
-export const roleGuard = (requiredRole: string): CanActivateFn => {
+export const roleGuard = (requiredRole: string | string[]): CanActivateFn => {
     return () => {
         const auth = inject(AuthService);
         const router = inject(Router);
 
-        if(auth.hasRole(requiredRole)) {
+        if (Array.isArray(requiredRole) ? auth.hasAnyRole(requiredRole) : auth.hasRole(requiredRole)) {
             return true;
         }
 

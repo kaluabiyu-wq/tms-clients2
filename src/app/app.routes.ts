@@ -155,5 +155,10 @@ export const routes: Routes = [
         loadComponent: () => import('./features/certificate-verification/certificate-verification.component')
           .then(m => m.CertificateVerificationComponent)
     },
+    {
+        path: 'admin/audit-logs',
+        loadComponent: () => import('./features/audit-logs/audit-logs.component').then(m => m.AuditLogsComponent),
+        canActivate: [roleGuard(['Admin', 'SuperAdmin', 'Auditor'])]
+    },
     { path: '**', redirectTo: 'login' },
 ];
