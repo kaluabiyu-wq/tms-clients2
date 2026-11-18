@@ -205,5 +205,17 @@ export const routes: Routes = [
         loadComponent: () => import('./features/student-progress/student-progress.component').then(m => m.StudentProgressComponent),
         canActivate: [roleGuard('Student')]
     },
+    {
+        path: 'admin/schedules',
+        loadComponent: () => import('./features/schedule-management/schedule-management.component')
+          .then(m => m.ScheduleManagementComponent),
+        canActivate: [roleGuard('Admin')]
+    },
+    {
+        path: 'instructor/timetable',
+        loadComponent: () => import('./features/instructor-timetable/instructor-timetable.component')
+          .then(m => m.InstructorTimetableComponent),
+        canActivate: [roleGuard('Instructor')]
+    },
     { path: '**', redirectTo: 'login' },
 ];

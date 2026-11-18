@@ -4,6 +4,7 @@ import { firstValueFrom } from 'rxjs';
 import { environment } from '../../environments/environment';
 
 export interface TmsUser {
+  id: string;
   email: string;
   displayName: string;
   role: string;
@@ -93,6 +94,8 @@ export class AuthService {
     const payload = decodeJwtPayload(res.accessToken);
     const fullName = [payload['FirstName'], payload['LastName']].filter((p) => !!p).join(' ');
     this.currentUser.set({
+      id: payload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier']
+        || payload['nameid'] || payload['sub'] || '',
       email: payload[EMAIL_CLAIM] || payload['email'] || payload['sub'],
       displayName: fullName || payload['name'] || payload['email'] || 'User',
       role: payload[ROLE_CLAIM] || payload['role'] || 'Student',
