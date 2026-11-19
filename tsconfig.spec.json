@@ -1,15 +1,10 @@
-/* To learn more about Typescript configuration file: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */
-/* To learn more about Angular compiler options: https://angular.dev/reference/configs/angular-compiler-options. */
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "outDir": "./out-tsc/spec",
-    "types": [
-      "vitest/globals"
-    ]
+    "noEmit": true,
+    "types": ["node"],
+    // process.env.CI is an index-signature property; the base config forbids dot access to those.
+    "noPropertyAccessFromIndexSignature": false
   },
-  "include": [
-    "src/**/*.d.ts",
-    "src/**/*.spec.ts"
-  ]
+  "include": ["playwright.config.ts", "e2e/**/*.ts"]
 }
