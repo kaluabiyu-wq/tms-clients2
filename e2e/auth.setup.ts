@@ -1,3 +1,5 @@
+import { mkdir } from 'node:fs/promises';
+import { dirname } from 'node:path';
 import { test as setup, expect } from './fixtures';
 
 // Must match `storageState` in playwright.config.ts.
@@ -17,5 +19,6 @@ setup('authenticate as admin', async ({ page }) => {
 
   // The access token lives in memory, but the refresh token is in localStorage. Saving the
   // browser state lets every other test start signed in: the app calls /auth/refresh on boot.
+  await mkdir(dirname(AUTH_FILE), { recursive: true });
   await page.context().storageState({ path: AUTH_FILE });
 });

@@ -26,3 +26,17 @@ The application uses a light, low-glare workspace with a trustworthy blue brand 
 - Pair status colors with visible status text or an icon; never communicate status through color alone.
 - Keep cards white on the cool-gray page canvas, with subtle borders and restrained shadows.
 - Angular Material uses the blue primary palette and orange tertiary palette to stay aligned with the application theme.
+
+## Button colors
+
+- Standard interactive buttons use the brand interactive blue (`#2563EB`) with white text and a deeper brand-blue hover state.
+- Destructive actions (delete, remove, reject, revoke, and danger variants) use the semantic danger red (`#DC2626`) with white text and a darker red hover state.
+- Disabled buttons retain their semantic color but are visibly muted and non-interactive.
+- Navigation, inline text links, and icon-only utility controls retain their specialized treatments.
+
+## Button color rules
+
+- Primary actions use `--color-primary-interactive` (`#2563EB`) by default.
+- Positive actions should use `btn-success` (`#16A34A`), for example Approve, Confirm, and Mark as completed.
+- Destructive actions should use `danger`, `delete`, `delete-btn`, `remove`, or `cancel-enrollment` (`#DC2626`).
+- Hover states use the corresponding darker semantic token; disabled buttons retain reduced opacity.

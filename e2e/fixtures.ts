@@ -23,7 +23,7 @@ function fakeJwt(role: string): string {
 type Status = 'Pending' | 'Approved' | 'Rejected';
 
 interface MockEnrollment {
-  id: string;
+  id: number;
   studentId: number;
   studentName: string;
   courseId: number;
@@ -35,9 +35,9 @@ interface MockEnrollment {
 function seedEnrollments(): MockEnrollment[] {
   const enrolledAt = '2026-11-01T09:00:00Z';
   return [
-    { id: '1', studentId: 101, studentName: 'Abel Tesfaye', courseId: 1, courseName: 'Introduction to C#', status: 'Pending', enrolledAt },
-    { id: '2', studentId: 102, studentName: 'Sara Kebede', courseId: 2, courseName: 'TypeScript Fundamentals', status: 'Pending', enrolledAt },
-    { id: '3', studentId: 103, studentName: 'Daniel Bekele', courseId: 1, courseName: 'Introduction to C#', status: 'Rejected', enrolledAt },
+    { id: 1, studentId: 101, studentName: 'Abel Tesfaye', courseId: 1, courseName: 'Introduction to C#', status: 'Pending', enrolledAt },
+    { id: 2, studentId: 102, studentName: 'Sara Kebede', courseId: 2, courseName: 'TypeScript Fundamentals', status: 'Pending', enrolledAt },
+    { id: 3, studentId: 103, studentName: 'Daniel Bekele', courseId: 1, courseName: 'Introduction to C#', status: 'Rejected', enrolledAt },
   ];
 }
 
@@ -89,10 +89,11 @@ async function installApiMocks(context: BrowserContext): Promise<void> {
 
     const approve = path.match(/^\/api\/v1\/enrollments\/([^/]+)\/approve$/);
     if (method === 'POST' && approve) {
-      const row = enrollments.find((e) => e.id === approve[1]);
+      const row = enrollments.find((e) => e.id === Number(approve[1]));
       if (!row) return respond(route, 404, { title: 'Not Found', status: 404 });
       row.status = 'Approved';
-      return respond(route, 200, row);
+      // The backend approval endpoint confirms the state transition with 204 No Content.
+      return respond(route, 204);
     }
 
     if (method === 'GET' && path === '/api/v1/courses') {

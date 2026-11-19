@@ -1,10 +1,16 @@
+
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "noEmit": true,
-    "types": ["node"],
-    // process.env.CI is an index-signature property; the base config forbids dot access to those.
-    "noPropertyAccessFromIndexSignature": false
+    "outDir": "./out-tsc/spec",
+    "rootDir": "./src",
+    "types": [
+      "vitest/globals",
+      "node"
+    ]
   },
-  "include": ["playwright.config.ts", "e2e/**/*.ts"]
+  "include": [
+    "src/**/*.d.ts",
+    "src/**/*.spec.ts"
+  ]
 }
