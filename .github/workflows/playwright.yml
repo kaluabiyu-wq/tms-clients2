@@ -6,22 +6,34 @@ on:
     branches: [ main, master ]
 jobs:
   test:
-    timeout-minutes: 60
+    timeout-minutes: 20
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
+
     - uses: actions/setup-node@v4
       with:
-        node-version: lts/*
+        # Angular 22 needs ^22.22.3, ^24.15.0 or >=26. Pinning stops "lts/*" from drifting.
+        node-version: 24
+        cache: npm
+
     - name: Install dependencies
       run: npm ci
-    - name: Install Playwright Browsers
-      run: npx playwright install --with-deps
+
+    # playwright.config.ts only enables the chromium project, so only install that browser.
+    - name: Install Playwright browsers
+      run: npx playwright install --with-deps chromium
+
+    # CI=true is set automatically by GitHub Actions. playwright.config.ts uses it to start
+    # `npm start` (ng serve) through its webServer block, so no separate server step is needed.
     - name: Run Playwright tests
       run: npx playwright test
+
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
         name: playwright-report
-        path: playwright-report/
-        retention-days: 30
+        path: |
+          playwright-report/
+          test-results/
+        retention-days: 14

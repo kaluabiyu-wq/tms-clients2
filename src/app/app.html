@@ -1,8 +1,20 @@
 @if (isLoggedIn()) {
   <nav class="navbar">
     <div class="nav-list">
-      <button (click)="goTo('/dashboard')" class="nav-btn">Dashboard</button>
-      <button (click)="goTo('/enroll')" class="nav-btn">Enrollment Form</button>
+      @if (isStudent()) {
+        <button (click)="goTo('/dashboard')" class="nav-btn">Dashboard</button>
+        <button (click)="goTo('/enroll')" class="nav-btn">Enrollment Form</button>
+      }
+
+      @if (isInstructor()) {
+        <button (click)="goTo('/instructor/dashboard')" class="nav-btn">Dashboard</button>
+        <button (click)="goTo('/instructor/courses')" class="nav-btn">My Courses</button>
+        <button (click)="goTo('/instructor/students')" class="nav-btn">My Students</button>
+        <button (click)="goTo('/instructor/timetable')" class="nav-btn">Timetable</button>
+        <button (click)="goTo('/instructor/assessments')" class="nav-btn">Assessments</button>
+        <button (click)="goTo('/instructor/gradebook')" class="nav-btn">Gradebook</button>
+        <button (click)="goTo('/instructor/profile')" class="nav-btn">Profile</button>
+      }
 
        @if (canManagePrograms()) {
         <button (click)="goTo('/admin/programs')" class="nav-btn">Training Programs</button>
@@ -13,6 +25,10 @@
       }
 
       @if (isAdmin()) {
+        <button (click)="goTo('/admin/dashboard')" class="nav-btn">Dashboard</button>
+        <button (click)="goTo('/admin/schedules')" class="nav-btn">Schedules</button>
+        <button (click)="goTo('/admin/create-student')" class="nav-btn">New Student</button>
+        <button (click)="goTo('/admin/create-instructor')" class="nav-btn">New Instructor</button>
         <button (click)="goTo('/enrollments')" class="nav-btn">Enrollments</button>
         <button (click)="goTo('/instructor-dashboard')" class="nav-btn">Instructor</button>
         <button (click)="goTo('/grade-submission')" class="nav-btn">Grade</button>

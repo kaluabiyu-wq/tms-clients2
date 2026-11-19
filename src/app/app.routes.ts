@@ -88,38 +88,38 @@ export const routes: Routes = [
         path: 'attendance/sessions',
         loadComponent: () => import('./features/attendance/session-management/session-management.component')
         .then(m => m.SessionManagementComponent),
-        canActivate: [roleGuard('Instructor')]
+        canActivate: [roleGuard(['Instructor', 'Admin'])]
     },
     {
         path: 'attendance/session/:sessionId',
         loadComponent: () => import('./features/attendance/attendance-management/attendance-management.component')
         .then(m => m.AttendanceManagementComponent),
-        canActivate: [roleGuard('Instructor')]
+        canActivate: [roleGuard(['Instructor', 'Admin'])]
     },
     {
         path: 'attendance/student/:studentId',
         loadComponent: () => import('./features/attendance/student-attendance/student-attendance.component')
         .then(m => m.StudentAttendanceComponent),
-        canActivate: [roleGuard('Instructor')]
+        canActivate: [roleGuard(['Instructor', 'Admin'])]
     },
   
     {
         path: 'courses/:courseId/assessments',
         loadComponent: () => import('./features/assessment-management/assessment-management.component')
           .then(m => m.AssessmentManagementComponent),
-        canActivate: [roleGuard('Instructor')]
+        canActivate: [roleGuard(['Instructor', 'Admin'])]
     },
     {
         path: 'courses/:courseId/assessments/:assessmentId/questions',
         loadComponent: () => import('./features/question-management/question-management.component')
           .then(m => m.QuestionManagementComponent),
-        canActivate: [roleGuard('Instructor')]
+        canActivate: [roleGuard(['Instructor', 'Admin'])]
     },
     {
         path: 'courses/:courseId/assessments/:assessmentId/submissions',
         loadComponent: () => import('./features/assessment-submissions/assessment-submissions.component')
           .then(m => m.AssessmentSubmissionsComponent),
-        canActivate: [roleGuard('Instructor')]
+        canActivate: [roleGuard(['Instructor', 'Admin'])]
     },
     {
         path: 'assessments/:assessmentId/take',
@@ -217,5 +217,46 @@ export const routes: Routes = [
           .then(m => m.InstructorTimetableComponent),
         canActivate: [roleGuard('Instructor')]
     },
+
+    // ---- Role portals: separate sign-in pages, same Identity + JWT backend ----
+    { path: 'student/login', data: { expectedRole: 'Student' },
+      loadComponent: () => import('./features/login/login.component').then(m => m.LoginComponent) },
+    { path: 'instructor/login', data: { expectedRole: 'Instructor' },
+      loadComponent: () => import('./features/login/login.component').then(m => m.LoginComponent) },
+    { path: 'admin/login', data: { expectedRole: 'Admin' },
+      loadComponent: () => import('./features/login/login.component').then(m => m.LoginComponent) },
+
+    { path: 'admin/create-student',
+      loadComponent: () => import('./features/admin-create-student/admin-create-student.component').then(m => m.AdminCreateStudentComponent),
+      canActivate: [roleGuard('Admin')] },
+    { path: 'admin/create-instructor',
+      loadComponent: () => import('./features/admin-create-instructor/admin-create-instructor.component').then(m => m.AdminCreateInstructorComponent),
+      canActivate: [roleGuard('Admin')] },
+    { path: 'student/dashboard', redirectTo: 'dashboard', pathMatch: 'full' },
+    { path: 'admin/dashboard',
+      loadComponent: () => import('./features/instructur-dashboard/instructur-dashboard.componenet').then(m => m.InstructorDashboardComponent),
+      canActivate: [roleGuard('Admin')] },
+
+    { path: 'instructor', redirectTo: 'instructor/dashboard', pathMatch: 'full' },
+    { path: 'instructor/dashboard',
+      loadComponent: () => import('./features/instructor-dashboard/instructor-dashboard.component').then(m => m.InstructorPortalDashboardComponent),
+      canActivate: [roleGuard('Instructor')] },
+    { path: 'instructor/courses',
+      loadComponent: () => import('./features/instructor-courses/instructor-courses.component').then(m => m.InstructorCoursesComponent),
+      canActivate: [roleGuard('Instructor')] },
+    { path: 'instructor/students',
+      loadComponent: () => import('./features/instructor-students/instructor-students.component').then(m => m.InstructorStudentsComponent),
+      canActivate: [roleGuard('Instructor')] },
+    { path: 'instructor/attendance', redirectTo: 'attendance/sessions', pathMatch: 'full' },
+    { path: 'instructor/assessments',
+      loadComponent: () => import('./features/instructor-assessments/instructor-assessments.component').then(m => m.InstructorAssessmentsComponent),
+      canActivate: [roleGuard('Instructor')] },
+    { path: 'instructor/gradebook',
+      loadComponent: () => import('./features/instructor-gradebook/instructor-gradebook.component').then(m => m.InstructorGradebookComponent),
+      canActivate: [roleGuard('Instructor')] },
+    { path: 'instructor/notifications', redirectTo: 'notifications', pathMatch: 'full' },
+    { path: 'instructor/profile',
+      loadComponent: () => import('./features/instructor-profile/instructor-profile.component').then(m => m.InstructorProfileComponent),
+      canActivate: [roleGuard('Instructor')] },
     { path: '**', redirectTo: 'login' },
 ];
