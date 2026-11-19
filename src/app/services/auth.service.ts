@@ -57,6 +57,18 @@ export class AuthService {
     this.applyTokens(res);
   }
 
+  forgotPassword(email: string): Promise<{ message: string }> {
+    return firstValueFrom(
+      this.http.post<{ message: string }>(`${environment.apiUrl}/auth/forgot-password`, { email })
+    );
+  }
+
+  resetPassword(email: string, token: string, newPassword: string): Promise<{ message: string }> {
+    return firstValueFrom(
+      this.http.post<{ message: string }>(`${environment.apiUrl}/auth/reset-password`, { email, token, newPassword })
+    );
+  }
+
   refresh(): Promise<boolean> {
     if (this.refreshInFlight) return this.refreshInFlight;
 

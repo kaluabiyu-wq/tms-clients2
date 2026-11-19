@@ -141,3 +141,24 @@ button[type='submit']:focus-visible {
   outline: 2px solid var(--color-accent-bright);
   outline-offset: 2px;
 }
+
+.forgot {
+  margin: 1rem 0 0;
+  text-align: center;
+  font-size: 0.85rem;
+}
+
+.forgot a {
+  color: var(--color-panel-text-muted);
+  text-decoration: underline;
+}
+
+.notice {
+  margin-top: 1rem;
+  padding: 0.6rem 0.75rem;
+  font-size: 0.85rem;
+  color: var(--color-panel-text-strong);
+  background: rgba(22, 163, 74, 0.12);
+  border: 1px solid rgba(22, 163, 74, 0.35);
+  border-radius: 6px;
+}

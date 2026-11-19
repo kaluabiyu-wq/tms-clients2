@@ -18,7 +18,7 @@ import { problemMessage } from '../../util/problem-message';
         </div>
         <label>Email<input type="email" formControlName="email" autocomplete="off" /></label>
         <label>Temporary password<input type="text" formControlName="password" autocomplete="off" />
-          <span class="hint">At least 8 characters with upper, lower case, a number and a symbol.</span></label>
+          <span class="hint">At least 12 characters with an uppercase letter, a number and a symbol.</span></label>
         <label>Department <span class="hint">(optional)</span><input formControlName="department" /></label>
         @if (error()) { <p role="alert" class="err">{{ error() }}</p> }
         @if (success()) { <p class="ok">{{ success() }}</p> }
@@ -46,7 +46,7 @@ export class AdminCreateInstructorComponent {
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(8)]],
+    password: ['', [Validators.required, Validators.minLength(12)]],
     department: [''],
   });
 
