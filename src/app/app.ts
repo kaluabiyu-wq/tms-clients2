@@ -40,6 +40,7 @@ export class App implements OnInit, OnDestroy {
   isLoggedIn = computed(() => !!this.auth.currentUser());
   isAdmin = computed(() => this.auth.currentUser()?.role === 'Admin');
   canManagePrograms = computed(() => ['Admin', 'SuperAdmin'].includes(this.auth.currentUser()?.role ?? ''));
+  isInstructor = computed(() => this.auth.currentUser()?.role === 'Instructor');
   isStudent = computed(() => this.auth.currentUser()?.role === 'Student');
   canViewReports = computed(() => ['Admin', 'SuperAdmin', 'Registrar', 'Auditor'].includes(this.auth.currentUser()?.role ?? '')); 
   canTakeAttendance = computed(() => {
@@ -52,7 +53,9 @@ export class App implements OnInit, OnDestroy {
   }
 
   logout() {
+    const role = this.auth.currentUser()?.role;
     this.auth.logout();
-    this.router.navigate(['/login']);
+    const loginPath = role === 'Instructor' ? '/instructor/login' : role === 'Admin' ? '/admin/login' : '/login';
+    this.router.navigate([loginPath]);
   }
 }

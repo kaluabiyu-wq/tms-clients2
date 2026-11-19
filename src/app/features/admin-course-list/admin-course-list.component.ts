@@ -36,23 +36,21 @@ export class AdminCourseListComponent {
 
   dataSource = new MatTableDataSource<Course>();
 
-  readonly paginator = viewChild(MatPaginator);
-  readonly sort = viewChild(MatSort);
+    readonly paginator = viewChild.required(MatPaginator);
+  readonly sort = viewChild.required(MatSort);
 
   editForm = this.fb.nonNullable.group({
     title: ['', [Validators.required, Validators.maxLength(200)]],
   });
 
- constructor() {
-    effect(() => {
+  constructor() {
+     effect(() => {
       this.dataSource.data = this.courses();
     });
 
-    effect(() => {
-      const paginator = this.paginator();
-      const sort = this.sort();
-      if (paginator) this.dataSource.paginator = paginator;
-      if (sort) this.dataSource.sort = sort;
+     effect(() => {
+      this.dataSource.paginator = this.paginator();
+      this.dataSource.sort = this.sort();
     });
 
     this.loadCourses();

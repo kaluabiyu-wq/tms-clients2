@@ -41,13 +41,13 @@ export class AuthService {
   }
 
   hasRole(role: string): boolean {
-    const user = this.currentUser();
-    return user?.role === role || user?.role === 'Admin';
+    // Strict match: an Admin does NOT automatically pass Instructor/Student checks.
+    return this.currentUser()?.role === role;
   }
 
   hasAnyRole(roles: string[]): boolean {
     const userRole = this.currentUser()?.role;
-    return !!userRole && (userRole === 'Admin' || roles.includes(userRole));
+    return !!userRole && roles.includes(userRole);
   }
 
   async login(credentials: LoginRequest): Promise<void> {
