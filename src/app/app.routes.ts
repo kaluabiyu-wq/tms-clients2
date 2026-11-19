@@ -226,6 +226,12 @@ export const routes: Routes = [
     { path: 'admin/login', data: { expectedRole: 'Admin' },
       loadComponent: () => import('./features/login/login.component').then(m => m.LoginComponent) },
 
+    { path: 'admin/create-student',
+      loadComponent: () => import('./features/admin-create-student/admin-create-student.component').then(m => m.AdminCreateStudentComponent),
+      canActivate: [roleGuard('Admin')] },
+    { path: 'admin/create-instructor',
+      loadComponent: () => import('./features/admin-create-instructor/admin-create-instructor.component').then(m => m.AdminCreateInstructorComponent),
+      canActivate: [roleGuard('Admin')] },
     { path: 'student/dashboard', redirectTo: 'dashboard', pathMatch: 'full' },
     { path: 'admin/dashboard',
       loadComponent: () => import('./features/instructur-dashboard/instructur-dashboard.componenet').then(m => m.InstructorDashboardComponent),
