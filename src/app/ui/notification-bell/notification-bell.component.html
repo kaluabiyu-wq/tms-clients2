@@ -1,6 +1,6 @@
 <div class="notification-host">
   <button class="bell-button" type="button" aria-label="Notifications" [attr.aria-expanded]="open()" (click)="toggle()">
-    <span class="bell-icon">♢</span>
+    <span class="bell-icon">🔔</span>
     @if (notifications.unreadCount() > 0) { <span class="count">{{ notifications.unreadCount() > 99 ? '99+' : notifications.unreadCount() }}</span> }
   </button>
 
@@ -17,7 +17,7 @@
         <div class="notification-list">
           @for (item of notifications.latest(); track item.id) {
             <article class="notification-item" [class.unread]="!item.isRead" (click)="markRead(item)">
-              <span class="type-dot" [class.warning]="item.type === 'Warning'" [class.success]="item.type === 'Success'"></span>
+              <span class="category-icon" aria-hidden="true">{{ categoryIcon(item.category) }}</span>
               <div class="item-content"><strong>{{ item.title }}</strong><p>{{ item.message }}</p><time>{{ item.createdAt | date:'short' }}</time></div>
               <button type="button" class="remove-button" aria-label="Delete notification" (click)="remove(item, $event)">×</button>
             </article>

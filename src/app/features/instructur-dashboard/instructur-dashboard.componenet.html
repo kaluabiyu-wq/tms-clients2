@@ -23,11 +23,11 @@
     </article>
     <article class="metric-card approved-card">
       <span class="metric-icon approved-icon" aria-hidden="true">✓</span>
-      <div><span class="metric-label">Approved</span><strong>{{ approvedCount }}</strong><small>Approved enrollments</small></div>
+      <div><span class="metric-label">Approved</span><strong>{{ approvedCount() }}</strong><small>Approved enrollments</small></div>
     </article>
     <article class="metric-card rejected-card">
       <span class="metric-icon rejected-icon" aria-hidden="true">×</span>
-      <div><span class="metric-label">Rejected</span><strong>{{ rejectedCount }}</strong><small>Rejected requests</small></div>
+      <div><span class="metric-label">Rejected</span><strong>{{ rejectedCount() }}</strong><small>Rejected requests</small></div>
     </article>
   </section>
 

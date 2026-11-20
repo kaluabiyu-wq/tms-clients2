@@ -100,19 +100,15 @@ small,time {
 .notification-item.unread {
   background: color-mix(in srgb, var(--color-primary-tint) 75%, transparent);
 }
-.type-dot {
-  flex: 0 0 8px;
-  width: 8px;
-  height: 8px;
-  margin-top: 6px;
-  border-radius: 50%;
-  background: var(--color-primary-interactive);
-}
-.type-dot.warning {
-  background: var(--color-warning);
-}
-.type-dot.success {
-  background: var(--color-success);
+.category-icon {
+  flex: 0 0 28px;
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border-radius: 9px;
+  background: var(--color-canvas);
+  font-size: 15px;
 }
 .item-content {
   min-width: 0;

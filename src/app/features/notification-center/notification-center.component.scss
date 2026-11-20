@@ -115,3 +115,14 @@ footer button:disabled {
     flex-direction:column
   }
 }
+
+.category-icon {
+  flex: 0 0 34px;
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  background: var(--color-canvas);
+  font-size: 17px;
+}

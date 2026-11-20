@@ -38,7 +38,7 @@ export class App implements OnInit, OnDestroy {
   ngOnDestroy(): void { this.notificationSubscription?.unsubscribe(); void this.signalR.stop(); }
 
   isLoggedIn = computed(() => !!this.auth.currentUser());
-  isAdmin = computed(() => this.auth.currentUser()?.role === 'Admin');
+  isAdmin = computed(() => ['Admin', 'SuperAdmin'].includes(this.auth.currentUser()?.role ?? ''));
   canManagePrograms = computed(() => ['Admin', 'SuperAdmin'].includes(this.auth.currentUser()?.role ?? ''));
   isInstructor = computed(() => this.auth.currentUser()?.role === 'Instructor');
   isStudent = computed(() => this.auth.currentUser()?.role === 'Student');

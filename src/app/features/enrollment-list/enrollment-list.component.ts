@@ -18,8 +18,8 @@ export class EnrollmentListComponent {
   readonly displayedColumns = ['student', 'course', 'submitted', 'status', 'actions'];
   readonly dataSource = new MatTableDataSource<Enrollment>();
 
-  readonly paginator = viewChild.required(MatPaginator);
-  readonly sort = viewChild.required(MatSort);
+  readonly paginator = viewChild(MatPaginator);
+  readonly sort = viewChild(MatSort);
 
   constructor() {
     this.dataSource.filterPredicate = (row, filter) => {
@@ -34,8 +34,10 @@ export class EnrollmentListComponent {
 
     effect(() => {
       this.dataSource.data = this.store.entities();
-      this.dataSource.paginator = this.paginator();
-      this.dataSource.sort = this.sort();
+      const paginator = this.paginator();
+      const sort = this.sort();
+      if (paginator) this.dataSource.paginator = paginator;
+      if (sort) this.dataSource.sort = sort;
     });
 
     this.store.loadEnrollments();
