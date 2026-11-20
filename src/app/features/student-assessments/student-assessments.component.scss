@@ -1,0 +1,16 @@
+/* Student assessments — TMS design system */
+:host { display: block; min-width: 0; }
+section { max-width: 1120px; margin: 0 auto; padding: clamp(1rem, 3vw, 2rem); color: var(--color-text); }
+section > a { display: inline-flex; align-items: center; gap: .4rem; margin-bottom: 1rem; color: var(--color-primary-interactive); font-weight: 600; text-decoration: none; }
+section > a:hover { color: var(--color-primary); text-decoration: underline; }
+h1 { margin: 0 0 1.4rem; font-size: clamp(1.65rem, 3vw, 2.15rem); line-height: 1.2; letter-spacing: -.035em; color: var(--color-text); }
+article { position: relative; margin: 1rem 0; padding: 1.35rem 1.5rem; border: 1px solid var(--color-panel-border); border-radius: 16px; background: var(--color-surface); box-shadow: 0 5px 18px rgba(15, 23, 42, .045); transition: border-color .18s ease, box-shadow .18s ease, transform .18s ease; }
+article:hover { border-color: var(--color-primary-interactive); box-shadow: 0 10px 26px rgba(30, 64, 175, .09); transform: translateY(-2px); }
+article h2 { margin: 0 0 .55rem; font-size: 1.15rem; color: var(--color-primary); }
+article p { margin: .45rem 0; color: var(--color-text-muted); line-height: 1.6; }
+article p:nth-of-type(1) { color: var(--color-panel-text); }
+article a { display: inline-flex; align-items: center; justify-content: center; min-height: 40px; margin-top: .65rem; padding: .55rem 1rem; border-radius: 9px; background: var(--color-primary-interactive); color: #fff; font-weight: 600; text-decoration: none; transition: background .18s ease, transform .18s ease; }
+article a:hover { background: var(--color-primary); transform: translateY(-1px); }
+[role='alert'] { padding: .85rem 1rem; border: 1px solid var(--color-danger); border-left-width: 4px; border-radius: 10px; background: var(--color-danger-bg-hover); color: var(--badge-danger-text); }
+section > p:last-child { padding: 1.2rem; border: 1px dashed var(--color-panel-border-strong); border-radius: 12px; background: var(--color-panel-deep); color: var(--color-text-muted); text-align: center; }
+@media (max-width: 600px) { section { padding: 1rem; } article { padding: 1rem; } article a { width: 100%; } }

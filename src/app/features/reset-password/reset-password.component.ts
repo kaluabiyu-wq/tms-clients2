@@ -14,7 +14,7 @@ function passwordsMatch(group: AbstractControl): ValidationErrors | null {
   standalone: true,
   imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './reset-password.component.html',
-  styleUrl: '../login/login.component.scss',
+  styleUrl: './reset-password.component.scss',
 })
 export class ResetPasswordComponent {
   private fb = inject(FormBuilder);

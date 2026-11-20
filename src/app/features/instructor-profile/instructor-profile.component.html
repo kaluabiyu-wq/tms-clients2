@@ -1,0 +1,13 @@
+    <section class="page">
+      <h1>My profile</h1>
+      @if (error()) { <p role="alert" class="error">{{ error() }}</p> }
+      @if (profile(); as p) {
+        <dl>
+          <dt>Name</dt><dd>{{ p.firstName }} {{ p.lastName }}</dd>
+          <dt>Email</dt><dd>{{ p.email }}</dd>
+          <dt>Department</dt><dd>{{ p.department || '—' }}</dd>
+          <dt>Role</dt><dd>Instructor</dd>
+        </dl>
+      } @else if (!error()) { <p>Loading…</p> }
+    </section>
+  

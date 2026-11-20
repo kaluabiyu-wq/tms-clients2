@@ -1,0 +1,22 @@
+/* Question management — assessment authoring workspace */
+:host { display: block; min-width: 0; }
+section { max-width: 1080px; margin: 0 auto; padding: clamp(1rem, 3vw, 2rem); color: var(--color-text); }
+section > a { display: inline-block; margin-bottom: 1rem; color: var(--color-primary-interactive); font-weight: 600; text-decoration: none; }
+section > a:hover { color: var(--color-primary); text-decoration: underline; }
+h1 { margin: 0 0 1.25rem; font-size: clamp(1.65rem, 3vw, 2.15rem); letter-spacing: -.035em; }
+h2 { margin: 1.5rem 0 .8rem; color: var(--color-primary); font-size: 1.15rem; }
+section > p { color: var(--color-text-muted); line-height: 1.6; }
+form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; margin: 1.2rem 0 1.8rem; padding: 1.35rem; border: 1px solid var(--color-panel-border); border-radius: 16px; background: var(--color-surface); box-shadow: 0 6px 22px rgba(15, 23, 42, .05); }
+form label { display: grid; align-content: start; gap: .45rem; color: var(--color-panel-text); font-size: .9rem; font-weight: 650; }
+form label:first-child, form label:nth-child(3) { grid-column: 1 / -1; }
+input, select, textarea { width: 100%; box-sizing: border-box; min-height: 42px; padding: .7rem .8rem; border: 1px solid var(--color-panel-border-strong); border-radius: 9px; background: var(--color-surface); color: var(--color-text); font: inherit; }
+textarea { min-height: 96px; resize: vertical; }
+input:focus, select:focus, textarea:focus { outline: 3px solid rgba(37, 99, 235, .15); border-color: var(--color-focus); }
+button { justify-self: start; min-height: 42px; padding: .65rem 1.15rem; border: 0; border-radius: 9px; background: var(--color-primary-interactive); color: #fff; font: inherit; font-weight: 700; cursor: pointer; transition: background .18s ease, transform .18s ease; }
+button:hover:not(:disabled) { background: var(--color-primary); transform: translateY(-1px); }
+button:disabled { opacity: .5; cursor: not-allowed; }
+article { margin: .8rem 0; padding: 1rem 1.2rem; border: 1px solid var(--color-panel-border); border-left: 4px solid var(--color-accent); border-radius: 12px; background: var(--color-surface); }
+article strong { display: block; color: var(--color-text); line-height: 1.55; }
+article p { margin: .45rem 0 0; color: var(--color-text-muted); font-size: .9rem; }
+[role='alert'] { padding: .85rem 1rem; border: 1px solid var(--color-danger); border-radius: 10px; background: var(--color-danger-bg-hover); color: var(--badge-danger-text); }
+@media (max-width: 680px) { form { grid-template-columns: 1fr; padding: 1rem; } form label:first-child, form label:nth-child(3) { grid-column: auto; } button { width: 100%; } }

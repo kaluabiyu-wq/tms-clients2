@@ -1,0 +1,7 @@
+/* Access denied page — TMS branded status state */
+:host { display: grid; min-height: 65vh; place-items: center; padding: 1.5rem; box-sizing: border-box; }
+:host > h2, :host > p, :host > a { width: min(100%, 520px); box-sizing: border-box; }
+:host > h2 { margin: 0; padding: 1.5rem 1.5rem .5rem; border: 1px solid var(--color-panel-border); border-bottom: 0; border-radius: 16px 16px 0 0; background: var(--color-surface); color: var(--color-danger); font-size: 1.6rem; }
+:host > p { margin: 0; padding: .5rem 1.5rem 1.2rem; border: 1px solid var(--color-panel-border); border-top: 0; border-bottom: 0; background: var(--color-surface); color: var(--color-text-muted); line-height: 1.6; }
+:host > a { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: .7rem 1.5rem; border: 1px solid var(--color-panel-border); border-top: 0; border-radius: 0 0 16px 16px; background: var(--color-surface); color: var(--color-primary-interactive); font-weight: 700; text-decoration: none; }
+:host > a:hover { color: var(--color-primary); background: var(--color-primary-tint); }

@@ -1,0 +1,6 @@
+    .page{padding:1.5rem}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem;margin:1rem 0 2rem}
+    .card{display:flex;flex-direction:column;gap:.25rem;padding:1rem;border:1px solid #d9dee8;border-radius:10px;text-decoration:none;color:inherit}
+    .card strong{font-size:1.8rem;color:var(--color-primary-interactive)}.card span{color:var(--color-text-muted)}
+    .event{padding:1rem;margin:.75rem 0;border:1px solid #d9dee8;border-left:4px solid var(--color-primary-interactive);border-radius:9px}
+    .event h3{margin:.4rem 0}.event p{margin:.25rem 0;color:var(--color-text-muted)}.time{font-weight:600;color:var(--color-primary-interactive)}.error{color:var(--badge-danger-text)}
+  

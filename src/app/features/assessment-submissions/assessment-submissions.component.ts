@@ -6,7 +6,8 @@ import { firstValueFrom } from 'rxjs';
 import { AssessmentService } from '../../services/assessment.service';
 import { AssessmentSubmission } from '../../models/assessment.model';
 
-@Component({ selector:'app-assessment-submissions', standalone:true, imports:[CommonModule,FormsModule,RouterLink], templateUrl:'./assessment-submissions.component.html' })
+@Component({ selector:'app-assessment-submissions', standalone:true, imports:[CommonModule,FormsModule,RouterLink], templateUrl:'./assessment-submissions.component.html',
+  styleUrl: './assessment-submissions.component.scss',})
 export class AssessmentSubmissionsComponent {
   private readonly route=inject(ActivatedRoute); private readonly service=inject(AssessmentService);
   readonly courseId=Number(this.route.snapshot.paramMap.get('courseId'));

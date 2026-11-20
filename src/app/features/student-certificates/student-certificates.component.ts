@@ -7,37 +7,8 @@ import { CertificateDetails } from '../../models/certificate.model';
   selector: 'app-student-certificates',
   standalone: true,
   imports: [CommonModule],
-  template: `
-  <main class="page">
-    <h1>My certificates</h1>
-    <p>Certificates issued for your completed training courses.</p>
-    @if (error()) { <p class="error">{{ error() }}</p> }
-    @if (loading()) { <p>Loading certificates…</p> }
-    @if (!loading() && certificates().length === 0) { <section class="empty">No certificates have been issued yet.</section> }
-    <section class="grid">
-      @for (cert of certificates(); track cert.id) {
-        <article class="card">
-          <div class="top"><span class="seal">✓</span><span [class.revoked]="cert.status === 'Revoked'">{{ cert.status }}</span></div>
-          <h2>{{ cert.courseName }}</h2>
-          <p>Certificate No. {{ cert.serialNumber }}</p>
-          <small>Issued {{ cert.issuedAt | date:'longDate' }}</small>
-          <div class="actions">
-            <button (click)="download(cert)" [disabled]="cert.status !== 'Issued'">Download PDF</button>
-            <a [href]="'/certificate-verification/' + cert.verificationCode">Verify</a>
-          </div>
-        </article>
-      }
-    </section>
-  </main>`,
-  styles: [`
-    .page{max-width:1100px;margin:35px auto;padding:0 20px;color:var(--color-text)}h1{font-size:28px;margin-bottom:6px}
-    p{color:var(--color-text-muted)}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px;margin-top:24px}
-    .card,.empty{border:1px solid var(--color-panel-border);border-radius:14px;padding:22px;background:white}
-    .top{display:flex;justify-content:space-between;align-items:center}.seal{background:#ecfdf3;color:#166534;border-radius:50%;padding:9px}
-    h2{font-size:19px;margin:20px 0 8px}.actions{display:flex;align-items:center;gap:15px;margin-top:20px}
-    button{background:var(--color-primary-interactive);color:white;border:0;border-radius:8px;padding:10px 14px;cursor:pointer}
-    a{color:var(--color-primary-interactive)}.revoked,.error{color:var(--color-danger)}.empty{margin-top:20px}
-  `]
+  templateUrl: './student-certificates.component.html',
+  styleUrl: './student-certificates.component.scss'
 })
 export class StudentCertificatesComponent {
   private readonly api = inject(CertificateService);

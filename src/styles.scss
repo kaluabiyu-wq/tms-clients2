@@ -156,7 +156,7 @@ a {
   background: var(--color-surface);
 }
 
-/* Unified semantic button system: consistent text, hover, focus and press states. */
+/* Shared base interaction: keep text contrast and consistent elevation. */
 :where(button:not(.nav-btn):not(.bell-button):not(.text-button):not(.link)) {
   color: var(--button-text);
   border-radius: var(--button-radius);
@@ -200,12 +200,13 @@ a {
   color: var(--button-text);
 }
 
-/* Angular Material buttons retain the same primary palette by default. */
+/* Angular Material buttons use the same primary palette by default. */
 .mat-mdc-button,
 .mat-mdc-unelevated-button,
 .mat-mdc-raised-button {
   color: var(--button-text) !important;
-  transition: background-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+  transition: background-color 160ms ease, box-shadow 160ms ease,
+    transform 160ms ease;
 }
 
 /* Success actions: Approve, Confirm, Complete, Activate. */
@@ -219,11 +220,11 @@ button.complete,
 button.mark-complete,
 button.enroll-success,
 button.success-action,
-button[class*="approve"],
-button[class*="confirm"],
-button[class*="complete"],
-button[data-variant="success"],
-button[data-action="success"] {
+button[class*='approve'],
+button[class*='confirm'],
+button[class*='complete'],
+button[data-variant='success'],
+button[data-action='success'] {
   background-color: var(--button-success) !important;
   border-color: var(--button-success) !important;
   color: #ffffff !important;
@@ -237,11 +238,11 @@ button.approve:not(:disabled):hover,
 button.confirm:not(:disabled):hover,
 button.complete:not(:disabled):hover,
 button.mark-complete:not(:disabled):hover,
-button[class*="approve"]:not(:disabled):hover,
-button[class*="confirm"]:not(:disabled):hover,
-button[class*="complete"]:not(:disabled):hover,
-button[data-variant="success"]:not(:disabled):hover,
-button[data-action="success"]:not(:disabled):hover {
+button[class*='approve']:not(:disabled):hover,
+button[class*='confirm']:not(:disabled):hover,
+button[class*='complete']:not(:disabled):hover,
+button[data-variant='success']:not(:disabled):hover,
+button[data-action='success']:not(:disabled):hover {
   background-color: var(--button-success-hover) !important;
   border-color: var(--button-success-hover) !important;
   color: #ffffff !important;
@@ -256,8 +257,8 @@ button.approve:not(:disabled):active,
 button.confirm:not(:disabled):active,
 button.complete:not(:disabled):active,
 button.mark-complete:not(:disabled):active,
-button[data-variant="success"]:not(:disabled):active,
-button[data-action="success"]:not(:disabled):active {
+button[data-variant='success']:not(:disabled):active,
+button[data-action='success']:not(:disabled):active {
   background-color: var(--button-success-active) !important;
   border-color: var(--button-success-active) !important;
   color: #ffffff !important;
@@ -271,18 +272,18 @@ button.remove,
 button.remove-button,
 button.cancel-enrollment,
 button.danger-action,
-button[class*="cancel-enrollment"],
 button.danger,
 button.reject,
 button.revoke,
-button[class*="delete"],
-button[class*="danger"],
-button[class*="remove"],
-button[class*="revoke"],
-button[aria-label*="Delete"],
-button[aria-label*="Remove"],
-button[data-variant="danger"],
-button[data-action="danger"] {
+button[class*='cancel-enrollment'],
+button[class*='delete'],
+button[class*='danger'],
+button[class*='remove'],
+button[class*='revoke'],
+button[aria-label*='Delete'],
+button[aria-label*='Remove'],
+button[data-variant='danger'],
+button[data-action='danger'] {
   background-color: var(--button-danger) !important;
   border-color: var(--button-danger) !important;
   color: #ffffff !important;
@@ -297,15 +298,15 @@ button.remove-button:not(:disabled):hover,
 button.reject:not(:disabled):hover,
 button.revoke:not(:disabled):hover,
 button.cancel-enrollment:not(:disabled):hover,
-button[class*="delete"]:not(:disabled):hover,
-button[class*="danger"]:not(:disabled):hover,
-button[class*="remove"]:not(:disabled):hover,
-button[class*="revoke"]:not(:disabled):hover,
-button[class*="cancel-enrollment"]:not(:disabled):hover,
-button[aria-label*="Delete"]:not(:disabled):hover,
-button[aria-label*="Remove"]:not(:disabled):hover,
-button[data-variant="danger"]:not(:disabled):hover,
-button[data-action="danger"]:not(:disabled):hover {
+button[class*='delete']:not(:disabled):hover,
+button[class*='danger']:not(:disabled):hover,
+button[class*='remove']:not(:disabled):hover,
+button[class*='revoke']:not(:disabled):hover,
+button[class*='cancel-enrollment']:not(:disabled):hover,
+button[aria-label*='Delete']:not(:disabled):hover,
+button[aria-label*='Remove']:not(:disabled):hover,
+button[data-variant='danger']:not(:disabled):hover,
+button[data-action='danger']:not(:disabled):hover {
   background-color: var(--button-danger-hover) !important;
   border-color: var(--button-danger-hover) !important;
   color: #ffffff !important;
@@ -321,11 +322,11 @@ button.remove-button:not(:disabled):active,
 button.reject:not(:disabled):active,
 button.revoke:not(:disabled):active,
 button.cancel-enrollment:not(:disabled):active,
-button[class*="delete"]:not(:disabled):active,
-button[class*="danger"]:not(:disabled):active,
-button[class*="remove"]:not(:disabled):active,
-button[data-variant="danger"]:not(:disabled):active,
-button[data-action="danger"]:not(:disabled):active {
+button[class*='delete']:not(:disabled):active,
+button[class*='danger']:not(:disabled):active,
+button[class*='remove']:not(:disabled):active,
+button[data-variant='danger']:not(:disabled):active,
+button[data-action='danger']:not(:disabled):active {
   background-color: var(--button-danger-active) !important;
   border-color: var(--button-danger-active) !important;
   color: #ffffff !important;
@@ -340,4 +341,16 @@ button:disabled,
   opacity: 0.52;
   box-shadow: none;
   transform: none;
+}
+
+/* Respect reduced-motion preferences without removing state feedback. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
 }

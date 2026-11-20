@@ -1,0 +1,79 @@
+    <main class="page">
+      <header class="page-header">
+        <div>
+          <p class="eyebrow">INSTRUCTOR PORTAL</p>
+          <h1>My teaching timetable</h1>
+          <p class="subtitle">Your scheduled classes, rooms and teaching topics for the week.</p>
+        </div>
+        <button type="button" class="refresh-button" (click)="load()" [disabled]="loading()">
+          <span aria-hidden="true">↻</span> Refresh
+        </button>
+      </header>
+
+      <section class="week-toolbar" aria-label="Timetable week navigation">
+        <button type="button" class="nav-button" (click)="move(-7)" [disabled]="loading()">‹ Previous</button>
+        <div class="week-title">
+          <strong>{{ weekLabel() }}</strong>
+          <span>Weekly schedule</span>
+        </div>
+        <button type="button" class="nav-button" (click)="move(7)" [disabled]="loading()">Next ›</button>
+        <button type="button" class="today-button" (click)="goToToday()" [disabled]="loading()">Today</button>
+      </section>
+
+      @if (error()) {
+        <div class="state error-state" role="alert">
+          <strong>Unable to load timetable</strong>
+          <p>{{ error() }}</p>
+          <button type="button" class="nav-button" (click)="load()">Try again</button>
+        </div>
+      } @else if (loading()) {
+        <div class="state loading-state" role="status">Loading your weekly timetable…</div>
+      } @else {
+        <section class="week-grid" aria-label="Classes by day">
+          @for (day of days(); track day.key) {
+            <article class="day-column" [class.today]="day.isToday">
+              <header class="day-heading">
+                <span class="day-name">{{ day.label }}</span>
+                <span class="day-date">{{ day.date | date:'MMM d' }}</span>
+                <span class="day-count">{{ day.classes.length }} {{ day.classes.length === 1 ? 'class' : 'classes' }}</span>
+              </header>
+              <div class="day-content">
+                @if (!day.classes.length) {
+                  <p class="no-class">No classes</p>
+                } @else {
+                  @for (item of day.classes; track item.id) {
+                    <article class="class-card">
+                      <div class="class-time">
+                        <span>{{ item.startAt | date:'shortTime' }}</span>
+                        <span class="time-separator">–</span>
+                        <span>{{ item.endAt | date:'shortTime' }}</span>
+                      </div>
+                      <h3>{{ item.courseCode }}</h3>
+                      <p class="course-title">{{ item.courseTitle }}</p>
+                      <div class="class-meta">
+                        <span aria-hidden="true">⌖</span>
+                        <span>{{ item.classroomName }}</span>
+                      </div>
+                      @if (item.classroomLocation) {
+                        <p class="room-location">{{ item.classroomLocation }}</p>
+                      }
+                      @if (item.topic) {
+                        <div class="topic"><span>Topic</span>{{ item.topic }}</div>
+                      }
+                    </article>
+                  }
+                }
+              </div>
+            </article>
+          }
+        </section>
+        @if (!items().length) {
+          <div class="week-empty">
+            <div class="empty-icon" aria-hidden="true">▦</div>
+            <h2>No classes scheduled</h2>
+            <p>You have no scheduled classes during this week.</p>
+          </div>
+        }
+      }
+    </main>
+  

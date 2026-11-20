@@ -1,0 +1,21 @@
+  <main class="page">
+    <h1>My certificates</h1>
+    <p>Certificates issued for your completed training courses.</p>
+    @if (error()) { <p class="error">{{ error() }}</p> }
+    @if (loading()) { <p>Loading certificates…</p> }
+    @if (!loading() && certificates().length === 0) { <section class="empty">No certificates have been issued yet.</section> }
+    <section class="grid">
+      @for (cert of certificates(); track cert.id) {
+        <article class="card">
+          <div class="top"><span class="seal">✓</span><span [class.revoked]="cert.status === 'Revoked'">{{ cert.status }}</span></div>
+          <h2>{{ cert.courseName }}</h2>
+          <p>Certificate No. {{ cert.serialNumber }}</p>
+          <small>Issued {{ cert.issuedAt | date:'longDate' }}</small>
+          <div class="actions">
+            <button (click)="download(cert)" [disabled]="cert.status !== 'Issued'">Download PDF</button>
+            <a [href]="'/certificate-verification/' + cert.verificationCode">Verify</a>
+          </div>
+        </article>
+      }
+    </section>
+  </main>

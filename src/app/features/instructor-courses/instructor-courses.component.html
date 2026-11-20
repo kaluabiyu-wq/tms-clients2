@@ -1,0 +1,23 @@
+    <section class="page">
+      <h1>My courses</h1>
+      @if (error()) { <p role="alert" class="error">{{ error() }}</p> }
+      @if (loading()) { <p>Loading…</p> }
+      @else if (!items().length) { <p>No courses are assigned to you yet.</p> }
+      @else {
+        @for (c of items(); track c.id) {
+          <article class="row">
+            <div>
+              <h3>{{ c.code }} — {{ c.title }}</h3>
+              <p>{{ c.description }}</p>
+              <p class="meta">{{ c.approvedStudents }}/{{ c.maxCapacity }} students · {{ c.pendingStudents }} pending · {{ c.assessmentCount }} assessments</p>
+            </div>
+            <div class="actions">
+              <a [routerLink]="['/instructor/students']" [queryParams]="{ courseId: c.id }">Students</a>
+              <a [routerLink]="['/courses', c.id, 'assessments']">Assessments</a>
+              <a [routerLink]="['/instructor/gradebook']" [queryParams]="{ courseId: c.id }">Gradebook</a>
+            </div>
+          </article>
+        }
+      }
+    </section>
+  
