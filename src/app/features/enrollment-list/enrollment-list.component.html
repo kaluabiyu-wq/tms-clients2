@@ -1,4 +1,3 @@
-
 <main class="page">
   <header class="page-header">
     <div>
@@ -6,7 +5,6 @@
       <h1>Enrollment Management</h1>
       <p>Review student course requests and manage enrollment approvals.</p>
     </div>
-
     <div class="header-stat">
       <strong>{{ store.entities().length }}</strong>
       <span>Total requests</span>
@@ -18,17 +16,14 @@
       <span class="summary-label">All requests</span>
       <strong>{{ store.entities().length }}</strong>
     </article>
-
     <article class="summary-card pending">
       <span class="summary-label">Awaiting review</span>
       <strong>{{ store.pendingCount() }}</strong>
     </article>
-
     <article class="summary-card approved">
       <span class="summary-label">Approved</span>
       <strong>{{ approvedCount }}</strong>
     </article>
-
     <article class="summary-card rejected">
       <span class="summary-label">Rejected</span>
       <strong>{{ rejectedCount }}</strong>
@@ -36,37 +31,24 @@
   </section>
 
   @if (store.error()) {
-    <div class="error-banner" role="alert">
-      {{ store.error() }}
-    </div>
+    <div class="error-banner" role="alert">{{ store.error() }}</div>
   }
 
   <section class="table-card">
     <div class="table-toolbar">
       <div>
         <h2>Enrollment requests</h2>
-        <p>
-          Search by student, registration number, course name or course code.
-        </p>
+        <p>Search by student, registration number, course name or course code.</p>
       </div>
-
       <div class="filters">
         <label class="search-field">
           <span class="visually-hidden">Search enrollments</span>
-          <input
-            #searchBox
-            type="search"
-            placeholder="Search enrollments..."
-            (input)="applyFilters(searchBox.value, statusFilter.value)"
-          />
+          <input #searchBox type="search" placeholder="Search enrollments…"
+            (input)="applyFilters(searchBox.value, statusFilter.value)">
         </label>
-
         <label>
           <span class="visually-hidden">Filter by status</span>
-          <select
-            #statusFilter
-            (change)="applyFilters(searchBox.value, statusFilter.value)"
-          >
+          <select #statusFilter (change)="applyFilters(searchBox.value, statusFilter.value)">
             <option value="">All statuses</option>
             <option value="Pending">Pending</option>
             <option value="Approved">Approved</option>
@@ -77,108 +59,55 @@
     </div>
 
     @if (store.isLoading()) {
-      <div class="state-message">
-        Loading enrollment records...
-      </div>
+      <div class="state-message">Loading enrollment records…</div>
     } @else if (store.entities().length === 0 && !store.error()) {
       <div class="state-message empty-state">
         <strong>No enrollment requests yet</strong>
-        <span>
-          Student enrollment requests will appear here when submitted.
-        </span>
+        <span>Student enrollment requests will appear here when submitted.</span>
       </div>
     } @else {
       <div class="table-scroll">
-        <table
-          mat-table
-          [dataSource]="dataSource"
-          [trackBy]="trackEnrollment"
-          matSort
-          class="enrollment-table"
-        >
-          <!-- Student -->
+        <table mat-table [dataSource]="dataSource" [trackBy]="trackEnrollment" matSort class="enrollment-table">
           <ng-container matColumnDef="student">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>
-              Student
-            </th>
-
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Student</th>
             <td mat-cell *matCellDef="let row">
-              <div class="primary-cell">
-                {{ row.studentName }}
-              </div>
-
-              <div class="secondary-cell">
-                {{ row.studentId }}
-              </div>
+              <div class="primary-cell">{{ row.studentName }}</div>
+              <div class="secondary-cell">{{ row.studentId }}</div>
             </td>
           </ng-container>
 
-          <!-- Course -->
           <ng-container matColumnDef="course">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>
-              Course
-            </th>
-
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Course</th>
             <td mat-cell *matCellDef="let row">
-              <div class="primary-cell">
-                {{ row.courseName }}
-              </div>
-
-              <div class="secondary-cell">
-                {{ row.courseCode }}
-              </div>
+              <div class="primary-cell">{{ row.courseName }}</div>
+              <div class="secondary-cell">{{ row.courseCode }}</div>
             </td>
           </ng-container>
 
-          <!-- Submission date -->
           <ng-container matColumnDef="submitted">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>
-              Submitted
-            </th>
-
-            <td mat-cell *matCellDef="let row">
-              {{ row.enrolledAt | date:'mediumDate' }}
-            </td>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Submitted</th>
+            <td mat-cell *matCellDef="let row">{{ row.enrolledAt | date:'mediumDate' }}</td>
           </ng-container>
 
-          <!-- Status -->
           <ng-container matColumnDef="status">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>
-              Status
-            </th>
-
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
             <td mat-cell *matCellDef="let row">
-              <span
-                class="status-badge"
-                [class.pending]="row.status === 'Pending'"
+              <span class="status-badge" [class.pending]="row.status === 'Pending'"
                 [class.approved]="row.status === 'Approved'"
-                [class.rejected]="row.status === 'Rejected'"
-              >
-                <span class="status-dot"></span>
-                {{ row.status }}
+                [class.rejected]="row.status === 'Rejected'">
+                <span class="status-dot"></span>{{ row.status }}
               </span>
             </td>
           </ng-container>
 
-          <!-- Actions -->
           <ng-container matColumnDef="actions">
-            <th mat-header-cell *matHeaderCellDef>
-              Action
-            </th>
-
+            <th mat-header-cell *matHeaderCellDef>Action</th>
             <td mat-cell *matCellDef="let row">
               @if (row.status === 'Pending') {
-                <button
-                  type="button"
-                  class="approve-button"
+                <button type="button" class="approve-button"
                   [disabled]="store.approvingId() === row.id"
-                  (click)="store.approveEnrollment(row.id)"
-                >
-                  {{
-                    store.approvingId() === row.id
-                      ? 'Approving...'
-                      : 'Approve'
-                  }}
+                  (click)="store.approveEnrollment(row.id)">
+                  {{ store.approvingId() === row.id ? 'Approving…' : 'Approve' }}
                 </button>
               } @else {
                 <span class="no-action">—</span>
@@ -186,36 +115,15 @@
             </td>
           </ng-container>
 
-          <!-- Table header -->
-          <tr
-            mat-header-row
-            *matHeaderRowDef="displayedColumns"
-          ></tr>
-
-          <!-- Table rows -->
-          <tr
-            mat-row
-            *matRowDef="let row; columns: displayedColumns"
-          ></tr>
-
-          <!-- Empty filtered results -->
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
           <tr class="mat-row" *matNoDataRow>
-            <td
-              class="no-data"
-              [attr.colspan]="displayedColumns.length"
-            >
-              No enrollments match your filters.
-            </td>
+            <td class="no-data" [attr.colspan]="displayedColumns.length">No enrollments match your filters.</td>
           </tr>
         </table>
       </div>
-
-      <mat-paginator
-        [pageSize]="10"
-        [pageSizeOptions]="[10, 25, 50]"
-        showFirstLastButtons
-        aria-label="Select enrollment page"
-      ></mat-paginator>
+      <mat-paginator [pageSize]="10" [pageSizeOptions]="[10, 25, 50]"
+        showFirstLastButtons aria-label="Select enrollment page"></mat-paginator>
     }
   </section>
 </main>
