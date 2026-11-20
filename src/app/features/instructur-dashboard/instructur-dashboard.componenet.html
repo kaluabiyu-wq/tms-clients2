@@ -1,25 +1,60 @@
-<div class="dashboard-header">
- <h1>Instructor Command Center</h1>
- <div class="kpi-row">
- <div class="kpi-card">
-   <span class="kpi-value">{{ store.entities().length }}</span>
-   <span class="kpi-label">Total Enrollments</span>
-</div>
-<div class="kpi-card pending">
-  <span class="kpi-value">{{ store.pendingCount() }}</span>
-   <span class="kpi-label">Pending Approval</span>
-</div>
-</div>
-</div>
+<main class="admin-dashboard">
+  <header class="dashboard-heading">
+    <div>
+      <span class="eyebrow">ADMINISTRATION OVERVIEW</span>
+      <h1>Admin Dashboard</h1>
+      <p>Monitor enrollment activity and access the main training management tools.</p>
+    </div>
+    <span class="live-indicator"><span></span> Live enrollment updates</span>
+  </header>
 
- <div class="chart-section">
-   @defer (on viewport; prefetch on idle(500)) {
-  <tms-analytics-chart [data]="store.entities()" />
-  } @placeholder {
-  <div class="skeleton-chart">Scroll down to view analytics...</div>
-  } @loading (minimum 500ms) {
-  <div class="spinner">Downloading chart engine...</div>
-  } @error {
-  <p>Failed to load chart. Check your connection.</p>
- } 
-</div>
+  @if (store.error()) {
+    <div class="dashboard-alert" role="alert">{{ store.error() }}</div>
+  }
+
+  <section class="metrics-grid" aria-label="Enrollment statistics">
+    <article class="metric-card">
+      <span class="metric-icon total-icon" aria-hidden="true">▤</span>
+      <div><span class="metric-label">Total enrollments</span><strong>{{ store.entities().length }}</strong><small>All submitted requests</small></div>
+    </article>
+    <article class="metric-card pending-card">
+      <span class="metric-icon pending-icon" aria-hidden="true">◷</span>
+      <div><span class="metric-label">Pending review</span><strong>{{ store.pendingCount() }}</strong><small>Awaiting administrator action</small></div>
+    </article>
+    <article class="metric-card approved-card">
+      <span class="metric-icon approved-icon" aria-hidden="true">✓</span>
+      <div><span class="metric-label">Approved</span><strong>{{ approvedCount }}</strong><small>Approved enrollments</small></div>
+    </article>
+    <article class="metric-card rejected-card">
+      <span class="metric-icon rejected-icon" aria-hidden="true">×</span>
+      <div><span class="metric-label">Rejected</span><strong>{{ rejectedCount }}</strong><small>Rejected requests</small></div>
+    </article>
+  </section>
+
+  <section class="quick-actions">
+    <div class="section-title"><div><h2>Quick actions</h2><p>Frequently used administration pages</p></div></div>
+    <div class="action-grid">
+      <a routerLink="/enrollments"><span>▤</span><strong>Manage enrollments</strong><small>Review and approve requests</small><b>Open →</b></a>
+      <a routerLink="/admin/courses"><span>▦</span><strong>Manage courses</strong><small>Maintain the course catalog</small><b>Open →</b></a>
+      <a routerLink="/admin/programs"><span>▥</span><strong>Training programs</strong><small>Organize academic programs</small><b>Open →</b></a>
+      <a routerLink="/admin/reports"><span>▧</span><strong>Reports & analytics</strong><small>Review institutional performance</small><b>Open →</b></a>
+    </div>
+  </section>
+
+  <section class="analytics-panel">
+    <div class="section-title"><div><h2>Enrollment analytics</h2><p>Overview of enrollment activity</p></div></div>
+    @if (store.isLoading()) {
+      <div class="loading-state">Loading enrollment data…</div>
+    } @else {
+      @defer (on viewport; prefetch on idle(500)) {
+        <tms-analytics-chart [data]="store.entities()" />
+      } @placeholder {
+        <div class="loading-state">Analytics will load when this section is visible.</div>
+      } @loading (minimum 300ms) {
+        <div class="loading-state">Preparing analytics…</div>
+      } @error {
+        <div class="loading-state">Analytics are temporarily unavailable.</div>
+      }
+    }
+  </section>
+</main>

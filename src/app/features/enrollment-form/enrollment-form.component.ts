@@ -1,6 +1,6 @@
 import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { finalize } from 'rxjs';
 import { CourseService } from '../../services/course.service';
@@ -21,6 +21,7 @@ export class EnrollmentFormComponent {
   private readonly coursesApi = inject(CourseService);
   private readonly profileApi = inject(StudentProfileService);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly route = inject(ActivatedRoute);
 
   readonly profile = signal<StudentFullProfile | null>(null);
   readonly courses = signal<Course[]>([]);
@@ -36,6 +37,14 @@ export class EnrollmentFormComponent {
   });
 
   constructor() {
+    this.route.queryParamMap
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(params => {
+        const courseId = Number(params.get('courseId'));
+        if (Number.isInteger(courseId) && courseId > 0) {
+          this.form.controls.courseId.setValue(courseId);
+        }
+      });
     this.loadStudentProfile();
     this.loadCourses();
   }

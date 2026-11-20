@@ -19,11 +19,13 @@
 .nav-list {
   display: flex;
   align-items: center;
+  justify-content: center;
   flex-wrap: wrap;
-  gap: 0.4rem;
+  gap: 0.55rem;
   width: 100%;
-  max-width: 1600px;
+  max-width: 1500px;
   margin: 0 auto;
+  padding: 0.15rem 0.5rem;
 }
 .nav-btn {
   display: inline-flex;
@@ -113,10 +115,10 @@
   background: var(--color-primary-soft, #eff6ff);
 }
 .nav-spacer {
-  flex: 1 1 auto;
+  display: none;
 }
 .notification-link {
-  margin-left: auto;
+  margin-left: 0.35rem;
 }
 .logout-btn {
   margin-left: 0.25rem;
@@ -143,7 +145,8 @@
     padding: 0.55rem 0.85rem;
   }
   .nav-list {
-    gap: 0.25rem;
+    gap: 0.35rem;
+    padding: 0.2rem 0;
   }
   .nav-btn {
     min-height: 40px;
@@ -151,7 +154,7 @@
     font-size: 0.86rem;
   }
   .nav-spacer {
-    flex-basis: 100%;
+    display: none;
   }
   .notification-link {
     margin-left: 0;

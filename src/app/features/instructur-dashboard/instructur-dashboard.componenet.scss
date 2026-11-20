@@ -1,70 +1,243 @@
-.dashboard-header {
-  padding: 1.5rem;
-  margin: auto;
+.admin-dashboard {
+  width: min(1480px, 100%);
+  margin: 0 auto;
+  padding: 2rem clamp(1rem, 3vw, 2.5rem) 3rem;
+  color: var(--color-text);
 }
-.kpi-row {
+
+.dashboard-heading {
   display: flex;
+  align-items: center;
+  justify-content: space-between;
   gap: 1.5rem;
-  margin-top: 1rem;
+  margin-bottom: 1.5rem;
 }
-.kpi-card {
-  padding: 1rem 1.5rem;
-  border-radius: 8px;
-  background: var(--color-panel);
-  color: var(--color-panel-text);
-  display: flex;
-  flex-direction: column;
-  min-width: 160px;
+
+.eyebrow {
+  color: var(--color-primary-interactive);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
 }
-.kpi-card.pending {
-  border-left: 4px solid var(--color-accent-bright);
+
+.dashboard-heading h1 {
+  margin: 0.35rem 0;
+  color: var(--color-text);
+  font-size: clamp(1.7rem, 3vw, 2.2rem);
+  font-weight: 800;
 }
-.kpi-value {
-  font-size: 2rem;
-  font-weight: 700;
-}
-.kpi-label {
-  font-size: 0.85rem;
+
+.dashboard-heading p,
+.section-title p {
+  margin: 0;
   color: var(--color-panel-text-muted);
-  margin-top: 0.25rem;
+  font-size: 0.92rem;
 }
-.chart-section {
+
+.live-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 0.8rem;
+  border: 1px solid rgba(22, 163, 74, 0.25);
+  border-radius: 999px;
+  color: #15803d;
+  background: rgba(22, 163, 74, 0.08);
+  font-size: 0.78rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.live-indicator span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #16a34a;
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.12);
+}
+
+.dashboard-alert {
+  margin-bottom: 1rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid rgba(220, 38, 38, 0.3);
+  border-radius: 10px;
+  color: var(--color-danger-on-dark);
+  background: rgba(220, 38, 38, 0.08);
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.metric-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  min-height: 130px;
+  padding: 1.2rem;
+  border: 1px solid var(--color-panel-border);
+  border-radius: 14px;
+  background: var(--color-panel);
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
+}
+
+.metric-card > div {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.metric-icon {
+  display: grid;
+  flex: 0 0 44px;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  border-radius: 12px;
+  font-size: 1.4rem;
+  font-weight: 800;
+}
+
+.total-icon {
+  color: #1d4ed8;
+  background: rgba(37, 99, 235, 0.12);
+}
+
+.pending-icon {
+  color: #b45309;
+  background: rgba(245, 158, 11, 0.14);
+}
+
+.approved-icon {
+  color: #15803d;
+  background: rgba(22, 163, 74, 0.12);
+}
+
+.rejected-icon {
+  color: #b91c1c;
+  background: rgba(220, 38, 38, 0.1);
+}
+
+.metric-label,
+.metric-card small {
+  color: var(--color-panel-text-muted);
+  font-size: 0.78rem;
+}
+
+.metric-card strong {
+  color: var(--color-panel-text-strong, var(--color-text));
+  font-size: 1.8rem;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.metric-card small {
+  font-size: 0.72rem;
+}
+
+.quick-actions,
+.analytics-panel {
   margin-top: 2rem;
-  padding: 0 1.5rem;
-  text-align: left;
-  tms-analytics-chart {
-    display: block;
-    width: 100%;
+  padding: 1.35rem;
+  border: 1px solid var(--color-panel-border);
+  border-radius: 15px;
+  background: var(--color-panel);
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.section-title h2 {
+  margin: 0 0 0.3rem;
+  color: var(--color-panel-text-strong, var(--color-text));
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+
+.action-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+
+.action-grid a {
+  display: grid;
+  gap: 0.4rem;
+  min-height: 150px;
+  padding: 1rem;
+  border: 1px solid var(--color-panel-border);
+  border-radius: 12px;
+  color: var(--color-panel-text);
+  background: var(--color-panel-deep);
+  text-decoration: none;
+  transition: border-color 150ms ease, transform 150ms ease, box-shadow 150ms ease;
+}
+
+.action-grid a:hover {
+  transform: translateY(-2px);
+  border-color: var(--color-primary-interactive);
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.07);
+}
+
+.action-grid a > span {
+  color: var(--color-primary-interactive);
+  font-size: 1.35rem;
+}
+
+.action-grid strong {
+  font-size: 0.9rem;
+}
+
+.action-grid small {
+  color: var(--color-panel-text-muted);
+  font-size: 0.75rem;
+}
+
+.action-grid b {
+  align-self: end;
+  color: var(--color-primary-interactive);
+  font-size: 0.78rem;
+}
+
+.analytics-panel tms-analytics-chart {
+  display: block;
+  width: 100%;
+}
+
+.loading-state {
+  display: grid;
+  min-height: 170px;
+  place-items: center;
+  border: 1px dashed var(--color-panel-border);
+  border-radius: 10px;
+  color: var(--color-panel-text-muted);
+  background: var(--color-panel-deep);
+  font-size: 0.9rem;
+}
+
+@media (max-width: 1050px) {
+  .metrics-grid,
+  .action-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
-.skeleton-chart {
-  min-height: 250px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--color-panel);
-  border: 2px dashed var(--color-panel-border);
-  border-radius: 8px;
-  color: var(--color-panel-text-subtle);
-  font-size: 1rem;
-}
-.spinner {
-  min-height: 250px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--color-panel-text-muted);
-  font-size: 1rem;
-}
-// --- addition: centers the title + KPI row as a block, and centers the KPI
-// cards horizontally within it ---
-.dashboard-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  max-width: 640px;
-}
-.kpi-row {
-  justify-content: center;
+
+@media (max-width: 600px) {
+  .dashboard-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .metrics-grid,
+  .action-grid {
+    grid-template-columns: 1fr;
+  }
+  .quick-actions,
+  .analytics-panel {
+    padding: 1rem;
+  }
 }
