@@ -6,14 +6,14 @@ import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class EnrollmentService {
-  private http = inject(HttpClient);
-   private baseUrl = `${environment.apiUrl}/enrollments`;
-   
+  private readonly http = inject(HttpClient);
+  private readonly baseUrl = `${environment.apiUrl}/enrollments`;
+
   getAll(): Observable<Enrollment[]> {
     return this.http.get<Enrollment[]>(this.baseUrl);
   }
 
-  approve(id: number): Observable<Enrollment> {
-    return this.http.post<Enrollment>(`${this.baseUrl}/${id}/approve`, {});
+  approve(id: number): Observable<void> {
+    return this.http.post<void>(`${this.baseUrl}/${id}/approve`, {});
   }
 }

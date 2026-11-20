@@ -1,0 +1,104 @@
+<section class="page">
+  @if (loading()) { <p>Loading your profile…</p> }
+  @else if (error()) { <p role="alert" class="error">{{ error() }}</p> }
+  @else if (profile(); as p) {
+    <header class="hero">
+      <div class="avatar" aria-hidden="true">{{ initials(p.account.fullName) }}</div>
+      <div>
+        <h1>{{ p.account.fullName }}</h1>
+        <p class="muted">{{ p.student.registrationNumber }} · <span class="badge" [class.off]="!p.student.isActive">{{ p.student.status }}</span></p>
+      </div>
+    </header>
+
+    <div class="stats">
+      <div class="stat"><strong>{{ p.student.gpa | number:'1.2-2' }}</strong><span>GPA</span></div>
+      <div class="stat"><strong>{{ p.summary.totalCourses }}</strong><span>Courses</span></div>
+      <div class="stat"><strong>{{ p.summary.averageGrade !== null && p.summary.averageGrade !== undefined ? (p.summary.averageGrade | number:'1.0-1') : '—' }}</strong><span>Average grade</span></div>
+      <div class="stat"><strong>{{ p.attendance.attendanceRate !== null && p.attendance.attendanceRate !== undefined ? (p.attendance.attendanceRate | number:'1.0-1') + '%' : '—' }}</strong><span>Attendance</span></div>
+      <div class="stat"><strong>{{ p.summary.certificates }}</strong><span>Certificates</span></div>
+    </div>
+
+    <div class="grid">
+      <article class="card">
+        <h2>Personal information</h2>
+        <dl>
+          <dt>Full name</dt><dd>{{ p.account.fullName }}</dd>
+          <dt>Email</dt><dd>{{ p.account.email }} @if (p.account.emailConfirmed) { <span class="badge">verified</span> }</dd>
+          <dt>Phone</dt><dd>{{ p.account.phoneNumber || '—' }}</dd>
+          <dt>Role</dt><dd>Student</dd>
+        </dl>
+      </article>
+
+      <article class="card">
+        <h2>Academic record</h2>
+        <dl>
+          <dt>Registration no.</dt><dd>{{ p.student.registrationNumber }}</dd>
+          <dt>Status</dt><dd>{{ p.student.status }}</dd>
+          <dt>GPA</dt><dd>{{ p.student.gpa | number:'1.2-2' }}</dd>
+          <dt>Approved courses</dt><dd>{{ p.summary.approvedCourses }}</dd>
+          <dt>Pending courses</dt><dd>{{ p.summary.pendingCourses }}</dd>
+          <dt>Graded courses</dt><dd>{{ p.summary.gradedCourses }}</dd>
+        </dl>
+      </article>
+
+      <article class="card">
+        <h2>Attendance</h2>
+        @if (!p.attendance.total) { <p class="muted">No attendance recorded yet.</p> }
+        @else {
+          <dl>
+            <dt>Present</dt><dd>{{ p.attendance.present }}</dd>
+            <dt>Late</dt><dd>{{ p.attendance.late }}</dd>
+            <dt>Excused</dt><dd>{{ p.attendance.excused }}</dd>
+            <dt>Absent</dt><dd>{{ p.attendance.absent }}</dd>
+            <dt>Sessions</dt><dd>{{ p.attendance.total }}</dd>
+          </dl>
+        }
+      </article>
+    </div>
+
+    <h2>My courses</h2>
+    @if (!p.enrollments.length) { <p class="muted">You are not enrolled in any course yet. <a routerLink="/enroll">Enroll now</a></p> }
+    @else {
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Course</th><th>Instructor</th><th>Year</th><th>Status</th><th>Grade</th><th>Enrolled</th></tr></thead>
+          <tbody>
+            @for (e of p.enrollments; track e.enrollmentId) {
+              <tr>
+                <td><strong>{{ e.courseCode }}</strong> {{ e.courseTitle }}</td>
+                <td>{{ e.instructorName || '—' }}</td>
+                <td>{{ e.year }}</td>
+                <td><span class="badge" [class.off]="e.status !== 'Approved'">{{ e.status }}</span></td>
+                <td>{{ e.grade ?? '—' }}</td>
+                <td>{{ e.enrolledAt | date:'mediumDate' }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+
+    <h2>Programs</h2>
+    @if (!p.programs.length) { <p class="muted">Not enrolled in a training program.</p> }
+    @else {
+      <ul class="list">
+        @for (pr of p.programs; track pr.programId) {
+          <li><strong>{{ pr.code }}</strong> {{ pr.name }} — {{ pr.status }}, since {{ pr.enrolledAt | date:'mediumDate' }}
+            @if (pr.completedAt) { (completed {{ pr.completedAt | date:'mediumDate' }}) }</li>
+        }
+      </ul>
+    }
+
+    <h2>Certificates</h2>
+    @if (!p.certificates.length) { <p class="muted">No certificates yet.</p> }
+    @else {
+      <ul class="list">
+        @for (c of p.certificates; track c.id) {
+          <li><strong>{{ c.courseCode }}</strong> {{ c.courseTitle }} — {{ c.serialNumber }} ·
+            <span class="badge" [class.off]="c.status !== 'Issued'">{{ c.status }}</span> · {{ c.issuedAt | date:'mediumDate' }}</li>
+        }
+      </ul>
+      <p><a routerLink="/my-certificates">View and download certificates</a></p>
+    }
+  }
+</section>

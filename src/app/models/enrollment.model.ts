@@ -1,4 +1,5 @@
 export interface CreateEnrollmentRequest {
+  /** Student registration number, e.g. STU-0001. */
   studentId: string;
 }
 
@@ -10,19 +11,14 @@ export interface EnrollmentResult {
 }
 
 export interface Enrollment {
-id: string;
-studentId: number;
-studentName: string;
-courseId: number;
-courseName: string;
-status: 'Pending' | 'Approved' | 'Rejected';
-enrolledAt: string;
-}
-
-export interface EnrollmentSummaryDto {
   id: number;
+  studentId: string;
   studentName: string;
+  courseId: number;
+  courseCode: string;
   courseName: string;
   status: 'Pending' | 'Approved' | 'Rejected';
   enrolledAt: string;
 }
+
+export interface EnrollmentSummaryDto extends Enrollment {}

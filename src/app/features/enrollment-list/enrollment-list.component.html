@@ -1,52 +1,221 @@
-<div class="page">
-  <h2>Enrollment Records</h2>
 
-  @if (store.isLoading()) {
-    <p class="state-msg">Loading enrollments…</p>
-  }
+<main class="page">
+  <header class="page-header">
+    <div>
+      <span class="eyebrow">ADMINISTRATION</span>
+      <h1>Enrollment Management</h1>
+      <p>Review student course requests and manage enrollment approvals.</p>
+    </div>
+
+    <div class="header-stat">
+      <strong>{{ store.entities().length }}</strong>
+      <span>Total requests</span>
+    </div>
+  </header>
+
+  <section class="summary-grid" aria-label="Enrollment summary">
+    <article class="summary-card">
+      <span class="summary-label">All requests</span>
+      <strong>{{ store.entities().length }}</strong>
+    </article>
+
+    <article class="summary-card pending">
+      <span class="summary-label">Awaiting review</span>
+      <strong>{{ store.pendingCount() }}</strong>
+    </article>
+
+    <article class="summary-card approved">
+      <span class="summary-label">Approved</span>
+      <strong>{{ approvedCount }}</strong>
+    </article>
+
+    <article class="summary-card rejected">
+      <span class="summary-label">Rejected</span>
+      <strong>{{ rejectedCount }}</strong>
+    </article>
+  </section>
 
   @if (store.error()) {
-    <p class="error banner">{{ store.error() }}</p>
+    <div class="error-banner" role="alert">
+      {{ store.error() }}
+    </div>
   }
 
-  <div class="table-card">
-    <table mat-table [dataSource]="dataSource" matSort class="enrollment-table">
+  <section class="table-card">
+    <div class="table-toolbar">
+      <div>
+        <h2>Enrollment requests</h2>
+        <p>
+          Search by student, registration number, course name or course code.
+        </p>
+      </div>
 
-      <ng-container matColumnDef="studentName">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Student</th>
-        <td mat-cell *matCellDef="let row">{{ row.studentName }}</td>
-      </ng-container>
+      <div class="filters">
+        <label class="search-field">
+          <span class="visually-hidden">Search enrollments</span>
+          <input
+            #searchBox
+            type="search"
+            placeholder="Search enrollments..."
+            (input)="applyFilters(searchBox.value, statusFilter.value)"
+          />
+        </label>
 
-      <ng-container matColumnDef="courseName">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Course</th>
-        <td mat-cell *matCellDef="let row">{{ row.courseName }}</td>
-      </ng-container>
+        <label>
+          <span class="visually-hidden">Filter by status</span>
+          <select
+            #statusFilter
+            (change)="applyFilters(searchBox.value, statusFilter.value)"
+          >
+            <option value="">All statuses</option>
+            <option value="Pending">Pending</option>
+            <option value="Approved">Approved</option>
+            <option value="Rejected">Rejected</option>
+          </select>
+        </label>
+      </div>
+    </div>
 
-      <ng-container matColumnDef="status">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
-        <td mat-cell *matCellDef="let row">
-          <span class="status-badge" [class]="row.status.toLowerCase()">
-            {{ row.status }}
-          </span>
-        </td>
-      </ng-container>
+    @if (store.isLoading()) {
+      <div class="state-message">
+        Loading enrollment records...
+      </div>
+    } @else if (store.entities().length === 0 && !store.error()) {
+      <div class="state-message empty-state">
+        <strong>No enrollment requests yet</strong>
+        <span>
+          Student enrollment requests will appear here when submitted.
+        </span>
+      </div>
+    } @else {
+      <div class="table-scroll">
+        <table
+          mat-table
+          [dataSource]="dataSource"
+          [trackBy]="trackEnrollment"
+          matSort
+          class="enrollment-table"
+        >
+          <!-- Student -->
+          <ng-container matColumnDef="student">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Student
+            </th>
 
-      <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef>Actions</th>
-        <td mat-cell *matCellDef="let row" class="actions">
-          @if (row.status === 'Pending') {
-            <button class="btn btn-approve" (click)="store.approveEnrollment(row.id)">Approve</button>
-          }
-        </td>
-      </ng-container>
+            <td mat-cell *matCellDef="let row">
+              <div class="primary-cell">
+                {{ row.studentName }}
+              </div>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
+              <div class="secondary-cell">
+                {{ row.studentId }}
+              </div>
+            </td>
+          </ng-container>
 
-    <mat-paginator
-      [pageSizeOptions]="[10, 25, 50]"
-      showFirstLastButtons>
-    </mat-paginator>
-  </div>
-</div>
+          <!-- Course -->
+          <ng-container matColumnDef="course">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Course
+            </th>
+
+            <td mat-cell *matCellDef="let row">
+              <div class="primary-cell">
+                {{ row.courseName }}
+              </div>
+
+              <div class="secondary-cell">
+                {{ row.courseCode }}
+              </div>
+            </td>
+          </ng-container>
+
+          <!-- Submission date -->
+          <ng-container matColumnDef="submitted">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Submitted
+            </th>
+
+            <td mat-cell *matCellDef="let row">
+              {{ row.enrolledAt | date:'mediumDate' }}
+            </td>
+          </ng-container>
+
+          <!-- Status -->
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Status
+            </th>
+
+            <td mat-cell *matCellDef="let row">
+              <span
+                class="status-badge"
+                [class.pending]="row.status === 'Pending'"
+                [class.approved]="row.status === 'Approved'"
+                [class.rejected]="row.status === 'Rejected'"
+              >
+                <span class="status-dot"></span>
+                {{ row.status }}
+              </span>
+            </td>
+          </ng-container>
+
+          <!-- Actions -->
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>
+              Action
+            </th>
+
+            <td mat-cell *matCellDef="let row">
+              @if (row.status === 'Pending') {
+                <button
+                  type="button"
+                  class="approve-button"
+                  [disabled]="store.approvingId() === row.id"
+                  (click)="store.approveEnrollment(row.id)"
+                >
+                  {{
+                    store.approvingId() === row.id
+                      ? 'Approving...'
+                      : 'Approve'
+                  }}
+                </button>
+              } @else {
+                <span class="no-action">—</span>
+              }
+            </td>
+          </ng-container>
+
+          <!-- Table header -->
+          <tr
+            mat-header-row
+            *matHeaderRowDef="displayedColumns"
+          ></tr>
+
+          <!-- Table rows -->
+          <tr
+            mat-row
+            *matRowDef="let row; columns: displayedColumns"
+          ></tr>
+
+          <!-- Empty filtered results -->
+          <tr class="mat-row" *matNoDataRow>
+            <td
+              class="no-data"
+              [attr.colspan]="displayedColumns.length"
+            >
+              No enrollments match your filters.
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <mat-paginator
+        [pageSize]="10"
+        [pageSizeOptions]="[10, 25, 50]"
+        showFirstLastButtons
+        aria-label="Select enrollment page"
+      ></mat-paginator>
+    }
+  </section>
+</main>

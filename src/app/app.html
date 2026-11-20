@@ -22,6 +22,7 @@
 
       @if (isStudent()) {
         <button (click)="goTo('/my-progress')" class="nav-btn">My Progress</button>
+        <button (click)="goTo('/student/profile')" class="nav-btn">My Profile</button>
       }
 
       @if (isAdmin()) {
