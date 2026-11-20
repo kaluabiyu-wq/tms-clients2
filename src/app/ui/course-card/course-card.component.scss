@@ -9,12 +9,10 @@
   height: 100%;
   box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
   transition: transform 0.15s ease, box-shadow 0.15s ease;
-
   &:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 20px rgba(15, 23, 42, 0.09);
   }
-
   .grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -22,36 +20,35 @@
     gap: 2rem 1.5rem;
     margin-top: 1.5rem;
     padding: 0 1.5rem 2rem;
-
     p {
       color: var(--color-text-muted);
       font-size: 0.95rem;
       grid-column: 1 / -1;
     }
   }
-
   h3 {
     font-size: 1.05rem;
     font-weight: 700;
     color: var(--color-text);
     line-height: 1.35;
     margin-bottom: 0.5rem;
-
     a {
       color: inherit;
       text-decoration: none;
-
-      &:visited { color: inherit; }
-      &:hover { color: var(--color-primary-interactive); text-decoration: underline; }
+      &:visited {
+        color: inherit;
+      }
+      &:hover {
+        color: var(--color-primary-interactive);
+        text-decoration: underline;
+      }
     }
   }
-
   p {
     font-size: 0.85rem;
     color: var(--color-text-muted);
     margin-bottom: 0.85rem;
   }
-
   .badge {
     align-self: flex-start;
     padding: 0.3rem 0.7rem;
@@ -61,13 +58,11 @@
     font-size: 0.75rem;
     font-weight: 700;
     margin-bottom: 1rem;
-
     &.closed {
       background: var(--badge-danger-bg);
       color: var(--badge-danger-text);
     }
   }
-
   button {
     margin-top: auto;
     padding: 0.6rem 1rem;
@@ -77,27 +72,26 @@
     font-weight: 700;
     cursor: pointer;
     transition: background 0.15s ease;
-
-    &:first-of-type { margin-top: auto; }
+    &:first-of-type {
+      margin-top: auto;
+    }
     &:disabled {
       background: var(--color-panel-deep);
       color: var(--color-panel-disabled-text);
       cursor: not-allowed;
     }
   }
-
   .enroll-btn {
     background: var(--color-primary-interactive);
     color: var(--color-on-accent-bright);
-
-    &:hover:not(:disabled) { background: var(--color-primary); }
+    &:hover:not(:disabled) {
+      background: var(--color-primary);
+    }
   }
-
   .delete-btn {
     background: transparent;
     color: var(--color-danger);
     border: 1px solid var(--color-danger);
-
     &:hover:not(:disabled) {
       background: var(--color-danger);
       color: #ffffff;

@@ -1,44 +1,35 @@
-
 .dashboard {
   padding: 1.5rem;
   border-radius: 8px;
   background: var(--color-panel);
   color: var(--color-panel-text);
-
   h1 {
     font-size: 1.75rem;
     font-weight: 700;
     margin-bottom: 0.75rem;
   }
-
   p {
     font-size: 0.95rem;
     color: var(--color-panel-text-muted);
     margin: 0.25rem 0;
-
     &.eligible {
       color: var(--color-success-on-dark);
       font-weight: 700;
     }
   }
-
-  
-
   button {
     margin-top: 1rem;
     padding: 0.7rem 1.25rem;
     border: none;
     border-radius: 8px;
-     background: var(--color-success);
-  color: var(--color-success-text);
+    background: var(--color-success);
+    color: var(--color-success-text);
     font-size: 0.9rem;
     font-weight: 700;
     cursor: pointer;
-
     &:hover {
-      background:var(--color-success-hover);
+      background: var(--color-success-hover);
     }
-
     &:disabled {
       background: var(--color-panel-border);
       color: var(--color-panel-disabled-text);
@@ -46,17 +37,13 @@
     }
   }
 }
-
-
 h2 {
   margin-top: 2rem;
   padding: 0 1.5rem;
   font-size: 1.25rem;
   font-weight: 700;
-  color:  var(--color-text);
+  color: var(--color-text);
 }
-
-
 .spinner {
   min-height: 250px;
   display: flex;
@@ -65,7 +52,6 @@ h2 {
   color: var(--color-panel-text-muted);
   font-size: 1rem;
 }
-
 .error {
   min-height: 250px;
   margin: 1rem 1.5rem 0;
@@ -80,8 +66,6 @@ h2 {
   text-align: center;
   padding: 0 1.5rem;
 }
-
-
 .grid {
   display: grid !important;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -90,25 +74,20 @@ h2 {
   margin-top: 1.5rem;
   padding: 0 1.5rem 2rem;
   position: static;
-
   > * {
     position: static;
   }
-
   p {
     color: var(--color-panel-text-subtle);
     font-size: 0.95rem;
     grid-column: 1 / -1;
   }
 }
-
-
 .selection-hint {
   margin-top: 1.5rem;
   padding: 1rem 1.5rem;
   color: var(--color-panel-text-muted);
   font-size: 0.9rem;
-
   strong {
     color: var(--color-panel-text);
   }

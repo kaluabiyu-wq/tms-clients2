@@ -1,11 +1,81 @@
-    .page{max-width:1000px;margin:32px auto;padding:0 20px;color:var(--color-text)}h1{font-size:28px;margin-bottom:6px}
-    p{color:var(--color-text-muted)}.panel{border:1px solid var(--color-panel-border);border-radius:14px;padding:22px;margin:20px 0;background:white}
-    h2{font-size:18px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
-    label{display:grid;gap:6px;font-size:13px;font-weight:600;margin:10px 0}
-    input,textarea{border:1px solid var(--color-panel-border-strong);border-radius:8px;padding:10px;font:inherit}
-    textarea{min-height:75px}.wide{display:grid}.check{display:flex;align-items:center;gap:8px}
-    button{background:var(--color-primary-interactive);color:white;border:0;border-radius:8px;padding:10px 15px;cursor:pointer}
-    .muted{background:var(--color-primary-tint);color:var(--color-primary)}.buttons{display:flex;gap:10px;margin-top:16px}
-    .item{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--color-panel-border);padding:14px 0}
-    @media(max-width:650px){.grid{grid-template-columns:1fr}}
-  
+.page {
+  max-width: 1000px;
+  margin: 32px auto;
+  padding: 0 20px;
+  color:var(--color-text)
+}
+h1 {
+  font-size: 28px;
+  margin-bottom:6px
+}
+p {
+  color:var(--color-text-muted)
+}
+.panel {
+  border: 1px solid var(--color-panel-border);
+  border-radius: 14px;
+  padding: 22px;
+  margin: 20px 0;
+  background:white
+}
+h2 {
+  font-size:18px
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2,minmax(0,1fr));
+  gap:14px
+}
+label {
+  display: grid;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  margin:10px 0
+}
+input,textarea {
+  border: 1px solid var(--color-panel-border-strong);
+  border-radius: 8px;
+  padding: 10px;
+  font:inherit
+}
+textarea {
+  min-height:75px
+}
+.wide {
+  display:grid
+}
+.check {
+  display: flex;
+  align-items: center;
+  gap:8px
+}
+button {
+  background: var(--color-primary-interactive);
+  color: white;
+  border: 0;
+  border-radius: 8px;
+  padding: 10px 15px;
+  cursor:pointer
+}
+.muted {
+  background: var(--color-primary-tint);
+  color:var(--color-primary)
+}
+.buttons {
+  display: flex;
+  gap: 10px;
+  margin-top:16px
+}
+.item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--color-panel-border);
+  padding:14px 0
+}
+@media(max-width:650px) {
+  .grid {
+    grid-template-columns:1fr
+  }
+}

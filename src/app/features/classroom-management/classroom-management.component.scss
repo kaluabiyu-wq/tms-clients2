@@ -1,24 +1,154 @@
-:host { display:block; color:var(--color-text); }
-.page { width:min(100% - 2rem,1120px); margin:2rem auto 3rem; }
-h1 { margin:0 0 1.3rem; font-size:clamp(1.7rem,3vw,2.2rem); letter-spacing:-.03em; }
-.create-form { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); align-items:end; gap:1rem; margin:0 0 1.4rem; padding:1.3rem; border:1px solid var(--color-panel-border); border-radius:15px; background:var(--color-surface); box-shadow:0 8px 22px rgba(15,23,42,.045); }
-.create-form label { display:grid; gap:.45rem; color:var(--color-panel-text); font-size:.87rem; font-weight:700; }
-.create-form input { width:100%; min-height:42px; box-sizing:border-box; padding:.65rem .8rem; border:1px solid var(--color-panel-border-strong); border-radius:9px; background:var(--color-surface); color:var(--color-text); font:inherit; }
-.create-form input:focus { outline:0; border-color:var(--color-focus); box-shadow:0 0 0 3px rgba(37,99,235,.13); }
-.create-form button { min-height:42px; padding:.65rem 1rem; border:1px solid var(--color-primary-interactive); border-radius:9px; background:var(--color-primary-interactive); color:#fff; font:inherit; font-weight:750; cursor:pointer; }
-.create-form button:hover:not(:disabled) { background:var(--color-primary); }
-.create-form button:disabled { opacity:.55; cursor:not-allowed; }
-.field-error,.error { color:var(--badge-danger-text); font-size:.8rem; }
-.error { padding:.8rem 1rem; border-radius:10px; background:var(--badge-danger-bg); font-size:.9rem; }
-.empty { padding:2rem; border:1px dashed var(--color-panel-border-strong); border-radius:12px; color:var(--color-text-muted); text-align:center; background:var(--color-surface); }
-.rooms { width:100%; border:1px solid var(--color-panel-border); border-radius:13px; border-spacing:0; border-collapse:separate; overflow:hidden; background:var(--color-surface); }
-.rooms th,.rooms td { padding:.85rem 1rem; border-bottom:1px solid var(--color-panel-border); text-align:left; }
-.rooms th { background:var(--color-panel-deep); color:var(--color-panel-text); font-size:.74rem; letter-spacing:.05em; text-transform:uppercase; white-space:nowrap; }
-.rooms td { font-size:.88rem; }
-.rooms tbody tr:last-child td { border-bottom:0; }
-.rooms tbody tr:hover { background:var(--color-primary-tint); }
-.rooms tr.inactive td { color:var(--color-text-muted); background:var(--color-panel-deep); }
-.rooms button { min-height:34px; padding:.4rem .7rem; border:1px solid var(--color-primary-interactive); border-radius:8px; background:var(--color-primary-tint); color:var(--color-primary); font:inherit; font-size:.8rem; font-weight:750; cursor:pointer; }
-.rooms button:hover:not(:disabled) { background:var(--color-primary-interactive); color:#fff; }
-@media(max-width:780px) { .create-form { grid-template-columns:repeat(2,minmax(0,1fr)); } }
-@media(max-width:580px) { .page { width:min(100% - 1.25rem,1120px); margin:1.25rem auto 2rem; } .create-form { grid-template-columns:1fr; } .rooms { display:block; overflow-x:auto; white-space:nowrap; } }
+:host {
+  display: block;
+  color: var(--color-text);
+}
+.page {
+  width: min(100% - 2rem,1120px);
+  margin: 2rem auto 3rem;
+}
+h1 {
+  margin: 0 0 1.3rem;
+  font-size: clamp(1.7rem,3vw,2.2rem);
+  letter-spacing: -.03em;
+}
+.create-form {
+  display: grid;
+  grid-template-columns: repeat(3,minmax(0,1fr));
+  align-items: end;
+  gap: 1rem;
+  margin: 0 0 1.4rem;
+  padding: 1.3rem;
+  border: 1px solid var(--color-panel-border);
+  border-radius: 15px;
+  background: var(--color-surface);
+  box-shadow: 0 8px 22px rgba(15,23,42,.045);
+}
+.create-form label {
+  display: grid;
+  gap: .45rem;
+  color: var(--color-panel-text);
+  font-size: .87rem;
+  font-weight: 700;
+}
+.create-form input {
+  width: 100%;
+  min-height: 42px;
+  box-sizing: border-box;
+  padding: .65rem .8rem;
+  border: 1px solid var(--color-panel-border-strong);
+  border-radius: 9px;
+  background: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+}
+.create-form input:focus {
+  outline: 0;
+  border-color: var(--color-focus);
+  box-shadow: 0 0 0 3px rgba(37,99,235,.13);
+}
+.create-form button {
+  min-height: 42px;
+  padding: .65rem 1rem;
+  border: 1px solid var(--color-primary-interactive);
+  border-radius: 9px;
+  background: var(--color-primary-interactive);
+  color: #fff;
+  font: inherit;
+  font-weight: 750;
+  cursor: pointer;
+}
+.create-form button:hover:not(:disabled) {
+  background: var(--color-primary);
+}
+.create-form button:disabled {
+  opacity: .55;
+  cursor: not-allowed;
+}
+.field-error,.error {
+  color: var(--badge-danger-text);
+  font-size: .8rem;
+}
+.error {
+  padding: .8rem 1rem;
+  border-radius: 10px;
+  background: var(--badge-danger-bg);
+  font-size: .9rem;
+}
+.empty {
+  padding: 2rem;
+  border: 1px dashed var(--color-panel-border-strong);
+  border-radius: 12px;
+  color: var(--color-text-muted);
+  text-align: center;
+  background: var(--color-surface);
+}
+.rooms {
+  width: 100%;
+  border: 1px solid var(--color-panel-border);
+  border-radius: 13px;
+  border-spacing: 0;
+  border-collapse: separate;
+  overflow: hidden;
+  background: var(--color-surface);
+}
+.rooms th,.rooms td {
+  padding: .85rem 1rem;
+  border-bottom: 1px solid var(--color-panel-border);
+  text-align: left;
+}
+.rooms th {
+  background: var(--color-panel-deep);
+  color: var(--color-panel-text);
+  font-size: .74rem;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.rooms td {
+  font-size: .88rem;
+}
+.rooms tbody tr:last-child td {
+  border-bottom: 0;
+}
+.rooms tbody tr:hover {
+  background: var(--color-primary-tint);
+}
+.rooms tr.inactive td {
+  color: var(--color-text-muted);
+  background: var(--color-panel-deep);
+}
+.rooms button {
+  min-height: 34px;
+  padding: .4rem .7rem;
+  border: 1px solid var(--color-primary-interactive);
+  border-radius: 8px;
+  background: var(--color-primary-tint);
+  color: var(--color-primary);
+  font: inherit;
+  font-size: .8rem;
+  font-weight: 750;
+  cursor: pointer;
+}
+.rooms button:hover:not(:disabled) {
+  background: var(--color-primary-interactive);
+  color: #fff;
+}
+@media(max-width:780px) {
+  .create-form {
+    grid-template-columns: repeat(2,minmax(0,1fr));
+  }
+}
+@media(max-width:580px) {
+  .page {
+    width: min(100% - 1.25rem,1120px);
+    margin: 1.25rem auto 2rem;
+  }
+  .create-form {
+    grid-template-columns: 1fr;
+  }
+  .rooms {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
