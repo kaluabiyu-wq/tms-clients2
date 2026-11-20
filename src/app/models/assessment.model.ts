@@ -22,7 +22,7 @@ export interface StudentQuestion {
 export interface StudentAssessment extends Omit<Assessment, 'questions'> { questions: StudentQuestion[]; }
 export interface AssessmentSubmission {
   id: number; attemptId: number; submittedAt: string; score: number | null;
-  gradingStatus: string; feedback: string | null; studentId: number; studentName: string;
+  gradingStatus: string; feedback: string | null; studentId: number; studentName: string; registrationNumber?: string;
   attemptNumber: number;
   answers: { questionId: number; prompt: string; questionType: string; answerText: string;
     correctAnswer: string | null; points: number; awardedPoints: number | null; }[];
