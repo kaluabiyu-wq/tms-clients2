@@ -36,6 +36,18 @@ export class NotificationBellComponent {
   }
 
   async markAllRead(): Promise<void> { await this.notifications.markAllRead(); }
+
+  categoryIcon(category: string): string {
+    switch (category.toLowerCase()) {
+      case 'enrollment': return '📝';
+      case 'grades': case 'assessments': return '📊';
+      case 'certificates': return '🎓';
+      case 'timetable': case 'schedule': return '🗓️';
+      case 'users': return '👤';
+      case 'system': return '⚙️';
+      default: return '🔔';
+    }
+  }
   async remove(item: NotificationItem, event: Event): Promise<void> { event.stopPropagation(); await this.notifications.delete(item.id); }
   goToAll(): void { this.open.set(false); this.router.navigate(['/notifications']); }
   goToPreferences(): void { this.open.set(false); this.router.navigate(['/notifications/preferences']); }

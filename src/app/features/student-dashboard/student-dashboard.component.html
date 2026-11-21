@@ -1,48 +1,72 @@
-<div class ="dashboard">
-    <h1>Welcome, {{ Name() }}</h1>
-    <p>Credits Earned: {{ earnedCredits()}}</p>
-    <p [class.eligible]="graduationStatus().includes('Eligable')">Graduation Status: {{ graduationStatus()}}</p>
-    <button (click)="registerForClass()">
-     Register for a Class (+3 credits)
-    </button>
-</div>
-<h2>Course Catalog</h2>
-
-@if (courseStore.error(); as errorMsg) {
-    <div class="error-banner" role="alert">
-        {{ errorMsg }}
+<main class="student-dashboard">
+  <section class="welcome-panel">
+    <div class="welcome-copy">
+      <span class="eyebrow">STUDENT PORTAL</span>
+      <h1>Welcome back, {{ Name() }}</h1>
+      <p>Find your next course, manage your enrollment, and keep your learning on track.</p>
     </div>
-}
+    <a class="profile-shortcut" routerLink="/student/profile">View my profile <span aria-hidden="true">→</span></a>
+  </section>
 
+  <section class="overview-grid" aria-label="Course overview">
+    <article class="overview-card">
+      <span class="overview-icon catalog-icon" aria-hidden="true">▦</span>
+      <div><strong>{{ courseCount() }}</strong><span>Courses in catalog</span></div>
+    </article>
+    <article class="overview-card">
+      <span class="overview-icon available-icon" aria-hidden="true">✓</span>
+      <div><strong>{{ openCourseCount() }}</strong><span>Courses with available seats</span></div>
+    </article>
+    <article class="overview-card action-card">
+      <span class="overview-icon action-icon" aria-hidden="true">＋</span>
+      <div><strong>Enroll in a course</strong><span>Choose a course below to start</span></div>
+      <a routerLink="/enroll" aria-label="Open enrollment form">Open form →</a>
+    </article>
+  </section>
 
-@if (courseStore.isLoading()) {
-     <div class="spinner">Fetching courses from the server...</div>
-    } @else if (courseStore.error()) {
-     <div class="error">
-    Could not load courses. Make sure your .NET API is running.
-</div>
-}
-@else {
-    <div class="grid">
-        @for (course of courseStore.entities()!; track course.id){
-            <app-course-card [course]="course" 
+  <section class="catalog-section">
+    <div class="section-heading">
+      <div>
+        <span class="eyebrow">LEARNING OPPORTUNITIES</span>
+        <h2>Course catalog</h2>
+        <p>Browse available courses and select Enroll to preselect a course in your enrollment form.</p>
+      </div>
+      <label class="search-field">
+        <span class="visually-hidden">Search courses</span>
+        <span aria-hidden="true">⌕</span>
+        <input type="search" [value]="searchTerm()" (input)="searchTerm.set($any($event.target).value)" placeholder="Search by course or code…">
+      </label>
+    </div>
+
+    @if (courseStore.error(); as errorMsg) {
+      <div class="error-banner" role="alert">
+        <span>{{ errorMsg }}</span>
+        <button type="button" (click)="courseStore.loadCourses()">Try again</button>
+      </div>
+    }
+
+    @if (courseStore.isLoading()) {
+      <div class="state-panel" aria-live="polite">Loading courses…</div>
+    } @else {
+      <div class="course-grid">
+        @for (course of availableCourses(); track course.id) {
+          <app-course-card
+            [course]="course"
             [isAdmin]="isAdmin()"
             (enrollClicked)="handleEnroll($event)"
             (deletedClicked)="handleDelete($event)"
-            />
-            @if (!isAdmin()) {
-              <a [routerLink]="['/student/courses', course.id, 'assessments']">View assessments</a>
+          />
+        } @empty {
+          <div class="empty-state">
+            <span aria-hidden="true">⌕</span>
+            <h3>No courses found</h3>
+            <p>Try another search term or clear the search to see all courses.</p>
+            @if (searchTerm()) {
+              <button type="button" (click)="searchTerm.set('')">Clear search</button>
             }
+          </div>
         }
-        @empty {
-            <p>No Courses are availanle this term.</p>
-        }
-    </div>
-
-}
-@if (selectedCourse(); as picked) {
-    <p class="selection-hint" role="status">
-        Last enrollment request: <strong>{{ picked.title}}</strong> ({{picked.code}})
-    </p>
-}
-
+      </div>
+    }
+  </section>
+</main>

@@ -1,1 +1,164 @@
-.page{max-width:1000px;margin:32px auto;padding:0 20px;color:var(--color-text)}.page>a{color:var(--color-primary-interactive);text-decoration:none}h1{font-size:28px}.panel{padding:22px;border:1px solid var(--color-panel-border);border-radius:14px;margin:18px 0}.form{display:flex;align-items:end;gap:14px;flex-wrap:wrap}.form label{display:grid;gap:6px}.form select,.form input:not([type=checkbox]){padding:10px;border:1px solid var(--color-panel-border-strong);border-radius:8px}.check{display:flex!important;align-items:center}button{padding:10px 16px;background:var(--color-primary);color:var(--color-surface);border:0;border-radius:8px}li{padding:12px 0;border-bottom:1px solid var(--color-panel-border)}li span{display:block;color:var(--color-text-muted);font-size:13px}.error{color:var(--color-danger)}
+:host {
+  display: block;
+  color: var(--color-text);
+}
+.page {
+  width: min(100% - 2rem,1080px);
+  margin: 2rem auto 3rem;
+}
+.page > a {
+  color: var(--color-primary-interactive);
+  font-weight: 700;
+  text-decoration: none;
+}
+.page > a:hover {
+  text-decoration: underline;
+}
+h1 {
+  margin: .8rem 0 1.25rem;
+  font-size: clamp(1.7rem,3vw,2.2rem);
+  letter-spacing: -.03em;
+}
+h2 {
+  margin: 0 0 .35rem;
+  font-size: 1.25rem;
+}
+h2 small {
+  color: var(--color-text-muted);
+  font-size: .8em;
+  font-weight: 500;
+}
+h3 {
+  margin: 0 0 1rem;
+  font-size: 1.05rem;
+}
+.panel {
+  margin: 1rem 0;
+  padding: clamp(1rem,2.5vw,1.5rem);
+  border: 1px solid var(--color-panel-border);
+  border-radius: 15px;
+  background: var(--color-surface);
+  box-shadow: 0 8px 22px rgba(15,23,42,.045);
+}
+.form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 1rem;
+}
+.form label {
+  display: grid;
+  flex: 1 1 210px;
+  gap: .45rem;
+  color: var(--color-panel-text);
+  font-size: .88rem;
+  font-weight: 650;
+}
+.form select,.form input:not([type=checkbox]) {
+  width: 100%;
+  min-height: 42px;
+  box-sizing: border-box;
+  padding: .65rem .8rem;
+  border: 1px solid var(--color-panel-border-strong);
+  border-radius: 9px;
+  background: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+}
+.form select:focus,.form input:focus {
+  outline: 0;
+  border-color: var(--color-focus);
+  box-shadow: 0 0 0 3px rgba(37,99,235,.13);
+}
+.form .check {
+  display: flex;
+  flex: 0 1 auto;
+  align-items: center;
+  gap: .55rem;
+  min-height: 42px;
+}
+.form input[type=checkbox] {
+  width: 17px;
+  height: 17px;
+  accent-color: var(--color-primary-interactive);
+}
+button {
+  min-height: 42px;
+  padding: .65rem 1rem;
+  border: 1px solid var(--color-primary-interactive);
+  border-radius: 9px;
+  background: var(--color-primary-interactive);
+  color: #fff;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+button:hover:not(:disabled) {
+  background: var(--color-primary);
+}
+button:disabled {
+  opacity: .55;
+  cursor: not-allowed;
+}
+ol {
+  display: grid;
+  gap: .65rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: course;
+}
+li {
+  position: relative;
+  display: grid;
+  gap: .3rem;
+  padding: 1rem 1rem 1rem 3.4rem;
+  border: 1px solid var(--color-panel-border);
+  border-radius: 11px;
+  background: var(--color-panel-deep);
+  counter-increment: course;
+}
+li::before {
+  content: counter(course);
+  position: absolute;
+  left: 1rem;
+  top: 1rem;
+  display: grid;
+  place-items: center;
+  width: 1.7rem;
+  height: 1.7rem;
+  border-radius: 50%;
+  color: var(--color-primary);
+  background: var(--color-primary-tint);
+  font-weight: 800;
+  font-size: .8rem;
+}
+li strong {
+  font-size: .95rem;
+}
+li span {
+  color: var(--color-text-muted);
+  font-size: .82rem;
+}
+.error {
+  padding: .75rem 1rem;
+  border-radius: 9px;
+  color: var(--badge-danger-text);
+  background: var(--badge-danger-bg);
+}
+@media(max-width:600px) {
+  .page {
+    width: min(100% - 1.25rem,1080px);
+    margin: 1.25rem auto 2rem;
+  }
+  .form {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+  .form label {
+    min-width: 0;
+  }
+  .form button {
+    width: 100%;
+  }
+}

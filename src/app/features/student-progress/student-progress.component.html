@@ -1,10 +1,111 @@
-<main class="page"><a routerLink="/admin/programs">← All programs</a><header><div><p class="eyebrow">STUDENT OUTCOMES</p><h1>Student progression</h1><p>Course completion is synchronized from the student's existing approved/completed course enrollments.</p></div></header>
-@if(!studentId&&!programId){<section class="panel lookup"><label>Student ID<input type="number" min="1" [(ngModel)]="studentId"></label><button (click)="loadStudent()">View progress</button></section>}
-@if(error()){<p class="error" role="alert">{{error()}}</p>}@if(loading()){<p>Loading progression…</p>}@else if(!progress().length&& (studentId||programId)){<section class="panel empty">No program enrollments were found.</section>}
-@for(item of progress();track item.enrollmentId){<section class="panel"><div class="top"><div><span class="code">{{item.programCode}}</span><h2>{{item.studentName}} · {{item.programName}}</h2><p>{{item.enrollmentStatus}} · {{item.completedCourses}} of {{item.totalCourses}} required courses completed</p></div><strong class="percent">{{item.completionPercent | number:'1.0-1'}}%</strong></div>
-<div class="progress-track" role="progressbar" [attr.aria-valuenow]="item.completionPercent" aria-valuemin="0" aria-valuemax="100"><span [style.width.%]="item.completionPercent"></span></div>
-<div class="summary"><span>{{item.completedCourses}} completed</span><span>{{item.remainingCourses}} remaining</span><span>Current: {{item.currentCourse || '—'}}</span></div>
-<ol class="course-list">@for(course of item.courses;track course.programCourseId){<li><span class="step" [class.done]="course.status==='Completed'" [class.current]="course.status==='InProgress'">{{course.status==='Completed'?'✓':course.sequence}}</span><div><strong>{{course.courseTitle}}</strong><small>{{course.courseCode}} · {{course.isRequired?'Required':'Optional'}}</small></div><span class="course-status" [class.done-text]="course.status==='Completed'">{{course.status==='Completed'?'Completed':course.status==='InProgress'?'In progress':'Remaining'}}</span></li>}</ol>
-<div class="eligibility" [class.eligible]="item.isEligibleForCompletion"><strong>{{item.isEligibleForCompletion?'Eligible for program completion':'Not yet eligible for completion'}}</strong><p>{{item.isEligibleForCompletion?'All required courses have been completed.':'Complete all required courses to satisfy program completion.'}}</p></div>
-</section>}
+<main class="page" [class.student-view]="isMyProgress">
+  @if (!isMyProgress) {
+    <a class="back-link" routerLink="/admin/programs">← All programs</a>
+  }
+
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">{{ isMyProgress ? 'MY LEARNING' : 'STUDENT OUTCOMES' }}</p>
+      <h1>{{ isMyProgress ? 'My Progress' : 'Student Progression' }}</h1>
+      <p class="subtitle">
+        {{ isMyProgress
+          ? 'Track your training journey, completed courses, and what you need to complete next.'
+          : 'Course completion is synchronized from the student’s approved and completed course enrollments.' }}
+      </p>
+    </div>
+    @if (isMyProgress) {
+      <button class="refresh-button" type="button" (click)="loadMine()" [disabled]="loading()">
+        {{ loading() ? 'Refreshing…' : '↻ Refresh progress' }}
+      </button>
+    }
+  </header>
+
+  @if (!isMyProgress && !studentId && !programId) {
+    <section class="panel lookup">
+      <label>Student ID<input type="number" min="1" [(ngModel)]="studentId" /></label>
+      <button type="button" (click)="loadStudent()">View progress</button>
+    </section>
+  }
+
+  @if (error()) {
+    <section class="message error" role="alert">
+      <span>{{ error() }}</span>
+      <button type="button" (click)="isMyProgress ? loadMine() : studentId ? loadStudent() : loadProgram()">Try again</button>
+    </section>
+  }
+
+  @if (loading()) {
+    <section class="panel loading-state" aria-live="polite">
+      <span class="spinner" aria-hidden="true"></span>
+      <span>Loading {{ isMyProgress ? 'your' : 'student' }} progress…</span>
+    </section>
+  } @else if (progress().length > 0) {
+    @if (isMyProgress) {
+      <section class="stats-grid" aria-label="Progress summary">
+        <article class="stat-card"><span>Training programs</span><strong>{{ totalPrograms() }}</strong><small>Programs you are registered in</small></article>
+        <article class="stat-card"><span>Courses completed</span><strong>{{ completedCourses() }}</strong><small>Required courses completed</small></article>
+        <article class="stat-card"><span>Courses remaining</span><strong>{{ remainingCourses() }}</strong><small>Required courses to finish</small></article>
+        <article class="stat-card highlight"><span>Overall completion</span><strong>{{ overallCompletion() }}%</strong><small>Across your registered programs</small></article>
+      </section>
+    }
+
+    @for (item of progress(); track item.enrollmentId) {
+      <section class="panel program-card">
+        <div class="program-heading">
+          <div class="program-title">
+            <span class="code">{{ item.programCode }}</span>
+            <h2>{{ isMyProgress ? item.programName : item.studentName + ' · ' + item.programName }}</h2>
+            <p>{{ item.enrollmentStatus }} · {{ item.completedCourses }} of {{ item.totalCourses }} required courses completed</p>
+          </div>
+          <strong class="percent">{{ item.completionPercent | number:'1.0-1' }}%</strong>
+        </div>
+
+        <div class="progress-track" role="progressbar" [attr.aria-label]="item.programName + ' completion'" [attr.aria-valuenow]="item.completionPercent" aria-valuemin="0" aria-valuemax="100">
+          <span [style.width.%]="item.completionPercent"></span>
+        </div>
+
+        <div class="summary">
+          <span><b>{{ item.completedCourses }}</b> completed</span>
+          <span><b>{{ item.remainingCourses }}</b> remaining</span>
+          <span>Current course: <b>{{ item.currentCourse || 'Not started' }}</b></span>
+        </div>
+
+        <h3 class="section-title">Course-by-course progress</h3>
+        <ol class="course-list">
+          @for (course of item.courses; track course.programCourseId) {
+            <li>
+              <span class="step" [class.done]="course.status === 'Completed'" [class.current]="course.status === 'InProgress'">
+                {{ course.status === 'Completed' ? '✓' : course.sequence }}
+              </span>
+              <div class="course-info">
+                <strong>{{ course.courseTitle }}</strong>
+                <small>{{ course.courseCode }} · {{ course.isRequired ? 'Required' : 'Optional' }}</small>
+              </div>
+              <span class="course-status" [class.done-text]="course.status === 'Completed'" [class.current-text]="course.status === 'InProgress'">
+                {{ course.status === 'Completed' ? 'Completed' : course.status === 'InProgress' ? 'In progress' : 'Not started' }}
+              </span>
+            </li>
+          }
+        </ol>
+
+        <div class="eligibility" [class.eligible]="item.isEligibleForCompletion">
+          <strong>{{ item.isEligibleForCompletion ? 'Program requirements completed' : 'Keep going — you are not finished yet' }}</strong>
+          <p>{{ item.isEligibleForCompletion ? 'You have completed all required courses in this program.' : 'Complete the remaining required courses to become eligible for program completion.' }}</p>
+        </div>
+      </section>
+    }
+  } @else if (!loading() && !error()) {
+    <section class="panel empty-state">
+      <div class="empty-icon" aria-hidden="true">▤</div>
+      <h2>{{ isMyProgress ? 'Your progress will appear here' : 'No program progress found' }}</h2>
+      <p>
+        {{ isMyProgress
+          ? 'You do not have a training program registration yet. Once the registrar adds you to a training program, your course progress will appear on this page.'
+          : 'No student program enrollment was found for this selection.' }}
+      </p>
+      @if (isMyProgress) {
+        <a routerLink="/dashboard">Back to dashboard</a>
+      }
+    </section>
+  }
 </main>

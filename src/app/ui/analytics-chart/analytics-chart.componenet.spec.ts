@@ -7,11 +7,38 @@ describe('AnalyticsChartComponent', () => {
   let component: AnalyticsChartComponent;
   let fixture: ComponentFixture<AnalyticsChartComponent>;
 
-  const mockData: Enrollment[] = [
-    { id: '1', studentId: 11, studentName: 'Abeba', courseId: 101, courseName: 'Intro to CS', status: 'Approved', enrolledAt: '2026-08-12T10:00:00Z' },
-    { id: '2', studentId: 12, studentName: 'Kebede', courseId: 102, courseName: 'Data Structures', status: 'Pending', enrolledAt: '2026-08-12T10:05:00Z' },
-    { id: '3', studentId: 13, studentName: 'Sara', courseId: 103, courseName: 'Algorithms', status: 'Rejected', enrolledAt: '2026-08-12T10:10:00Z' },
-  ];
+ const mockEnrollments: Enrollment[] = [
+  {
+    id: 1,
+    studentId: '11',
+    studentName: 'Abeba',
+    courseId: 101,
+    courseCode: 'CS101',
+    courseName: 'Computer Science',
+    status: 'Approved',
+    enrolledAt: '2026-01-10'
+  },
+  {
+    id: 2,
+    studentId: '12',
+    studentName: 'Kebede',
+    courseId: 102,
+    courseCode: 'MATH101',
+    courseName: 'Mathematics',
+    status: 'Pending',
+    enrolledAt: '2026-01-11'
+  },
+  {
+    id: 3,
+    studentId: '13',
+    studentName: 'Sara',
+    courseId: 103,
+    courseCode: 'PHY101',
+    courseName: 'Physics',
+    status: 'Rejected',
+    enrolledAt: '2026-01-12'
+  }
+];
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -21,7 +48,7 @@ describe('AnalyticsChartComponent', () => {
     fixture = TestBed.createComponent(AnalyticsChartComponent);
     component = fixture.componentInstance;
 
-    fixture.componentRef.setInput('data', mockData);
+    fixture.componentRef.setInput('data', mockEnrollments);
 
     fixture.detectChanges();
     await fixture.whenStable();

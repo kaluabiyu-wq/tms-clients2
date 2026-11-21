@@ -1,56 +1,121 @@
-<h2>Course Enrollment</h2>
+<main class="enrollment-page">
+  <header class="page-header">
+    <div>
+      <span class="eyebrow">STUDENT PORTAL</span>
+      <h1>Course Enrollment</h1>
+      <p>Review your student information and request a place in an available course.</p>
+    </div>
+  </header>
 
-@if (submitted()) {
-  <div class="success">
-    Enrollment submitted successfully.
-  </div>
-} @else {
-   <form [formGroup]="form" (ngSubmit)="submit()">
-    <label for="studentId">Student ID</label>
-    <input
-      id="studentId"
-      formControlName="studentId"
-      placeholder="e.g. STU-1234"
-    />
-     @if (form.controls.studentId.touched && form.controls.studentId.invalid) {
-      <span class="error">Enter a valid Student ID (format: STU-0000)</span>
+  @if (loading() || coursesLoading()) {
+    <section class="state-card" aria-live="polite">Loading your student profile…</section>
+  } @else if (loadError()) {
+    <section class="state-card error-state" role="alert">
+      <strong>Unable to prepare your enrollment form</strong>
+      <p>{{ loadError() }}</p>
+    </section>
+  } @else if (profile(); as studentProfile) {
+    @if (submitted()) {
+      <section class="success-card" role="status">
+        <div class="success-icon">✓</div>
+        <div>
+          <h2>Enrollment request submitted</h2>
+          <p>Your request for <strong>{{ selectedCourse?.code }} — {{ selectedCourse?.title }}</strong> has been received.</p>
+          <p class="muted">Your request is pending administrator approval. You can check its status in your student profile.</p>
+        </div>
+      </section>
+      <a class="secondary-link" routerLink="/student/profile">View my profile and enrollment status</a>
+    } @else {
+      <form class="enrollment-card" [formGroup]="form" (ngSubmit)="submit()">
+        <section class="form-section">
+          <div class="section-heading">
+            <span class="step">01</span>
+            <div>
+              <h2>Student information</h2>
+              <p>This information comes from your signed-in student account.</p>
+            </div>
+          </div>
+
+          <div class="student-grid">
+            <label class="field">
+              <span>Student ID / Registration number</span>
+              <input [value]="studentProfile.student.registrationNumber" readonly aria-readonly="true">
+              <small>Your ID is verified automatically and cannot be changed here.</small>
+            </label>
+            <label class="field">
+              <span>Full name</span>
+              <input [value]="studentProfile.student.name" readonly aria-readonly="true">
+            </label>
+            <label class="field">
+              <span>Email address</span>
+              <input [value]="studentProfile.account.email" readonly aria-readonly="true">
+            </label>
+            <label class="field">
+              <span>Student status</span>
+              <input [value]="studentProfile.student.status" readonly aria-readonly="true">
+            </label>
+          </div>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <section class="form-section">
+          <div class="section-heading">
+            <span class="step">02</span>
+            <div>
+              <h2>Course selection</h2>
+              <p>Select one course from the currently available courses.</p>
+            </div>
+          </div>
+
+          @if (availableCourses.length === 0) {
+            <div class="empty-state">
+              <strong>No courses available for enrollment</strong>
+              <p>All courses may be full, or you may already be enrolled in the currently listed courses.</p>
+            </div>
+          } @else {
+            <label class="field">
+              <span>Select course <b>*</b></span>
+              <select formControlName="courseId">
+                <option [ngValue]="0">Choose a course</option>
+                @for (course of availableCourses; track course.id) {
+                  <option [ngValue]="course.id">
+                    {{ course.code }} — {{ course.title }}
+                    ({{ course.maxCapacity - course.enrollmentCount }} seats available)
+                  </option>
+                }
+              </select>
+              @if (form.controls.courseId.touched && form.controls.courseId.invalid) {
+                <small class="field-error">Please select a course.</small>
+              }
+            </label>
+
+            @if (selectedCourse; as course) {
+              <div class="course-summary">
+                <div>
+                  <span class="course-code">{{ course.code }}</span>
+                  <h3>{{ course.title }}</h3>
+                </div>
+                <div class="capacity">
+                  <strong>{{ course.maxCapacity - course.enrollmentCount }}</strong>
+                  <span>seats available</span>
+                </div>
+              </div>
+            }
+          }
+        </section>
+
+        @if (submitError()) {
+          <div class="form-error" role="alert">{{ submitError() }}</div>
+        }
+
+        <footer class="form-footer">
+          <p>By submitting, you confirm that the selected course is correct. Your request will be reviewed by an administrator.</p>
+          <button type="submit" [disabled]="submitting() || availableCourses.length === 0">
+            {{ submitting() ? 'Submitting request…' : 'Submit enrollment request' }}
+          </button>
+        </footer>
+      </form>
     }
-
-    <label for="courseId">Course ID</label>
-    <input
-      id="courseId"
-      formControlName="courseId"
-      placeholder="e.g. 1 (TMS course primary key)"
-    />
-    @if (form.controls.courseId.touched && form.controls.courseId.invalid) {
-      <span class="error">Course ID is required</span>
-    }
-
-   
-
-    <label for="notes">Notes (optional)</label>
-    <textarea id="notes" formControlName="notes"></textarea>
-
-    <h3>Backup Courses</h3>
-    @for (backup of backups.controls; track $index) {
-      <div class="backup-row">
-          <input
-          [formControl]="backup"
-          [placeholder]="'Backup course ' + ($index + 1)"
-        />
-         <button type="button" class="remove" (click)="removeBackup($index)">Remove</button>
-      </div>
-    }
-    <button type="button" (click)="addBackup()">Add Backup Course</button>
-
-    <hr />
-
-     @if (submitError()) {
-      <div class="error">{{ submitError() }}</div>
-    }
-
-      <button type="submit" class="btn-success" [disabled]="form.invalid || submitting()">
-      {{ submitting() ? 'Submitting…' : 'Confirm Enrollment' }}
-    </button>
-  </form>
-}
+  }
+</main>

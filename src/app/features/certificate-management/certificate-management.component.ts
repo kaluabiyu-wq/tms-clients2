@@ -8,8 +8,8 @@ import { CertificateDetails } from '../../models/certificate.model';
   selector: 'app-certificate-management',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  template:'./certificate-management.component.html',
-  styleUrl:'./certificate-management.component.scss',
+  templateUrl: './certificate-management.component.html',
+  styleUrl: './certificate-management.component.scss'
 })
 export class CertificateManagementComponent {
   private readonly api = inject(CertificateService);

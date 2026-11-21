@@ -2,7 +2,6 @@
   display: block;
   min-height: 100dvh;
 }
-
 .login-page {
   display: flex;
   align-items: center;
@@ -11,7 +10,6 @@
   padding: 2rem 1rem;
   background: var(--color-canvas);
 }
-
 .login-card {
   width: 100%;
   max-width: 360px;
@@ -21,37 +19,28 @@
   border-radius: 12px;
   box-shadow: 0 16px 36px rgba(15, 23, 42, 0.10);
 }
-
 .brand {
   text-align: center;
   margin-bottom: 1.75rem;
 }
-
-
-
 .brand h2 {
   margin: 0;
   font-size: 1.4rem;
   font-weight: 700;
   color: var(--color-panel-text-strong);
 }
-
 .subtitle {
   margin: 0.35rem 0 0;
   font-size: 0.85rem;
   color: var(--color-panel-text-muted);
 }
-
 form {
   display: flex;
   flex-direction: column;
 }
-
-form > label,
-form > input {
+form > label, form > input {
   display: block;
 }
-
 form > label {
   margin-top: 1rem;
   margin-bottom: 0.4rem;
@@ -59,11 +48,9 @@ form > label {
   font-weight: 600;
   color: var(--color-panel-text-muted);
 }
-
 form > label:first-of-type {
   margin-top: 0;
 }
-
 form > input {
   width: 100%;
   padding: 0.65rem 0.85rem;
@@ -74,32 +61,26 @@ form > input {
   border-radius: 8px;
   transition: border-color 120ms ease, box-shadow 120ms ease;
 }
-
 form > input::placeholder {
   color: var(--color-panel-text-subtle);
 }
-
 form > input:hover {
   border-color: var(--color-panel-border-strong);
 }
-
 form > input:focus-visible {
   outline: none;
   border-color: var(--color-accent-bright);
   box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.35);
 }
-
 form > input.ng-touched.ng-invalid {
   border-color: var(--color-danger-strong);
 }
-
 .error {
   margin-top: 0.35rem;
   margin-bottom: 0;
   font-size: 0.8rem;
   color: var(--color-danger-on-dark);
 }
-
 .form-error {
   margin-top: 1rem;
   padding: 0.6rem 0.75rem;
@@ -107,7 +88,6 @@ form > input.ng-touched.ng-invalid {
   border: 1px solid rgba(220, 38, 38, 0.35);
   border-radius: 6px;
 }
-
 button[type='submit'] {
   align-self: stretch;
   margin-top: 1.75rem;
@@ -122,22 +102,36 @@ button[type='submit'] {
   cursor: pointer;
   transition: background-color 120ms ease, transform 100ms ease;
 }
-
 button[type='submit']:hover:not(:disabled) {
   background: var(--color-success-hover);
 }
-
 button[type='submit']:active:not(:disabled) {
   transform: scale(0.98);
 }
-
 button[type='submit']:disabled {
   background: var(--color-panel-border);
   color: var(--color-panel-disabled-text);
   cursor: not-allowed;
 }
-
 button[type='submit']:focus-visible {
   outline: 2px solid var(--color-accent-bright);
   outline-offset: 2px;
+}
+.forgot {
+  margin: 1rem 0 0;
+  text-align: center;
+  font-size: 0.85rem;
+}
+.forgot a {
+  color: var(--color-panel-text-muted);
+  text-decoration: underline;
+}
+.notice {
+  margin-top: 1rem;
+  padding: 0.6rem 0.75rem;
+  font-size: 0.85rem;
+  color: var(--color-panel-text-strong);
+  background: rgba(22, 163, 74, 0.12);
+  border: 1px solid rgba(22, 163, 74, 0.35);
+  border-radius: 6px;
 }

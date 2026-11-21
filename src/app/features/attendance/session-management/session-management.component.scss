@@ -1,25 +1,163 @@
-.page { max-width: 1000px; margin: 1.5rem auto; padding: 0 1rem; }
-
-.course-picker { display: flex; flex-direction: column; gap: 0.25rem; font-weight: 600; max-width: 28rem; margin-bottom: 1rem; }
-select, input { padding: 0.4rem; }
-
-.create-form {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  align-items: flex-end;
-  margin-bottom: 1rem;
-
-  label { display: flex; flex-direction: column; gap: 0.25rem; font-weight: 600; }
+:host {
+  display: block;
+  color: var(--color-text);
 }
-
-.field-error, .error { color: var(--color-danger); }
-.empty, .note { color: var(--color-text); }
-
+.page {
+  width: min(100% - 2rem,1240px);
+  margin: 2rem auto 3rem;
+}
+h1 {
+  margin: 0 0 1.25rem;
+  font-size: clamp(1.7rem,3vw,2.2rem);
+  letter-spacing: -.03em;
+}
+h2 {
+  margin: 1.8rem 0 .9rem;
+  font-size: 1.2rem;
+}
+.course-picker {
+  display: grid;
+  width: min(100%,480px);
+  gap: .45rem;
+  margin-bottom: 1.3rem;
+  color: var(--color-panel-text);
+  font-size: .88rem;
+  font-weight: 750;
+}
+.course-picker select,.create-form input {
+  min-height: 43px;
+  box-sizing: border-box;
+  padding: .65rem .8rem;
+  border: 1px solid var(--color-panel-border-strong);
+  border-radius: 9px;
+  background: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+}
+.course-picker select:focus,.create-form input:focus {
+  outline: 0;
+  border-color: var(--color-focus);
+  box-shadow: 0 0 0 3px rgba(37,99,235,.13);
+}
+.create-form {
+  display: grid;
+  grid-template-columns: repeat(3,minmax(0,1fr));
+  gap: 1rem;
+  align-items: end;
+  padding: 1.25rem;
+  border: 1px solid var(--color-panel-border);
+  border-radius: 14px;
+  background: var(--color-surface);
+  box-shadow: 0 8px 22px rgba(15,23,42,.04);
+}
+.create-form label {
+  display: grid;
+  gap: .45rem;
+  color: var(--color-panel-text);
+  font-size: .86rem;
+  font-weight: 700;
+}
+.create-form button {
+  min-height: 43px;
+  padding: .65rem 1rem;
+  border: 1px solid var(--color-primary-interactive);
+  border-radius: 9px;
+  background: var(--color-primary-interactive);
+  color: #fff;
+  font: inherit;
+  font-weight: 750;
+  cursor: pointer;
+}
+.create-form button:hover:not(:disabled) {
+  background: var(--color-primary);
+}
+.create-form button:disabled {
+  opacity: .55;
+  cursor: not-allowed;
+}
+.field-error,.error {
+  color: var(--badge-danger-text);
+}
+.field-error {
+  font-size: .8rem;
+}
+.error {
+  padding: .75rem 1rem;
+  border-radius: 9px;
+  background: var(--badge-danger-bg);
+}
+.empty {
+  padding: 1.5rem;
+  border: 1px dashed var(--color-panel-border-strong);
+  border-radius: 12px;
+  color: var(--color-text-muted);
+  text-align: center;
+}
 .data {
   width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 1.5rem;
-
-  th, td { text-align: left; padding: 0.5rem; border-bottom: 1px solid var(--color-panel-border); }
+  margin: 0 0 1.25rem;
+  border: 1px solid var(--color-panel-border);
+  border-radius: 12px;
+  border-spacing: 0;
+  border-collapse: separate;
+  overflow: hidden;
+  background: var(--color-surface);
+}
+.data th,.data td {
+  padding: .8rem .95rem;
+  border-bottom: 1px solid var(--color-panel-border);
+  text-align: left;
+}
+.data th {
+  background: var(--color-panel-deep);
+  color: var(--color-panel-text);
+  font-size: .74rem;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.data td {
+  font-size: .88rem;
+}
+.data tbody tr:last-child td {
+  border-bottom: 0;
+}
+.data tbody tr:hover {
+  background: var(--color-primary-tint);
+}
+.data a {
+  color: var(--color-primary-interactive);
+  font-weight: 750;
+  text-decoration: none;
+}
+.data a:hover {
+  text-decoration: underline;
+}
+.note {
+  padding: .8rem 1rem;
+  border-left: 3px solid var(--color-info);
+  border-radius: 0 8px 8px 0;
+  background: var(--badge-info-bg);
+  color: var(--badge-info-text);
+  font-size: .84rem;
+  line-height: 1.55;
+}
+@media(max-width:800px) {
+  .create-form {
+    grid-template-columns: repeat(2,minmax(0,1fr));
+  }
+}
+@media(max-width:600px) {
+  .page {
+    width: min(100% - 1.25rem,1240px);
+    margin: 1.25rem auto 2rem;
+  }
+  .create-form {
+    grid-template-columns: 1fr;
+  }
+  .data {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
 }

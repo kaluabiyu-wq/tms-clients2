@@ -1,38 +1,32 @@
 .page {
   padding: 1.5rem 2rem;
 }
-
 h2 {
   margin: 0;
   font-size: 1.4rem;
   font-weight: 700;
   color: var(--color-text);
 }
-
 .state-msg {
   color: var(--color-panel-text-muted);
   font-size: 0.9rem;
 }
-
 .banner {
   padding: 0.6rem 0.75rem;
   background: rgba(220, 38, 38, 0.1);
   border: 1px solid rgba(220, 38, 38, 0.35);
   border-radius: 6px;
 }
-
 .course-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 1.25rem;
 }
-
 .course-header h2 {
   color: var(--color-text);
   margin-bottom: 0.35rem;
 }
-
 .course-code {
   display: inline-flex;
   align-items: center;
@@ -44,19 +38,16 @@ h2 {
   background: rgba(37, 99, 235, 0.15);
   border-radius: 999px;
 }
-
 .course-info {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1px;
   margin-bottom: 1.75rem;
-
   background: var(--color-panel-border);
   border: 1px solid var(--color-panel-border);
   border-radius: 10px;
   overflow: hidden;
 }
-
 .info-item {
   display: flex;
   flex-direction: column;
@@ -64,11 +55,9 @@ h2 {
   padding: 1rem 1.15rem;
   background: var(--color-panel);
 }
-
 .info-item.description {
   grid-column: span 2;
 }
-
 .info-label {
   font-size: 0.7rem;
   font-weight: 700;
@@ -76,12 +65,10 @@ h2 {
   text-transform: uppercase;
   color: var(--color-panel-text-muted);
 }
-
 .info-value {
   font-size: 0.9rem;
   color: var(--color-panel-text);
 }
-
 .enrolled-badge {
   display: inline-flex;
   align-items: center;
@@ -93,34 +80,28 @@ h2 {
   background: rgba(37, 99, 235, 0.15);
   border-radius: 999px;
 }
-
 .section-title {
   margin: 0 0 1rem;
   color: var(--color-text);
   font-size: 1.15rem;
   font-weight: 700;
 }
-
 .table-card {
   background: var(--color-panel);
   border: 1px solid var(--color-panel-border);
   border-radius: 10px;
   overflow: hidden;
 }
-
 .course-table {
   width: 100%;
   border-collapse: collapse;
   background: transparent;
-
-  th,
-  td {
+  th,   td {
     text-align: left;
     padding: 0.75rem 1rem;
     border-bottom: 1px solid var(--color-panel-border);
     color: var(--color-panel-text);
   }
-
   th {
     font-size: 0.75rem;
     font-weight: 700;
@@ -129,81 +110,60 @@ h2 {
     color: var(--color-panel-text-muted);
     background: var(--color-panel-deep);
   }
-
   td {
     font-size: 0.9rem;
   }
-
   tr.mat-mdc-row:hover {
     background: var(--color-panel-raised);
   }
-
   tr.mat-mdc-row:last-child td {
     border-bottom: none;
   }
 }
-
 .enrollment-table {
-  th:first-child,
-  td:first-child {
+  th:first-child,   td:first-child {
     width: 45%;
   }
-
-  th:last-child,
-  td:last-child {
+  th:last-child,   td:last-child {
     width: 55%;
   }
 }
-
 ::ng-deep .mat-mdc-paginator {
   background: var(--color-panel-deep);
   color: var(--color-panel-text-muted);
   border-top: 1px solid var(--color-panel-border);
 }
-
 .back-link {
   display: inline-flex;
   align-items: center;
   margin-top: 1.25rem;
   padding: 0.45rem 0.8rem;
-
-  color:var(--color-panel-text);
+  color: var(--color-panel-text);
   background: var(--color-success);
   font-size: 0.85rem;
   font-weight: 600;
   text-decoration: none;
-
   border: 1px solid var(--color-panel-border);
   border-radius: 6px;
-
-  transition:
-    background-color 120ms ease,
-    color 120ms ease,
-    border-color 120ms ease;
+  transition: background-color 120ms ease,     color 120ms ease,     border-color 120ms ease;
 }
-
 .back-link:hover {
-  background:var(--color-success-hover);
+  background: var(--color-success-hover);
   border-color: var(--color-panel-border-strong);
 }
-
 @media (max-width: 768px) {
   .page {
     padding: 1.25rem;
   }
-
   .course-info {
     grid-template-columns: 1fr;
   }
-
   .info-item.description {
     grid-column: auto;
   }
-
   .table-card {
     overflow-x: auto;
   }
-
   .course-table {
     min-width: 600px;
   }

@@ -9,8 +9,7 @@ import { CertificateTemplate, SaveCertificateTemplate } from '../../models/certi
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './certificate-templates.component.html',
-  styleUrl: './certificate-templates.component.scss',
-  
+  styleUrl: './certificate-templates.component.scss'
 })
 export class CertificateTemplatesComponent {
   private readonly api = inject(CertificateService);

@@ -10,7 +10,7 @@ import { PublicCertificateVerification } from '../../models/certificate.model';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './certificate-verification.component.html',
-  styleUrl: './certificate-verification.component.scss',
+  styleUrl: './certificate-verification.component.scss'
 })
 export class CertificateVerificationComponent {
   private readonly api = inject(CertificateService);

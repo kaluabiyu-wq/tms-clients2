@@ -1,1 +1,19 @@
-<p>analytics-chart works!</p>
+    <div class="chart-container">
+      <h3>{{ title() }}</h3>
+      @if (metrics()?.length) {
+        <div class="metric-bars">
+          @for (metric of metrics(); track metric.key) {
+            <div class="metric-row"><div class="metric-label"><span>{{metric.label}}</span><strong>{{metric.value | number:'1.0-1'}}{{metric.unit ?? ''}}</strong></div><div class="track"><div class="fill" [style.width.%]="barWidth(metric.value)"></div></div></div>
+          }
+        </div>
+        <p class="chart-summary">{{metrics()?.length}} categories</p>
+      } @else {
+        <div class="chart-bars">
+          <div class="bar approved" [style.height.px]="approvedHeight()"><span>Approved</span></div>
+          <div class="bar pending" [style.height.px]="pendingHeight()"><span>Pending</span></div>
+          <div class="bar rejected" [style.height.px]="rejectedHeight()"><span>Rejected</span></div>
+        </div>
+        <p class="chart-summary">Total records: {{ data().length }}</p>
+      }
+    </div>
+  

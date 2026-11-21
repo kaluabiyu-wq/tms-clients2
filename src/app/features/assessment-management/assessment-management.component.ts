@@ -10,7 +10,8 @@ import { Assessment, AssessmentDraft } from '../../models/assessment.model';
   selector: 'app-assessment-management',
   standalone: true,
   imports: [CommonModule, FormsModule, RouterLink],
-  templateUrl: './assessment-management.component.html'
+  templateUrl: './assessment-management.component.html',
+  styleUrl: './assessment-management.component.scss',
 })
 export class AssessmentManagementComponent {
   private readonly route = inject(ActivatedRoute);

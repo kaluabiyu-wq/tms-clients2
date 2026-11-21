@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { EMPTY } from 'rxjs';
-
+import { provideRouter } from '@angular/router';
+import { signal } from '@angular/core';
 import { InstructorDashboardComponent } from './instructur-dashboard.componenet';
-import { LiveSyncService } from '../../services/live-sync.service';
+import { EnrollmentStore } from '../../store/enrollment.store';
 
 describe('InstructorDashboardComponent', () => {
   let component: InstructorDashboardComponent;
@@ -12,13 +12,18 @@ describe('InstructorDashboardComponent', () => {
     await TestBed.configureTestingModule({
       imports: [InstructorDashboardComponent],
       providers: [
+        provideRouter([]),
         {
-          provide: LiveSyncService,
+          provide: EnrollmentStore,
           useValue: {
-            connect: () => {},
-            disconnect: () => {},
-            events$: EMPTY,                   
-            connectionState: () => 'disconnected',
+            entities: signal([]),
+            isLoading: signal(false),
+            error: signal(null),
+            pendingCount: signal(0),
+            approvingId: signal(null),
+            loadEnrollments: () => {},
+            listenForLiveUpdates: () => {},
+            approveEnrollment: () => {},
           },
         },
       ],
@@ -26,7 +31,6 @@ describe('InstructorDashboardComponent', () => {
 
     fixture = TestBed.createComponent(InstructorDashboardComponent);
     component = fixture.componentInstance;
-
     fixture.detectChanges();
     await fixture.whenStable();
     fixture.detectChanges();

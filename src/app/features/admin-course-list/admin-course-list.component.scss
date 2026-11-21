@@ -1,46 +1,38 @@
 .page {
   padding: 1.5rem 2rem;
 }
-
 h2 {
   margin: 0 0 1.25rem;
   font-size: 1.4rem;
   font-weight: 700;
   color: var(--color-text);
 }
-
 .state-msg {
   color: var(--color-panel-text-muted);
   font-size: 0.9rem;
 }
-
 .banner {
   padding: 0.6rem 0.75rem;
   background: rgba(220, 38, 38, 0.1);
   border: 1px solid rgba(220, 38, 38, 0.35);
   border-radius: 6px;
 }
-
 .table-card {
   background: var(--color-panel);
   border: 1px solid var(--color-panel-border);
   border-radius: 10px;
   overflow: hidden;
 }
-
 .course-table {
   width: 100%;
   border-collapse: collapse;
   background: transparent;
-
-  th,
-  td {
+  th,   td {
     text-align: left;
     padding: 0.75rem 1rem;
     border-bottom: 1px solid var(--color-panel-border);
     color: var(--color-panel-text);
   }
-
   th {
     font-size: 0.75rem;
     font-weight: 700;
@@ -49,16 +41,13 @@ h2 {
     color: var(--color-panel-text-muted);
     background: var(--color-panel-deep);
   }
-
   tr.mat-mdc-row:hover {
     background: var(--color-panel-raised);
   }
-
   tr.mat-mdc-row:last-child td {
     border-bottom: none;
   }
 }
-
 .enrolled-badge {
   display: inline-flex;
   align-items: center;
@@ -69,7 +58,6 @@ h2 {
   background: rgba(37, 99, 235, 0.15);
   border-radius: 999px;
 }
-
 .edit-input {
   width: 100%;
   padding: 0.4rem 0.6rem;
@@ -79,26 +67,22 @@ h2 {
   border: 1px solid var(--color-panel-border);
   border-radius: 6px;
 }
-
 .edit-input:focus-visible {
   outline: none;
   border-color: var(--color-accent-bright);
   box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.35);
 }
-
 .error {
   display: block;
   margin-top: 0.25rem;
   font-size: 0.8rem;
   color: var(--color-danger-on-dark);
 }
-
 .actions {
   display: flex;
   gap: 0.5rem;
   white-space: nowrap;
 }
-
 .btn {
   padding: 0.4rem 0.9rem;
   font-size: 0.8rem;
@@ -108,51 +92,41 @@ h2 {
   cursor: pointer;
   transition: background-color 120ms ease, opacity 120ms ease;
 }
-
 .btn:disabled {
   cursor: not-allowed;
   opacity: 0.6;
 }
-
 .btn-edit {
   color: var(--color-panel-text-strong);
   background: var(--color-panel-border);
 }
-
 .btn-edit:hover:not(:disabled) {
   background: var(--color-panel-border-strong);
 }
-
 .btn-save {
   color: #ffffff;
   background: var(--color-primary-interactive);
 }
-
 .btn-save:hover:not(:disabled) {
   background: var(--color-primary);
 }
-
 .btn-cancel {
   color: var(--color-panel-text-muted);
   background: transparent;
   border: 1px solid var(--color-panel-border);
 }
-
 .btn-cancel:hover:not(:disabled) {
   background: var(--color-panel-border);
   color: var(--color-panel-text);
 }
-
 .btn-delete {
   color: var(--color-danger-text-hover);
   background: rgba(220, 38, 38, 0.1);
   border: 1px solid rgba(220, 38, 38, 0.35);
 }
-
 .btn-delete:hover:not(:disabled) {
   background: rgba(220, 38, 38, 0.2);
 }
-
 ::ng-deep .mat-mdc-paginator {
   background: var(--color-panel-deep);
   color: var(--color-panel-text-muted);

@@ -6,7 +6,7 @@ import { environment } from '../../environments/environment';
 import { AuthService } from './auth.service'; // adjust the path to where your AuthService is
 
 export interface EnrollmentStatusEvent {
-    id: string;
+    id: number;
     status: 'Pending' | 'Approved' | 'Rejected';
 }
 
@@ -47,7 +47,7 @@ export class LiveSyncService {
 
         connection.on(
             'ReceiveEnrollmentStatusUpdated',
-            (enrollmentId: string, status: 'Pending' | 'Approved' | 'Rejected') => {
+            (enrollmentId: number, status: 'Pending' | 'Approved' | 'Rejected') => {
                 this.eventsSubject.next({ id: enrollmentId, status });
             }
         );

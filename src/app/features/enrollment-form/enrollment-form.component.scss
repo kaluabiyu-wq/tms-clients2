@@ -1,186 +1,262 @@
-
 :host {
   display: block;
-  max-width: 32rem;
-  margin: 2rem auto;
+  color: var(--color-text);
 }
-
+.enrollment-page {
+  width: min(100% - 2rem, 980px);
+  margin: 2rem auto 4rem;
+}
+.page-header {
+  margin-bottom: 1.5rem;
+}
+.eyebrow {
+  color: var(--color-accent-bright);
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: .12em;
+}
+h1 {
+  margin: .4rem 0 .45rem;
+  font-size: clamp(1.65rem, 3vw, 2.15rem);
+  line-height: 1.2;
+}
+.page-header p, .section-heading p, .form-footer p {
+  margin: 0;
+  color: var(--color-panel-text-muted);
+  line-height: 1.55;
+}
+.enrollment-card, .state-card, .success-card {
+  background: var(--color-panel);
+  border: 1px solid var(--color-panel-border);
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, .06);
+}
+.enrollment-card {
+  overflow: hidden;
+}
+.form-section {
+  padding: 1.5rem;
+}
+.section-heading {
+  display: flex;
+  align-items: flex-start;
+  gap: .9rem;
+  margin-bottom: 1.35rem;
+}
+.step {
+  display: grid;
+  place-items: center;
+  flex: 0 0 2rem;
+  height: 2rem;
+  border-radius: 9px;
+  color: var(--color-accent-bright);
+  background: var(--color-panel-deep);
+  font-size: .78rem;
+  font-weight: 800;
+}
 h2 {
-  margin: 0 0 1.5rem;
-  padding: 0 1.5rem;
-  font-size: 1.5rem;
-  font-weight: 700;
-  color:  var(--color-text);
-}
-
-h3 {
-  margin: 2rem 0 0.75rem;
-  font-size: 1.1rem;
-  font-weight: 600;
+  margin: 0 0 .3rem;
+  font-size: 1.08rem;
   color: var(--color-panel-text);
 }
-
-form {
+.student-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+.field {
   display: flex;
   flex-direction: column;
-  padding: 2rem;
-  background: var(--color-panel);
-  border-radius: 8px;
-  width: 300px;
-}
-
-form > label,
-form > input,
-form > textarea,
-form > .error,
-form > .backup-row,
-form > button[type='button'] {
-  display: block;
-}
-
-form > label {
-  margin-top: 1rem;
-  margin-bottom: 0.4rem;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--color-panel-text-muted);
-}
-
-form > label:first-of-type {
-  margin-top: 0;
-}
-
-form > input,
-form > textarea,
-.backup-row input {
-  width: 100%;
-  padding: 0.6rem 0.75rem;
-  font-size: 1rem;
+  gap: .45rem;
+  min-width: 0;
   color: var(--color-panel-text);
-  background: var(--color-panel-deep);
+  font-size: .86rem;
+  font-weight: 650;
+}
+.field b {
+  color: var(--color-danger);
+}
+.field input, .field select {
+  width: 100%;
+  min-height: 44px;
+  box-sizing: border-box;
+  padding: .7rem .8rem;
   border: 1px solid var(--color-panel-border);
-  border-radius: 6px;
-  transition: border-color 120ms ease, box-shadow 120ms ease;
+  border-radius: 9px;
+  background: var(--color-panel-deep);
+  color: var(--color-panel-text);
+  font: inherit;
 }
-
-form > input::placeholder,
-form > textarea::placeholder {
-  color: var(--color-panel-text-subtle);
+.field input[readonly] {
+  opacity: .88;
+  cursor: default;
 }
-
-form > input:focus-visible,
-form > textarea:focus-visible,
-.backup-row input:focus-visible {
-  outline: none;
-  border-color: var(--color-accent-bright);
-  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.35);
+.field small {
+  color: var(--color-panel-text-muted);
+  font-size: .76rem;
+  font-weight: 400;
+  line-height: 1.4;
 }
-
-form > input.ng-touched.ng-invalid,
-form > textarea.ng-touched.ng-invalid {
-  border-color: var(--color-danger-strong);
+.field .field-error {
+  color: var(--color-danger);
 }
-
-form > textarea {
-  min-height: 5rem;
-  resize: vertical;
+.field input:focus, .field select:focus {
+  outline: 2px solid var(--color-accent-bright);
+  outline-offset: 1px;
 }
-
-.error {
-  margin-top: -0.3rem;
-  margin-bottom: 0.5rem;
-  font-size: 0.8rem;
-  color: var(--color-danger-on-dark);
+.section-divider {
+  height: 1px;
+  background: var(--color-panel-border);
 }
-
-.success {
-  padding: 1rem 1.5rem;
-  margin: 0 1.5rem;
-  border-radius: 8px;
-  background: rgba(16, 185, 129, 0.12);
-  border: 1px solid var(--color-success-on-dark);
-  color: var(--color-success-on-dark);
-  font-weight: 600;
-}
-
-
-.backup-row {
+.course-summary {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 0.75rem;
+  gap: 1rem;
+  margin-top: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--color-panel-border);
+  border-radius: 11px;
+  background: var(--color-panel-deep);
 }
-
-.backup-row input {
-  flex: 1;
+.course-code {
+  color: var(--color-accent-bright);
+  font-size: .75rem;
+  font-weight: 800;
 }
-
-.backup-row button {
-  flex-shrink: 0;
-  padding: 0.5rem 1rem;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color:var(--color-danger);
-  background: transparent;
+.course-summary h3 {
+  margin: .25rem 0 0;
+  font-size: .98rem;
+  color: var(--color-panel-text);
+}
+.capacity {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  white-space: nowrap;
+}
+.capacity strong {
+  color: var(--color-success);
+  font-size: 1.2rem;
+}
+.capacity span, .muted {
+  color: var(--color-panel-text-muted);
+  font-size: .78rem;
+}
+.empty-state {
+  padding: 1rem;
+  border: 1px dashed var(--color-panel-border);
+  border-radius: 10px;
+  color: var(--color-panel-text);
+}
+.empty-state p {
+  margin: .35rem 0 0;
+  color: var(--color-panel-text-muted);
+  font-size: .85rem;
+}
+.form-error {
+  margin: 0 1.5rem 1rem;
+  padding: .8rem 1rem;
   border: 1px solid var(--color-danger-border-idle);
-  border-radius: 6px;
-  transition: background-color 120ms ease, color 120ms ease;
+  border-radius: 9px;
+  color: var(--color-danger);
+  background: var(--color-danger-bg-hover);
 }
-
-.backup-row button:hover {
-  background:var(--color-danger-bg-hover);
-  color: var(--color-danger-text-hover);
-   border-color: var(--color-danger-bg-hover);
-}
-
-form > button[type='button'] {
-  align-self: flex-start;
-  margin-top: 0.5rem;
-  padding: 0.5rem 1rem;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color:var(--color-panel-text);
-  background: var(--color-success);
-  border: 1px solid var(--color-danger-bg-hover);
-  border-radius: 6px;
-  transition: background-color 120ms ease;
-}
-
-form > button[type='button']:hover {
-  background: var(--color-success-hover);
-}
-
-hr {
-  margin: 2rem 0 1.5rem;
-  border: none;
+.form-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.25rem 1.5rem;
   border-top: 1px solid var(--color-panel-border);
+  background: var(--color-panel-deep);
 }
-
-
-button[type='submit'] {
-  align-self: flex-start;
-  border: none;
-  border-radius: 6px;
-  padding: 0.65rem 1.5rem;
-  font-size: 0.9rem;
-  font-weight: 700;
-  color:var(--color-panel-text);
-  background: var(--color-success);
-  transition: background-color 120ms ease;
+.form-footer p {
+  max-width: 540px;
+  font-size: .8rem;
 }
-
-button[type='submit']:hover:not(:disabled) {
-  background:var(--color-success-hover);
+.form-footer button {
+  flex: 0 0 auto;
+  min-height: 44px;
+  padding: .7rem 1.1rem;
+  border: 0;
+  border-radius: 9px;
+  color: var(--color-on-accent-bright);
+  background: var(--color-accent-bright);
+  font-weight: 750;
+  cursor: pointer;
+  transition: background .15s ease, transform .15s ease;
 }
-
-
-button[type='submit']:disabled {
-  background:var(--color-success-hover);
-  color:var(--color-panel-text);
+.form-footer button:hover:not(:disabled) {
+  background: var(--color-accent-bright-hover);
+  transform: translateY(-1px);
+}
+.form-footer button:disabled {
+  opacity: .55;
   cursor: not-allowed;
 }
-
-button[type='submit']:focus-visible {
-  outline: 2px solid var(--color-success-hover);
-  outline-offset: 2px;
+.state-card {
+  padding: 1.25rem;
+  color: var(--color-panel-text-muted);
+}
+.error-state {
+  border-color: var(--color-danger-border-idle);
+  color: var(--color-danger);
+}
+.error-state p {
+  margin-bottom: 0;
+}
+.success-card {
+  display: flex;
+  gap: 1rem;
+  padding: 1.5rem;
+  border-color: var(--color-success);
+}
+.success-icon {
+  display: grid;
+  place-items: center;
+  flex: 0 0 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  color: var(--color-success);
+  background: var(--color-panel-deep);
+  font-size: 1.3rem;
+  font-weight: 800;
+}
+.success-card p {
+  margin: .4rem 0;
+  color: var(--color-panel-text-muted);
+}
+.secondary-link {
+  display: inline-block;
+  margin-top: 1rem;
+  color: var(--color-accent-bright);
+  font-weight: 700;
+  text-decoration: none;
+}
+.secondary-link:hover {
+  text-decoration: underline;
+}
+@media (max-width: 650px) {
+  .enrollment-page {
+    width: min(100% - 1rem, 980px);
+    margin-top: 1rem;
+  }
+  .student-grid {
+    grid-template-columns: 1fr;
+  }
+  .form-section {
+    padding: 1.1rem;
+  }
+  .form-footer {
+    align-items: stretch;
+    flex-direction: column;
+    padding: 1.1rem;
+  }
+  .form-footer button {
+    width: 100%;
+  }
+  .course-summary {
+    align-items: flex-start;
+  }
 }

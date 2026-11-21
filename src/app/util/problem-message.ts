@@ -4,7 +4,7 @@
  * conflicts and not-founds carry `detail` / `title`.
  */
 export function problemMessage(err: unknown, fallback = 'Something went wrong. Please try again.'): string {
-  const e = err as { status?: number; error?: { errors?: Record<string, string[]>; detail?: string; title?: string } } | null;
+  const e = err as { status?: number; error?: { errors?: Record<string, string[]>; detail?: string; title?: string; message?: string } } | null;
 
   if (!e) return fallback;
   if (e.status === 0) return 'Cannot reach the server. Check your connection.';
@@ -15,5 +15,5 @@ export function problemMessage(err: unknown, fallback = 'Something went wrong. P
     const first = Object.values(problem.errors).flat()[0];
     if (first) return first;
   }
-  return problem?.detail ?? problem?.title ?? fallback;
+  return problem?.detail ?? problem?.message ?? problem?.title ?? fallback;
 }

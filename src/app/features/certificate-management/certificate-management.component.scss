@@ -2,58 +2,49 @@
   max-width: 1200px;
   margin: 32px auto;
   padding: 0 20px;
-  color: var(--color-text);
+  color:var(--color-text)
 }
-
 header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 24px;
+  margin-bottom:24px
 }
-
 h1 {
   margin: 0 0 6px;
-  font-size: 28px;
+  font-size:28px
 }
-
 p {
-  color: var(--color-text-muted);
+  color:var(--color-text-muted)
 }
-
 .panel {
   background: var(--color-surface);
   border: 1px solid var(--color-panel-border);
   border-radius: 14px;
   padding: 22px;
-  margin: 18px 0;
+  margin:18px 0
 }
-
 h2 {
   font-size: 18px;
-  margin: 0 0 18px;
+  margin:0 0 18px
 }
-
 .form-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(3,minmax(0,1fr));
+  gap:16px
 }
-
 label {
   display: grid;
   gap: 7px;
   font-weight: 600;
-  font-size: 13px;
+  font-size:13px
 }
-
 input {
   padding: 11px;
   border: 1px solid var(--color-panel-border-strong);
   border-radius: 8px;
-  font: inherit;
+  font:inherit
 }
-
 button {
   border: 0;
   border-radius: 8px;
@@ -61,67 +52,55 @@ button {
   background: var(--color-primary-interactive);
   color: white;
   cursor: pointer;
-  margin-top: 16px;
-
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
+  margin-top:16px
 }
-
+button:disabled {
+  opacity: .5;
+  cursor:not-allowed
+}
 .secondary {
   background: var(--color-primary-tint);
   color: var(--color-primary);
-  margin: 0;
+  margin:0
 }
-
 .danger {
   background: var(--color-danger);
-  margin: 0;
+  margin:0
 }
-
 .table-wrap {
-  overflow: auto;
+  overflow:auto
 }
-
 table {
   border-collapse: collapse;
   width: 100%;
-  font-size: 14px;
+  font-size:14px
 }
-
-th,
-td {
+th,td {
   text-align: left;
   padding: 13px;
   border-bottom: 1px solid var(--color-panel-border);
-  white-space: nowrap;
+  white-space:nowrap
 }
-
 th {
   color: var(--color-text-muted);
-  background: var(--color-canvas);
+  background:var(--color-canvas)
 }
-
 .actions {
   display: flex;
-  gap: 8px;
+  gap:8px
 }
-
 .revoked {
   color: var(--color-danger);
-  font-weight: 700;
+  font-weight:700
 }
-
 .message {
   padding: 12px;
-  background: #eff8ff;
+  background: var(--badge-info-bg);
   border-radius: 8px;
-  color: var(--color-primary);
+  color:var(--color-primary)
 }
-
-@media (max-width: 700px) {
+@media(max-width:700px) {
   .form-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns:1fr
   }
 }

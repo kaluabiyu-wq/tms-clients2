@@ -1,4 +1,1 @@
-<div class="dashboard-summary">
-  <h3>Pending Enrollments</h3>
-  <p class="pending-count">{{ store.pendingCount() }}</p>
-</div>
+<section class="summary-widget"><div><strong>{{ store.pendingCount() }}</strong><span> Pending enrollments</span></div>@if(summary();as s){<div><strong>{{s.totalStudents}}</strong><span> Students</span></div><div><strong>{{s.totalCourses}}</strong><span> Courses</span></div><div><strong>{{s.averageAttendancePercent}}%</strong><span> Attendance</span></div>}</section>

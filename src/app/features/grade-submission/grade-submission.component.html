@@ -1,57 +1,107 @@
-<div class="grade-form-wrapper">
+<main class="grade-page">
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">ACADEMIC MANAGEMENT</p>
+      <h1>Grade submission</h1>
+      <p class="page-description">Choose a course, assessment and submitted student attempt to review and award marks.</p>
+    </div>
+  </header>
 
-<mat-card class="shadow-xl rounded-2xl bg-slate-900 border-slate-800 text-slate-100 p-6">
-  <mat-card-header class="mb-4">
-    <mat-card-title class="text-xl font-bold text-slate-100"> 
-        Grade Submission Form
-    </mat-card-title>
-     <mat-card-subtitle class="text-slate-400 text-sm">
-        Instructor Midterm Grading
-     </mat-card-subtitle>
-</mat-card-header>
+  @if (errorMessage) { <div class="alert error" role="alert">{{ errorMessage }}</div> }
+  @if (successMessage) { <div class="alert success" role="status">{{ successMessage }}</div> }
 
-<form [formGroup]="gradeForm" (ngSubmit)="onSubmit()">
-    <mat-card-content class="space-y-4">
-        <mat-form-field appearance="outline" class="w-full">
-            <mat-label>Student ID</mat-label>
-            <input matInput type="number" formControlName="studentId"/>
-            @if (gradeForm.controls.studentId.hasError('required')) {
-                <mat-error>Student ID is required</mat-error>
+  <section class="panel selection-panel">
+    <div class="section-heading"><span class="step">01</span><div><h2>Select assessment</h2><p>Each selection is loaded from the existing course and assessment records.</p></div></div>
+    <div class="selection-grid" [formGroup]="selectionForm">
+      <label class="field">
+        <span>Course</span>
+        <select formControlName="courseId" (change)="onCourseChange()">
+          <option [ngValue]="null">Select a course</option>
+          @for (course of courses; track course.id) {
+            <option [ngValue]="course.id">{{ course.code }} — {{ course.title }} (ID: {{ course.id }})</option>
+          }
+        </select>
+        @if (loadingCourses) { <small>Loading courses…</small> }
+      </label>
+
+      <label class="field">
+        <span>Assessment</span>
+        <select formControlName="assessmentId" (change)="onAssessmentChange()" [disabled]="!selectionForm.controls.courseId.value || loadingAssessments">
+          <option [ngValue]="null">Select an assessment</option>
+          @for (assessment of assessments; track assessment.id) {
+            <option [ngValue]="assessment.id">{{ assessment.title }} · ID {{ assessment.id }} · {{ assessment.status }}</option>
+          }
+        </select>
+        @if (loadingAssessments) { <small>Loading assessments…</small> }
+      </label>
+
+      <label class="field">
+        <span>Student submission</span>
+        <select formControlName="submissionId" (change)="onSubmissionChange()" [disabled]="!selectionForm.controls.assessmentId.value || loadingSubmissions">
+          <option [ngValue]="null">Select a student submission</option>
+          @for (submission of submissions; track submission.id) {
+            <option [ngValue]="submission.id">{{ submission.studentName }} · Student ID {{ submission.studentId }} · Attempt {{ submission.attemptNumber }}</option>
+          }
+        </select>
+        @if (loadingSubmissions) { <small>Loading submissions…</small> }
+      </label>
+    </div>
+    @if (selectionForm.controls.assessmentId.value && !loadingSubmissions && submissions.length === 0) {
+      <p class="empty-state">No student submissions are available for this assessment yet.</p>
+    }
+  </section>
+
+  @if (selectedSubmission) {
+    <section class="panel student-panel">
+      <div class="section-heading"><span class="step">02</span><div><h2>Student and submission details</h2><p>These identifiers come from the selected submission, not manually entered IDs.</p></div></div>
+      <div class="student-details">
+        <div><span>Student name</span><strong>{{ selectedSubmission.studentName }}</strong></div>
+        <div><span>Student ID</span><strong>{{ selectedSubmission.studentId }}</strong></div>
+        @if (selectedSubmission.registrationNumber) { <div><span>Registration number</span><strong>{{ selectedSubmission.registrationNumber }}</strong></div> }
+        <div><span>Submission ID</span><strong>{{ selectedSubmission.id }}</strong></div>
+        <div><span>Attempt</span><strong>#{{ selectedSubmission.attemptNumber }}</strong></div>
+        <div><span>Submitted</span><strong>{{ selectedSubmission.submittedAt | date:'medium' }}</strong></div>
+        <div><span>Grading status</span><strong class="status">{{ selectedSubmission.gradingStatus }}</strong></div>
+      </div>
+    </section>
+
+    <form class="panel grading-panel" [formGroup]="gradingForm" (ngSubmit)="submitGrades()">
+      <div class="section-heading"><span class="step">03</span><div><h2>Review answers and award marks</h2><p>Enter a score between zero and the maximum points for each question.</p></div></div>
+
+      <div formArrayName="answers" class="answers-list">
+        @for (answer of selectedSubmission.answers; track answer.questionId; let i = $index) {
+          <article class="answer-card" [formGroupName]="i">
+            <div class="answer-heading"><span>Question {{ i + 1 }}</span><strong>{{ answer.points }} points maximum</strong></div>
+            <h3>{{ answer.prompt }}</h3>
+            <div class="answer-content"><span>Student answer</span><p>{{ answer.answerText || 'No answer provided' }}</p></div>
+            @if (answer.correctAnswer) {
+              <div class="answer-content reference-answer"><span>Answer key</span><p>{{ answer.correctAnswer }}</p></div>
             }
-        </mat-form-field>
-      
-        <mat-form-field appearance="outline" class="w-full">
-            <mat-label>Course ID</mat-label>
-            <input matInput type="number" formControlName="courseId" />
-            @if (gradeForm.controls.courseId.hasError('required')) {
-                <mat-error>Course ID is required</mat-error>
-            }
-        </mat-form-field>
-            
-       <mat-form-field appearance="outline" class="w-full">
-        <mat-label>Score (0-100)</mat-label>
-        <input matInput type="number" formControlName="score" />
-        @if (gradeForm.controls.score.hasError('min') || gradeForm.controls.score.hasError('max')) {
-            <mat-error>Score must be between 0 and 100 </mat-error>
+            <label class="field score-field">
+              <span>Points awarded</span>
+              <input type="number" formControlName="awardedPoints" min="0" [max]="answer.points" step="0.01">
+              @if (answerControls.at(i).get('awardedPoints')?.invalid && answerControls.at(i).get('awardedPoints')?.touched) {
+                <small class="field-error">Enter a score from 0 to {{ answer.points }}.</small>
+              }
+            </label>
+          </article>
         }
-       </mat-form-field> 
+      </div>
 
-       @if (isSubmitting) {
-        <div class="flex justify-center py-3">
-            <mat-spinner diameter="32"></mat-spinner>
-        </div>
-       }
-    </mat-card-content>
+      <label class="field feedback-field">
+        <span>Instructor feedback</span>
+        <textarea formControlName="feedback" rows="4" placeholder="Write feedback for the student (optional)…"></textarea>
+      </label>
 
-    <mat-card-actions class="mt-4">
-        <button mat-raised-button    color="primary"
-               type="submit"
-               [disabled]="gradeForm.invalid || isSubmitting"
-               class="w-full py-3 text-base font-semibold">
-              Submit Final Grade   
-            </button>
-    </mat-card-actions>
-</form>
-</mat-card>
-
-</div>
+      <footer class="form-actions">
+        <span>Maximum total: {{ maximumTotalPoints }} points</span>
+        <button type="submit" [disabled]="gradingForm.invalid || isSubmitting || selectedSubmission.gradingStatus === 'Graded'">
+          @if (isSubmitting) { Saving… } @else { Save grade }
+        </button>
+      </footer>
+      @if (selectedSubmission.gradingStatus === 'Graded') {
+        <p class="graded-note">This submission is already graded. The current score is {{ selectedSubmission.score }}.</p>
+      }
+    </form>
+  }
+</main>

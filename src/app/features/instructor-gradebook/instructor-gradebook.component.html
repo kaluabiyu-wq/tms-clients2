@@ -1,0 +1,107 @@
+    <main class="page">
+      <header class="page-header">
+        <div>
+          <p class="eyebrow">INSTRUCTOR PORTAL</p>
+          <h1>Gradebook</h1>
+          <p class="subtitle">Publish assessment results and review each student's recorded grades.</p>
+        </div>
+        @if (courseId()) {
+          <button type="button" class="secondary-button" (click)="load()" [disabled]="loading()">↻ Refresh</button>
+        }
+      </header>
+
+      <section class="course-panel">
+        <label for="course-select">Select course</label>
+        <select id="course-select" [value]="courseId() ?? ''" (change)="onCourse($any($event.target).value)">
+          <option value="">Choose one of your courses…</option>
+          @for (c of courses(); track c.id) {
+            <option [value]="c.id">{{ c.code }} — {{ c.title }}</option>
+          }
+        </select>
+        @if (courseLoading()) { <span class="muted">Loading your courses…</span> }
+      </section>
+
+      @if (message()) { <div class="notice success" role="status">{{ message() }}</div> }
+      @if (error()) {
+        <div class="notice error" role="alert">
+          <span>{{ error() }}</span>
+          @if (courseId()) { <button type="button" (click)="load()">Retry</button> }
+        </div>
+      }
+
+      @if (!courseId() && !courseLoading()) {
+        <section class="empty-state"><div class="empty-icon">▤</div><h2>Select a course</h2><p>Choose a course above to view its assessments and gradebook.</p></section>
+      } @else if (loading()) {
+        <section class="loading-state" role="status">Loading course gradebook…</section>
+      } @else if (book(); as b) {
+        <section class="summary-grid">
+          <article class="summary-card"><span>Course</span><strong>{{ b.code }}</strong><small>{{ b.title }}</small></article>
+          <article class="summary-card"><span>Published grade entries</span><strong>{{ b.grades.length }}</strong><small>Assessment results available to students</small></article>
+          <article class="summary-card"><span>Students with published grades</span><strong>{{ studentCount() }}</strong><small>Unique students represented</small></article>
+          <article class="summary-card"><span>Assessments</span><strong>{{ assessments().length }}</strong><small>Assigned to this course</small></article>
+        </section>
+
+        <section class="panel">
+          <div class="section-heading">
+            <div><h2>Assessment publishing</h2><p>Publish grades from completed and graded submissions.</p></div>
+          </div>
+          @if (assessmentLoading()) {
+            <p class="muted">Loading course assessments and submission status…</p>
+          } @else if (!assessments().length) {
+            <p class="empty-inline">No assessments are assigned to this course.</p>
+          } @else {
+            <div class="assessment-list">
+              @for (a of assessments(); track a.id) {
+                <article class="assessment-row">
+                  <div class="assessment-info">
+                    <strong>{{ a.title }}</strong>
+                    <span>{{ a.maxScore }} points · {{ a.weight }}% weight · {{ a.questionCount }} questions</span>
+                    <span class="submission-counts">{{ submissionStats()[a.id]?.submitted ?? 0 }} submitted · {{ submissionStats()[a.id]?.graded ?? 0 }} graded · {{ submissionStats()[a.id]?.pending ?? 0 }} awaiting grading</span>
+                  </div>
+                  <span class="status" [class.published]="a.status === 'Published'">{{ a.status }}</span>
+                  <button type="button" class="publish-button" (click)="publish(a)"
+                    [disabled]="a.status !== 'Published' || (submissionStats()[a.id]?.graded ?? 0) === 0 || publishingId() === a.id || loading() || assessmentLoading()">
+                    {{ publishingId() === a.id ? 'Publishing…' : 'Publish grades' }}
+                  </button>
+                </article>
+              }
+            </div>
+            <p class="helper-text">Publish grades is available only when the assessment is published and at least one student submission is fully graded. Submissions marked Pending must first be graded on the Grade Submission page.</p>
+          }
+        </section>
+
+        <section class="panel">
+          <div class="section-heading grade-heading">
+            <div><h2>Published grades</h2><p>Grade entries currently available in this course gradebook.</p></div>
+            <button type="button" class="calculate-button" (click)="calculate()"
+              [disabled]="calculating() || !b.grades.length">
+              {{ calculating() ? 'Calculating…' : 'Calculate final grades' }}
+            </button>
+          </div>
+          @if (!b.grades.length) {
+            <div class="empty-inline">No published grades yet. Publish grades for a completed assessment above to populate this table.</div>
+          } @else {
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Student</th><th>Registration no.</th><th>Assessment</th><th>Score</th><th>Percentage</th><th>Weight</th><th>Published</th></tr></thead>
+                <tbody>
+                  @for (g of b.grades; track g.id) {
+                    <tr>
+                      <td class="student-name">{{ g.studentName }}</td>
+                      <td>{{ g.registrationNumber || '—' }}</td>
+                      <td>{{ g.assessmentTitle }}</td>
+                      <td class="numeric">{{ g.score }} / {{ g.maxScore }}</td>
+                      <td><span class="percentage">{{ g.percentage }}%</span></td>
+                      <td class="numeric">{{ g.weight }}%</td>
+                      <td>{{ g.publishedAt ? (g.publishedAt | date:'mediumDate') : '—' }}</td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          }
+          <p class="helper-text">Final grades are calculated only when published assessment weights total exactly 100% and each approved student has a published grade for every included assessment.</p>
+        </section>
+      }
+    </main>
+  

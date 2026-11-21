@@ -1,93 +1,131 @@
-import { Component, DestroyRef, inject, signal } from "@angular/core";
-import {
-  FormBuilder,
-  FormControl,
-  Validators,
-  ReactiveFormsModule,
-} from "@angular/forms";
-import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
-import { CourseService } from "../../services/course.service";
+import { Component, DestroyRef, inject, signal } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { finalize } from 'rxjs';
+import { CourseService } from '../../services/course.service';
+import { StudentProfileService } from '../../services/student-profile.service';
+import { Course } from '../../models/course.model';
+import { StudentFullProfile } from '../../models/student-profile.model';
+import { problemMessage } from '../../util/problem-message';
 
 @Component({
-  selector: "app-enrollment-form",
+  selector: 'app-enrollment-form',
   standalone: true,
-  imports: [ReactiveFormsModule], 
-  templateUrl: "./enrollment-form.component.html",
-   styleUrl: './enrollment-form.component.scss'
+  imports: [ReactiveFormsModule, RouterLink],
+  templateUrl: './enrollment-form.component.html',
+  styleUrl: './enrollment-form.component.scss',
 })
 export class EnrollmentFormComponent {
-  private fb = inject(FormBuilder);
-  private api = inject(CourseService);
-  private destroyRef = inject(DestroyRef);
+  private readonly fb = inject(FormBuilder);
+  private readonly coursesApi = inject(CourseService);
+  private readonly profileApi = inject(StudentProfileService);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly route = inject(ActivatedRoute);
 
- 
-  submitted = signal(false);
-  submitting = signal(false);
-  submitError = signal<string | null>(null);
+  readonly profile = signal<StudentFullProfile | null>(null);
+  readonly courses = signal<Course[]>([]);
+  readonly loading = signal(true);
+  readonly coursesLoading = signal(true);
+  readonly submitting = signal(false);
+  readonly submitted = signal(false);
+  readonly submitError = signal<string | null>(null);
+  readonly loadError = signal<string | null>(null);
 
-  
-  form = this.fb.nonNullable.group({
-    studentId: [
-      "",
-      [Validators.required, Validators.pattern("^STU-[0-9]{4}$")],
-    ],
-    
-    courseId: ["", Validators.required],
-    term: ["Fall 2026", Validators.required],
-    notes: [""], 
-    backupCourses: this.fb.array<FormControl<string>>([]), 
+  readonly form = this.fb.nonNullable.group({
+    courseId: [0, [Validators.required, Validators.min(1)]],
   });
 
-  
-  get backups() {
-    return this.form.controls.backupCourses;
+  constructor() {
+    this.route.queryParamMap
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(params => {
+        const courseId = Number(params.get('courseId'));
+        if (Number.isInteger(courseId) && courseId > 0) {
+          this.form.controls.courseId.setValue(courseId);
+        }
+      });
+    this.loadStudentProfile();
+    this.loadCourses();
   }
 
-  addBackup() {
-    this.backups.push(
-      this.fb.control("", {
-        nonNullable: true,
-        validators: Validators.required,
-      }),
+  private loadStudentProfile(): void {
+    this.profileApi.getMyProfile()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: profile => {
+          this.profile.set(profile);
+          this.loading.set(false);
+        },
+        error: error => {
+          this.loading.set(false);
+          this.loadError.set(
+            error?.error?.detail ??
+            'We could not load your student profile. Please contact the administrator.',
+          );
+        },
+      });
+  }
+
+  private loadCourses(): void {
+    this.coursesApi.getAll()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: courses => {
+          this.courses.set(courses);
+          this.coursesLoading.set(false);
+        },
+        error: () => {
+          this.coursesLoading.set(false);
+          this.loadError.set('Unable to load available courses. Please refresh and try again.');
+        },
+      });
+  }
+
+  get availableCourses(): Course[] {
+    const enrolledIds = new Set(
+      (this.profile()?.enrollments ?? []).map(enrollment => enrollment.courseId),
+    );
+    return this.courses().filter(course =>
+      course.maxCapacity > course.enrollmentCount && !enrolledIds.has(course.id),
     );
   }
 
-  removeBackup(index: number) {
-    this.backups.removeAt(index);
+  get selectedCourse(): Course | undefined {
+    return this.courses().find(course => course.id === this.form.controls.courseId.value);
   }
 
-  submit() {
-    if (this.form.invalid) {
-     
-      this.form.markAllAsTouched();
+  submit(): void {
+    const student = this.profile()?.student;
+    const course = this.selectedCourse;
+
+    if (!student) {
+      this.submitError.set('Your student profile is not available. Please contact the administrator.');
       return;
     }
 
-    const raw = this.form.getRawValue();
-    const courseId = Number(raw.courseId);
-
-    if (!Number.isFinite(courseId)) {
-      this.submitError.set("Course ID must be a number.");
+    if (this.form.invalid || !course) {
+      this.form.markAllAsTouched();
+      this.submitError.set('Please select an available course.');
       return;
     }
 
     this.submitting.set(true);
     this.submitError.set(null);
 
-    this.api
-      .enroll(courseId, { studentId: raw.studentId })
-         .pipe(takeUntilDestroyed(this.destroyRef))
+    this.coursesApi.enroll(course.id, { studentId: student.registrationNumber })
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        finalize(() => this.submitting.set(false)),
+      )
       .subscribe({
-        next: () => {
-          this.submitting.set(false);
-          this.submitted.set(true);
-        },
-        error: (err) => {
-          this.submitting.set(false);
-           this.submitError.set(
-            err?.error?.message ?? "Enrollment failed. Please try again.",
-          );
-        },
+        next: () => this.submitted.set(true),
+        error: error => this.submitError.set(
+          error?.error?.detail ??
+          error?.error?.message ??
+          problemMessage(error) ??
+          'Enrollment could not be submitted. Please try again.',
+        ),
       });
   }
 }

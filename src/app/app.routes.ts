@@ -21,6 +21,14 @@ export const routes: Routes = [
         .then(m => m.LoginComponent)
     },
     {
+        path: 'forgot-password',
+        loadComponent: () => import('./features/forgot-password/forgot-password.component').then(m => m.ForgotPasswordComponent)
+    },
+    {
+        path: 'reset-password',
+        loadComponent: () => import('./features/reset-password/reset-password.component').then(m => m.ResetPasswordComponent)
+    },
+    {
         path: 'unauthorized',
         loadComponent: () => import('./features/unauthorized/unauthorized.component')
         .then(m => m.UnauthorizedComponent)
@@ -232,6 +240,9 @@ export const routes: Routes = [
     { path: 'admin/create-instructor',
       loadComponent: () => import('./features/admin-create-instructor/admin-create-instructor.component').then(m => m.AdminCreateInstructorComponent),
       canActivate: [roleGuard('Admin')] },
+    { path: 'student/profile',
+      loadComponent: () => import('./features/student-profile/student-profile.component').then(m => m.StudentProfileComponent),
+      canActivate: [roleGuard('Student')] },
     { path: 'student/dashboard', redirectTo: 'dashboard', pathMatch: 'full' },
     { path: 'admin/dashboard',
       loadComponent: () => import('./features/instructur-dashboard/instructur-dashboard.componenet').then(m => m.InstructorDashboardComponent),

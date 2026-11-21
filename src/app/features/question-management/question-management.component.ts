@@ -6,7 +6,8 @@ import { firstValueFrom } from 'rxjs';
 import { AssessmentService } from '../../services/assessment.service';
 import { Assessment } from '../../models/assessment.model';
 
-@Component({ selector:'app-question-management', standalone:true, imports:[CommonModule, FormsModule, RouterLink], templateUrl:'./question-management.component.html' })
+@Component({ selector:'app-question-management', standalone:true, imports:[CommonModule, FormsModule, RouterLink], templateUrl:'./question-management.component.html',
+  styleUrl: './question-management.component.scss',})
 export class QuestionManagementComponent {
   private readonly route = inject(ActivatedRoute);
   private readonly service = inject(AssessmentService);

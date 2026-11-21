@@ -25,8 +25,9 @@ export class NotificationService {
 
   receiveRealtime(item: NotificationRealtimeMessage): void {
     const notification: NotificationItem = { ...item, isRead: false, readAt: null };
+    const alreadyKnown = this.latest().some(existing => existing.id === notification.id);
     this.latest.update(items => [notification, ...items.filter(x => x.id !== notification.id)].slice(0, 20));
-    this.unreadCount.update(count => count + 1);
+    if (!alreadyKnown) this.unreadCount.update(count => count + 1);
   }
 
   async markRead(id: number): Promise<void> {

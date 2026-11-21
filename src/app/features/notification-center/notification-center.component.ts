@@ -9,6 +9,17 @@ export class NotificationCenterComponent {
   readonly service = inject(NotificationService); private router = inject(Router);
   readonly items = signal<NotificationItem[]>([]); readonly page = signal(1); readonly total = signal(0); readonly loading = signal(false); readonly unreadOnly = signal(false); readonly error = signal('');
   constructor() { void this.load(); }
+  categoryIcon(category: string): string {
+    switch (category.toLowerCase()) {
+      case 'enrollment': return '📝';
+      case 'grades': case 'assessments': return '📊';
+      case 'certificates': return '🎓';
+      case 'timetable': case 'schedule': return '🗓️';
+      case 'users': return '👤';
+      case 'system': return '⚙️';
+      default: return '🔔';
+    }
+  }
   async load(): Promise<void> { this.loading.set(true); this.error.set(''); try { const result = await this.service.load(this.page(), 20, this.unreadOnly()); this.items.set(result.items); this.total.set(result.totalCount); } catch { this.error.set('Unable to load notifications.'); } finally { this.loading.set(false); } }
   async filter(unread: boolean): Promise<void> { this.unreadOnly.set(unread); this.page.set(1); await this.load(); }
   async markRead(item: NotificationItem): Promise<void> { if (!item.isRead) { await this.service.markRead(item.id); this.items.update(xs => xs.map(x => x.id === item.id ? {...x, isRead:true, readAt:new Date().toISOString()} : x)); } if(item.actionUrl) await this.router.navigateByUrl(item.actionUrl); }

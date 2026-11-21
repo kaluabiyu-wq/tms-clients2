@@ -1,1 +1,346 @@
-.page{max-width:1050px;margin:32px auto;padding:0 20px;color:var(--color-text)}.page>a{color:var(--color-primary-interactive);text-decoration:none}.page header{margin:20px 0}.eyebrow,.code{font-size:12px;letter-spacing:.08em;color:var(--color-text-muted);font-weight:700}h1{font-size:30px;margin:5px 0}.panel{border:1px solid var(--color-panel-border);border-radius:14px;padding:24px;margin:18px 0;background:white}.top{display:flex;justify-content:space-between;gap:20px}.top h2{margin:5px 0}.top p{color:var(--color-text-muted)}.percent{font-size:28px;color:var(--color-primary)}.progress-track{height:12px;background:var(--color-panel-border);border-radius:20px;overflow:hidden}.progress-track span{display:block;height:100%;background:var(--color-primary-interactive);border-radius:20px;transition:width .2s}.summary{display:flex;gap:22px;flex-wrap:wrap;color:var(--color-text-muted);font-size:14px;margin:12px 0 18px}.course-list{list-style:none;padding:0;margin:0}.course-list li{display:flex;align-items:center;gap:12px;padding:13px 0;border-top:1px solid #e2e8f0}.step{width:30px;height:30px;display:grid;place-items:center;border-radius:50%;background:var(--color-canvas);color:var(--color-text-muted);font-weight:700}.step.done{background:#dcfae6;color:#166534}.step.current{background:#eff8ff;color:var(--color-primary-interactive)}.course-list li div{display:grid;gap:3px;flex:1}.course-list small{color:var(--color-text-muted)}.course-status{font-size:13px;color:var(--color-text-muted)}.done-text{color:#166534}.eligibility{margin-top:18px;padding:14px;border-radius:10px;background:var(--badge-warning-bg);color:#93370d}.eligibility p{margin:4px 0 0}.eligibility.eligible{background:#ecfdf3;color:#166534}.lookup{display:flex;align-items:end;gap:12px}.lookup label{display:grid;gap:6px}.lookup input{padding:10px;border:1px solid var(--color-panel-border-strong);border-radius:8px}button{padding:10px 16px;border:0;border-radius:8px;background:var(--color-primary);color:white}.error{color:var(--color-danger)}.empty{color:var(--color-text-muted)}@media(max-width:650px){.top{flex-direction:column;gap:4px}.summary{flex-direction:column;gap:6px}.course-status{max-width:80px;text-align:right}}
+.page {
+  max-width: 1100px;
+  margin: 34px auto;
+  padding: 0 22px 48px;
+  color:var(--color-text)
+}
+.back-link {
+  display: inline-block;
+  margin-bottom: 12px;
+  color: var(--color-primary-interactive);
+  text-decoration: none;
+  font-weight:600
+}
+.page-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin:12px 0 26px
+}
+.eyebrow,.code {
+  font-size: 12px;
+  letter-spacing: .09em;
+  color: var(--color-text-muted);
+  font-weight: 750;
+  text-transform:uppercase
+}
+h1 {
+  font-size: clamp(27px,4vw,34px);
+  line-height: 1.2;
+  margin: 7px 0 9px;
+  letter-spacing:-.03em
+}
+.subtitle {
+  max-width: 700px;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  margin:0
+}
+.panel,.stat-card {
+  background: var(--color-surface,#fff);
+  border: 1px solid var(--color-panel-border);
+  border-radius: 16px;
+  box-shadow:0 3px 14px rgba(16,24,40,.035)
+}
+.program-card {
+  padding: 24px;
+  margin:18px 0
+}
+.program-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  margin-bottom:17px
+}
+.program-title h2 {
+  font-size: 21px;
+  margin:6px 0
+}
+.program-title p {
+  color: var(--color-text-muted);
+  font-size: 14px;
+  margin:0
+}
+.percent {
+  font-size: 30px;
+  line-height: 1;
+  color: var(--color-primary);
+  white-space:nowrap
+}
+.progress-track {
+  height: 11px;
+  background: var(--color-panel-border);
+  border-radius: 99px;
+  overflow:hidden
+}
+.progress-track span {
+  display: block;
+  height: 100%;
+  background: var(--color-primary-interactive);
+  border-radius: 99px;
+  transition:width .25s ease
+}
+.summary {
+  display: flex;
+  gap: 12px 26px;
+  flex-wrap: wrap;
+  color: var(--color-text-muted);
+  font-size: 13px;
+  margin:15px 0 23px
+}
+.summary b {
+  color: var(--color-text);
+  font-weight:700
+}
+.section-title {
+  font-size: 15px;
+  margin:0 0 8px
+}
+.course-list {
+  list-style: none;
+  padding: 0;
+  margin:0
+}
+.course-list li {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 14px 0;
+  border-top:1px solid var(--color-panel-border)
+}
+.step {
+  flex: 0 0 32px;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--color-canvas);
+  color: var(--color-text-muted);
+  font-size: 13px;
+  font-weight:750
+}
+.step.done {
+  background: var(--badge-success-bg);
+  color:var(--badge-success-text)
+}
+.step.current {
+  background: var(--color-primary-tint);
+  color:var(--color-primary-interactive)
+}
+.course-info {
+  display: grid;
+  gap: 4px;
+  flex: 1;
+  min-width:0
+}
+.course-info strong {
+  font-size:14px
+}
+.course-info small {
+  font-size: 12px;
+  color:var(--color-text-muted)
+}
+.course-status {
+  font-size: 12px;
+  font-weight: 650;
+  color: var(--color-text-muted);
+  white-space:nowrap
+}
+.done-text {
+  color:var(--color-success-hover)
+}
+.current-text {
+  color:var(--color-primary-interactive)
+}
+.eligibility {
+  margin-top: 18px;
+  padding: 15px 17px;
+  border-radius: 11px;
+  background: var(--badge-warning-bg);
+  color: var(--badge-warning-text);
+  border:1px solid var(--badge-warning-bg)
+}
+.eligibility p {
+  font-size: 13px;
+  line-height: 1.5;
+  margin:5px 0 0
+}
+.eligibility.eligible {
+  background: var(--badge-success-bg);
+  color: var(--badge-success-text);
+  border-color:var(--badge-success-bg)
+}
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4,minmax(0,1fr));
+  gap: 14px;
+  margin-bottom:20px
+}
+.stat-card {
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap:7px
+}
+.stat-card>span {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  font-weight:650
+}
+.stat-card strong {
+  font-size: 29px;
+  line-height: 1.1;
+  letter-spacing:-.03em
+}
+.stat-card small {
+  font-size: 11px;
+  color:var(--color-text-muted)
+}
+.stat-card.highlight {
+  border-color: var(--color-primary-interactive);
+  background:var(--color-canvas)
+}
+.refresh-button,.lookup button,.message button {
+  border: 0;
+  border-radius: 9px;
+  padding: 10px 15px;
+  background: var(--color-primary);
+  color: #fff;
+  font-weight: 650;
+  cursor:pointer
+}
+.refresh-button:disabled {
+  opacity: .6;
+  cursor:wait
+}
+.lookup {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  padding:20px
+}
+.lookup label {
+  display: grid;
+  gap: 6px;
+  font-size: 13px;
+  font-weight:650
+}
+.lookup input {
+  padding: 10px;
+  border: 1px solid var(--color-panel-border-strong);
+  border-radius:8px
+}
+.message {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 16px;
+  border-radius: 10px;
+  margin:16px 0
+}
+.error {
+  color: var(--color-danger);
+  background: var(--badge-danger-bg);
+  border:1px solid var(--badge-danger-bg)
+}
+.loading-state {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 24px;
+  color:var(--color-text-muted)
+}
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--color-panel-border);
+  border-top-color: var(--color-primary-interactive);
+  border-radius: 50%;
+  animation:spin .8s linear infinite
+}
+@keyframes spin {
+  to {
+    transform:rotate(360deg)
+  }
+}
+.empty-state {
+  text-align: center;
+  padding:46px 24px
+}
+.empty-icon {
+  font-size: 32px;
+  color:var(--color-text-muted)
+}
+.empty-state h2 {
+  font-size: 20px;
+  margin:12px 0 7px
+}
+.empty-state p {
+  max-width: 560px;
+  margin: 0 auto 15px;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  font-size:14px
+}
+.empty-state a {
+  color: var(--color-primary-interactive);
+  font-weight: 650;
+  text-decoration:none
+}
+@media(max-width:850px) {
+  .stats-grid {
+    grid-template-columns:repeat(2,minmax(0,1fr))
+  }
+}
+@media(max-width:600px) {
+  .page {
+    margin: 22px auto;
+    padding:0 14px 32px
+  }
+  .page-header {
+    align-items: flex-start;
+    flex-direction:column
+  }
+  .program-card {
+    padding:17px
+  }
+  .program-heading {
+    gap:10px
+  }
+  .percent {
+    font-size:25px
+  }
+  .summary {
+    gap: 8px;
+    flex-direction:column
+  }
+  .course-list li {
+    gap:9px
+  }
+  .course-status {
+    max-width: 88px;
+    text-align: right;
+    white-space:normal
+  }
+  .stats-grid {
+    gap:9px
+  }
+  .stat-card {
+    padding:13px
+  }
+  .stat-card strong {
+    font-size:25px
+  }
+  .lookup {
+    align-items: stretch;
+    flex-direction:column
+  }
+  .lookup input {
+    width: 100%;
+    box-sizing:border-box
+  }
+}

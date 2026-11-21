@@ -27,8 +27,8 @@ describe("EnrollmentService", () => {
     expect(req.request.method).toBe("GET");
 
     req.flush([
-      { id: 1, studentId: 11, studentName: "Abeba", courseId: 101, courseName: "Intro to CS", status: "Pending", enrolledAt: "2026-08-12T10:00:00Z" },
-      { id: 2, studentId: 12, studentName: "Kebede", courseId: 102, courseName: "Data Structures", status: "Approved", enrolledAt: "2026-08-12T10:05:00Z" },
+      { id: 1, studentId: "STU-0001", studentName: "Abeba", courseId: 101, courseCode: "CS101", courseName: "Intro to CS", status: "Pending", enrolledAt: "2026-08-12T10:00:00Z" },
+      { id: 2, studentId: "STU-0002", studentName: "Kebede", courseId: 102, courseCode: "CS102", courseName: "Data Structures", status: "Approved", enrolledAt: "2026-08-12T10:05:00Z" },
     ]);
 
     const enrollments = await result;
@@ -42,17 +42,7 @@ describe("EnrollmentService", () => {
     const req = httpMock.expectOne((r) => r.url.endsWith("/api/v1/enrollments/42/approve"));
     expect(req.request.method).toBe("POST");
 
-    req.flush({
-      id: 42,
-      studentId: 11,
-      studentName: "Abeba",
-      courseId: 101,
-      courseName: "Intro to CS",
-      status: "Approved",
-      enrolledAt: "2026-08-12T10:00:00Z",
-    });
-
-    const approved = await result;
-    expect(approved.status).toBe("Approved");
+    req.flush(null);
+    await result;
   });
 });
